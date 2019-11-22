@@ -1,3 +1,6 @@
+" map space to leader
+let mapleader = " "
+
 call plug#begin('~/.vim/plugged')
 
 " langs
@@ -9,7 +12,7 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 
 nmap <leader>r <Plug>(coc-rename)
-nmap <leader>c <Plug>(coc-codeaction)
+nmap <leader>a <Plug>(coc-codeaction)
 nmap <leader>f <Plug>(coc-fix-current)
 
 " show info
@@ -39,16 +42,16 @@ let g:ale_fix_on_save = 1
 let g:rustfmt_autosave = 1
 
 " fzf
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 nnoremap <C-p> :<C-u>Files<CR>
 nnoremap <C-t> :<C-u>Tags<CR>
+nnoremap <C-c> :<C-u>Commits<CR>
 nnoremap <leader>f :<C-u>Rg<CR>
 nnoremap <leader>p :<C-u>History<CR>
 nnoremap <leader>; :<C-u>History:<CR>
 nnoremap <leader>/ :<C-u>History/<CR>
 nnoremap <leader>u :<C-u>BCommits<CR>
-nnoremap gc :<C-u>Commits<CR>
 
 " hide fzf status bar
 autocmd! FileType fzf
@@ -116,6 +119,7 @@ set linebreak
 " toggle comments
 Plug 'scrooloose/nerdcommenter'
 let g:NERDSpaceDelims = 1
+let g:NERDCommentEmptyLines = 1
 
 " these are acctually mapped to CTRL + /
 nmap <C-_>   <Plug>NERDCommenterToggle
@@ -135,8 +139,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 nnoremap <C-g> :<C-u>G<CR>
 nnoremap gb :<C-u>Gbrowse<CR>
-nnoremap gp :<C-u>Gpull<CR>
-nnoremap gP :<C-u>Gpush<CR>
 
 """"""""""""""""
 call plug#end()
@@ -192,7 +194,7 @@ nnoremap <C-h> <C-w>h
 
 " file explorer
 let g:netrw_banner = 0
-nnoremap <leader>b :<C-u>Explore<CR>
+nnoremap <C-b> :<C-u>Explore<CR>
 
 " bind system clipboard to vim's
 set clipboard+=unnamedplus
@@ -240,10 +242,6 @@ nnoremap <M-j> :m .+1<CR>==
 nnoremap <M-k> :m .-2<CR>==
 vnoremap <M-j> :m '>+1<CR>gv=gv
 vnoremap <M-k> :m '<-2<CR>gv=gv
-
-" map space to leader
-let mapleader = " "
-let g:mapleader = " "
 
 " cut only with leader
 nnoremap x "_x
