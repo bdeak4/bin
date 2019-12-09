@@ -1,3 +1,20 @@
+"""""""""" plugin manager
+
+if !filereadable(expand('~/.vim/autoload/plug.vim'))
+  if !executable("curl")
+    echoerr "You have to install curl or first install vim-plug yourself!"
+    execute "q!"
+  endif
+  echo "Installing vim-plug..."
+  echo ""
+  silent exec "!\curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+  let g:not_finish_vimplug = "yes"
+
+  autocmd VimEnter * PlugInstall
+endif
+
+
+
 """""""""" plugins
 
 call plug#begin('~/.vim/plugged')
