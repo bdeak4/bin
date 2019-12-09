@@ -2,9 +2,10 @@
 
 call plug#begin('~/.vim/plugged')
 Plug 'sheerun/vim-polyglot'                                       " syntax
+Plug 'dense-analysis/ale'                                         " linter
 Plug 'junegunn/fzf'                                               " fuzzy search install
 Plug 'junegunn/fzf.vim'                                           " fuzzy search
-Plug 'airblade/vim-gitgutter'                                     " git gutter
+Plug 'airblade/vim-gitgutter'                                     " git
 Plug 'itchyny/lightline.vim'                                      " status line
 Plug 'tpope/vim-commentary'                                       " comments
 Plug 'tpope/vim-surround'                                         " change quotes
@@ -12,8 +13,9 @@ Plug 'tpope/vim-sleuth'                                           " tab width ba
 Plug 'meain/vim-printer'                                          " print variable
 Plug 'matze/vim-move'                                             " move selection
 Plug 'rhysd/clever-f.vim'                                         " better f/t
-Plug 'ap/vim-css-color'                                           " highlight colors
+Plug 'mbbill/undotree'                                            " undo tree
 Plug 'bluz71/vim-moonfly-colors'                                  " color scheme
+Plug 'ap/vim-css-color'                                           " highlight colors
 Plug 'wakatime/vim-wakatime'                                      " time tracking
 call plug#end()
 
@@ -38,25 +40,19 @@ set ignorecase smartcase                                          " case insensi
 set encoding=utf-8                                                " text encoding
 set scrolloff=2                                                   " offset from top/bottom
 set tabstop=4                                                     " tab width
+set signcolumn=yes                                                " always show sign column
 set spelllang=en_us                                               " spell check language
 set wrap                                                          " wrap text
 set autoindent                                                    " autoindent new lines
 set mouse=a                                                       " mouse scroll
 set wildmenu                                                      " autocomplete menu in cmd
 set wildmode=longest:full,full                                    " wildmenu line
-set wildignore+=**/node_modules/**                                " ignore in wildmenu
-set path+=**                                                      " find without full path
 set lazyredraw                                                    " redraw only when needed
 set showmatch                                                     " highlight bracket pairs
 set hidden                                                        " hide modified file
 set laststatus=2 noshowmode                                       " show status bar, hide mode
 autocmd FileType markdown setlocal spell                          " spell check markdown
 autocmd FileType gitcommit setlocal spell                         " spell check git commits
-autocmd BufWritePre * %s/\s\+$//e                                 " remove trailing whitespace
-
-
-
-"""""""""" vim mappings
 
 " command mode without shift
 map ; :
@@ -122,6 +118,22 @@ let g:gitgutter_sign_removed_above_and_below = '▎'
 " lightline.vim
 let g:lightline = { 'colorscheme': 'moonfly' }
 
+" ale
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['prettier', 'eslint'],
+\}
+let g:ale_completion_tsserver_autoimport = 1
+nnoremap gd :<C-u>ALEGoToDefinition<CR>
+nnoremap gr :<C-u>ALEFindReferences<CR>
+nnoremap gh :<C-u>ALEHover<CR>
+
+" undotree
+let g:undotree_WindowLayout = 4
+let g:undotree_SetFocusWhenToggle = 1
+nnoremap <leader>u :<C-u>UndotreeToggle<CR>
+
 " vim-move
 let g:move_key_modifier = 'M'
 
@@ -132,7 +144,20 @@ let g:clever_f_fix_key_direction = 1
 " vim-printer
 let g:vim_printer_print_below_keybinding = '<leader>l'
 
+" vim-polygot
 let g:vim_markdown_folding_disabled=1
+
+
+
+"""""""""" snippets
+
+" dates
+abbrev todaydate <C-r>=strftime("%d/%m/%Y")<CR>
+
+" html
+abbrev ,p <p></p><C-r>3j
+
+
 
 " problems with regular vim:
 " - slow re-rendering
