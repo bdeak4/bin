@@ -31,7 +31,7 @@ set undofile                                                      " persistent u
 set list listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·    " show whitespace
 set updatetime=100                                                " faster update time
 set ignorecase smartcase                                          " case insensitive search
-set scrolloff=2                                                   " offset from top/bottom
+set scrolloff=3                                                   " offset from top/bottom
 set tabstop=4                                                     " tab width
 set signcolumn=yes                                                " always show sign column
 set spelllang=en_us                                               " spell check language

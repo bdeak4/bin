@@ -1,0 +1,11 @@
+# bookmarks
+export NNN_BMS='d:~/dev/;D:~/downloads/;c:~/.config/;s:~/scripts/'
+
+# different colors for every context
+export NNN_CONTEXT_COLORS='4231'
+
+# open text files in text editor
+export NNN_USE_EDITOR=1
+
+# move files in trash instead of deleting
+export NNN_TRASH=1
