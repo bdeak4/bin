@@ -1,0 +1,6 @@
+#!/bin/sh
+
+### configurations
+
+# fzf
+[ -f "$HOME/.config/fzf/config" ] && source "$HOME/.config/fzf/config"

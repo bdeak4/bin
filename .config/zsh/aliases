@@ -1,0 +1,8 @@
+#!/bin/sh
+
+### aliases
+
+alias g='git'
+alias v='nvim'
+alias t='tmux'
+alias y='yarn'
