@@ -107,6 +107,7 @@ nmap \d ggO<Esc>:r! date +"\%Y/\%m/\%d"<CR>kJo<CR><CR><CR><Esc>kkk\t
 " fzf.vim
 nnoremap <C-t> :<C-u>Files<CR>
 nnoremap <C-f> :<C-u>Rg<CR>
+nnoremap <C-b> :<C-u>Buffers<CR>
 nnoremap <leader>t :<C-u>History<CR>
 nnoremap <leader>; :<C-u>History:<CR>
 nnoremap <leader>/ :<C-u>History/<CR>
