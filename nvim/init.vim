@@ -1,20 +1,19 @@
 """ plugins
 
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin('~/.vim/plugged')
 Plug 'sheerun/vim-polyglot'                                       " syntax
 Plug 'dense-analysis/ale'                                         " linter
 Plug 'junegunn/fzf'                                               " fuzzy search install
 Plug 'junegunn/fzf.vim'                                           " fuzzy search
 Plug 'airblade/vim-gitgutter'                                     " git
 Plug 'itchyny/lightline.vim'                                      " status line
-Plug 'tpope/vim-commentary'                                       " comments
-Plug 'tpope/vim-surround'                                         " change quotes
 Plug 'tpope/vim-sleuth'                                           " tab width based on file
-Plug 'meain/vim-printer'                                          " print variable
+Plug 'machakann/vim-sandwich'                                     " change quotes
 Plug 'rhysd/clever-f.vim'                                         " better f/t
-Plug 'mbbill/undotree'                                            " undo tree
+Plug 'tpope/vim-commentary'                                       " comments
+Plug 'meain/vim-printer'                                          " print variable
+Plug 'airblade/vim-rooter'                                        " cd to nearest root dir
 Plug 'chriskempson/base16-vim'                                    " color scheme
-Plug 'ap/vim-css-color'                                           " highlight colors
 call plug#end()
 
 
@@ -70,8 +69,8 @@ nnoremap <silent> * :let @/='\<'.expand('<cword>').'\>'<CR>cgn
 xnoremap <silent> * "sy:let @/=@s<CR>cgn
 
 " new line without input mode
-nnoremap <CR> m`o<Esc>``
-nnoremap <S-CR> m`O<Esc>``
+nnoremap <CR> o<Esc>
+nnoremap <S-CR> O<Esc>
 
 " inc/dec number
 nnoremap + <C-a>
@@ -88,12 +87,6 @@ cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
 cnoremap <C-h> <Left>
 cnoremap <C-l> <Right>
-
-" disable arrow keys
-noremap <Up> <Nop>
-noremap <Down> <Nop>
-noremap <Left> <Nop>
-noremap <Right> <Nop>
 
 " todos
 nmap \c m`^rx:r! date +"<Space>[\%H:\%M]"<CR>kJ``
@@ -135,16 +128,11 @@ nnoremap gd :<C-u>ALEGoToDefinition<CR>
 nnoremap gr :<C-u>ALEFindReferences<CR>
 nnoremap gh :<C-u>ALEHover<CR>
 
-" undotree
-let g:undotree_WindowLayout = 4
-let g:undotree_SetFocusWhenToggle = 1
-nnoremap <leader>u :<C-u>UndotreeToggle<CR>
-
 " clever-f.vim
 let g:clever_f_smart_case = 1
 
 " base16-vim
-let base16colorspace=256
+let base16colorspace = 256
 
 " vim-polygot
-let g:vim_markdown_folding_disabled=1
+let g:vim_markdown_folding_disabled = 1
