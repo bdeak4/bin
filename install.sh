@@ -31,6 +31,30 @@ Proxima Nova                    sans-serif                      Regular,Light,Se
 EOF
 )"
 
-echo "$required"
-echo "$programs"
-echo "$fonts"
+
+# os detection
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+    distribution=$(grep "^ID" /etc/os-release | awk -F '=' '{ print $2 }')
+    if [[ "$distribution" == "arch" || "$distribution" == "ubuntu" ]]; then
+        os="$distribution"
+    else
+        echo "distribution not supported"
+    fi
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    os="macos"
+else
+    echo "os not supported"
+fi
+
+# package install command
+case "$os" in
+    "arch")   package_install_command="sudo pacman -S ";;
+    "ubuntu") package_install_command="sudo apt-get update && sudo apt-get install ";;
+    "macos")  package_install_command="brew install ";;
+esac
+
+
+if ! [ -x "$(command -v git)" ]; then
+  echo 'Error: git is not installed.' >&2
+  exit 1
+fi
