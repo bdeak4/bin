@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # name                          description                     config directory                platform specific
 required="$(cat <<EOF
@@ -50,30 +50,28 @@ EOF
 )"
 
 # os detection
-if [[ "$OSTYPE" == "linux-gnu" ]]; then
+if [ "$OSTYPE" == "linux-gnu" ]; then
     distribution=$(grep "^ID" /etc/os-release | awk -F '=' '{ print $2 }')
     if [[ "$distribution" == "arch" || "$distribution" == "ubuntu" ]]; then
-        os="$distribution"
+        OS="$distribution"
     else
         echo "distribution not supported"
     fi
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-    os="macos"
+    OS="macos"
 else
     echo "os not supported"
 fi
 
-# package install command
-case "$os" in
-    "arch")   package_install_command="sudo pacman -S ";;
-    "ubuntu") package_install_command="sudo apt-get update && sudo apt-get install ";;
-    "macos")  package_install_command="brew install ";;
-esac
+dialog --title "Welcome" --clear --msgbox "Hey, welcome to Bartol's installer script\nThis script will install my most used programs" 0 0
 
+dialog --title "Disclaimer" --clear --yesno "I am NOT responsible for damage caused by this script. Use at your own risk. Do you accept risk?" 0 0
 
-if ! [ -x "$(command -v git)" ]; then
-  echo 'Error: git is not installed.' >&2
-  exit 1
+# shellcheck disable=SC2
+if [ "$(echo $?)" != 0 ];then
+    dialog --title "cya" --clear --msgbox "It was nice to meet you\n" 0 0
+    clear
+    exit 1
 fi
 
 # user password
