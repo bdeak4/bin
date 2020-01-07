@@ -2,35 +2,52 @@
 
 # name                          description                     config directory                platform specific
 required="$(cat <<EOF
-curl                            http client                     n/a                             n/a
-git                             version control                 ~                               n/a
-brew                            package manager                 n/a                             macos
+curl                            http client                     no                              any
+git                             version control                 ~                               any
+brew                            package manager                 no                              macos
+dialog                          this nice screen                no                              any
 EOF
 )"
+
+# name                          description                     config directory                platform specific               selected
 programs="$(cat <<EOF
-zsh                             shell                           ~/.config/zsh                   n/a
-alacritty                       terminal emulator               ~/.config/alacritty             n/a
-firefox-developer-edition       web browser                     ~/.mozilla/firefox              n/a
-nvim                            text editor                     ~/.config/nvim                  n/a
-nnn                             file manager                    ~/.config/nnn                   n/a
-fzf                             fuzzy finder                    ~/.config/fzf                   n/a
-neomutt                         email client                    ~/.config/neomutt               n/a
-zathura                         pdf viewer                      ~/.config/zathura               n/a
-fd                              better find                     n/a                             n/a
-htop                            process viewer                  n/a                             n/a
-bspwm                           tiling window manager           ~/.config/bspwm                 linux
-sxhkd                           hotkey daemon                   ~/.config/sxhkd                 linux
-polybar                         status bar                      ~/.config/polybar               linux
+zsh                             shell                           ~/.config/zsh                   any                             yes,yes
+alacritty                       terminal emulator               ~/.config/alacritty             any                             yes,no
+firefox-developer-edition       web browser                     ~/.mozilla/firefox              any                             yes,no
+nvim                            text editor                     ~/.config/nvim                  any                             yes,yes
+nnn                             file manager                    ~/.config/nnn                   any                             yes,yes
+fzf                             fuzzy finder                    ~/.config/fzf                   any                             yes,yes
+neomutt                         email client                    ~/.config/neomutt               any                             no,no
+zathura                         pdf viewer                      ~/.config/zathura               any                             no,no
+youtube-dl                      youtube downloader              ~/.config/youtube-dl            any                             no,no
+autojump                        faster dir navigation           no                              any                             yes,yes
+ripgrep                         better grep                     ~                               any                             yes,yes
+fd                              better find                     no                              any                             yes,yes
+htop                            process viewer                  no                              any                             no,yes
+neofetch                        system info                     ~/.config/neofetch              any                             no,no
+bspwm                           tiling window manager           ~/.config/bspwm                 linux                           no,no
+sxhkd                           hotkey daemon                   ~/.config/sxhkd                 linux                           no,no
+polybar                         status bar                      ~/.config/polybar               linux                           no,no
 EOF
 )"
 
-# name                          type                            weights                         italics
+# name                          description                     version manager                 selected
+languages="$(cat <<EOF
+rust                            rust compiler and tooling       rustup                          yes,no
+nodejs                          javascript runtime              nvr                             yes,no
+yarn                            javascript package manager      n/a                             no,no
+deno                            typescript runtime              n/a                             no,no
+python                          python interpreter              pyenv                           yes,no
+ruby                            ruby interpreter                rbenv                           no,no
+EOF
+)"
+
+# name                          type                            weights                         italics                         selected
 fonts="$(cat <<EOF
-Dank Mono                       monospace                       Regular                         yes
-Proxima Nova                    sans-serif                      Regular,Light,Semibold,Bold     yes
+Dank Mono                       monospace                       Regular                         yes                             yes,no
+Proxima Nova                    sans-serif                      Regular,Light,Semibold,Bold     yes                             yes,no
 EOF
 )"
-
 
 # os detection
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
