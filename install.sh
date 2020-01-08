@@ -24,9 +24,17 @@ dialog --title "Welcome" --clear --msgbox "Hey, welcome to Bartol's installer sc
 
 dialog --title "Disclaimer" --clear --yesno "I am NOT responsible for damage caused by this script. Use at your own risk. Do you accept risk?" 0 0
 
-# shellcheck disable=SC2
-if [ "$(echo $?)" != 0 ];then
-    dialog --title "cya" --clear --msgbox "It was nice to meet you\n" 0 0
+# welcome message
+dialog --title "Welcome" --clear \
+    --msgbox "This script was made after realizing fragility of my development environment and data, how I am not ready for unexpected accident that may be just around the corner. It's better to spend few hours now than deal with headaches when you, by accident, spill coffee on your laptop. You never know. ¯\_(ツ)_/¯" 0 0
+
+# terms of service
+if ! dialog --title "Terms of Service" --clear --yes-label "Accept" --no-label "Decline" \
+    --yesno "You have to keep in mind that I made this for myself as a weekend project. There are no tests and things can go wrong. I warned you. Use at your own risk and don't blame me later." 0 0
+then
+    # TODO
+    dialog --title "Odjeb je lansiran" --clear \
+        --msgbox "" 0 0
     clear
     exit 1
 fi
