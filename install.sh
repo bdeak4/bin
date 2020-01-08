@@ -2,27 +2,71 @@
 
 # os detection
 if [[ $OSTYPE == "linux-gnu" ]]; then
-    distribution=$(grep "^ID" /etc/os-release | awk -F '=' '{ print $2 }')
+    distribution=$(grep "^ID" /etc/os-release | awk -F'=' '{print $2}')
     if [[ $distribution == "arch" || $distribution == "ubuntu" ]]; then
         OS="$distribution"
     else
-        dialog --title "Error: Distribution not supported" --clear \
-            --msgbox "Sorry, Arch and Ubuntu are only supported Linux distributions. Feel free to open pull request and add your favorite distribution. https://github.com/bartol/dotfiles/issues/new/" 0 0
-        clear
+        if command -v dialog
+        then
+            dialog --title "Error: Distribution not supported" --clear \
+                --msgbox "Sorry, Arch and Ubuntu are only supported Linux distributions. Feel free to open pull request and add your favorite distribution. https://github.com/bartol/dotfiles/issues/new/" 0 0
+        else
+            echo Error: Distribution not supported
+            printf "Sorry, Arch and Ubuntu are only supported Linux distributions.\nFeel free to open pull request and add your favorite distribution.\nhttps://github.com/bartol/dotfiles/issues/new/"
+        fi
         exit 1
     fi
 elif [[ $OSTYPE == "darwin"* ]]; then
     OS="macos"
 else
-    dialog --title "Error: OS not supported" --clear \
-        --msgbox "Sorry, Arch, Ubuntu and MacOS are only supported Operating Systems. Feel free to open pull request and add your favorite OS. https://github.com/bartol/dotfiles/issues/new/" 0 0
-    clear
+    if command -v dialog
+    then
+        dialog --title "Error: OS not supported" --clear \
+            --msgbox "Sorry, Arch, Ubuntu and MacOS are only supported Operating Systems. Feel free to open pull request and add your favorite OS. https://github.com/bartol/dotfiles/issues/new/" 0 0
+    else
+        echo Error: OS not supported
+        printf "Sorry, Arch, Ubuntu and MacOS are only supported Operating Systems.\nFeel free to open pull request and add your favorite OS.\nhttps://github.com/bartol/dotfiles/issues/new/"
+    fi
     exit 1
 fi
 
-dialog --title "Welcome" --clear --msgbox "Hey, welcome to Bartol's installer script\nThis script will install my most used programs" 0 0
+# install required programs
+if [[ $OS == "macos" && ! $(command -v brew) ]]; then
+    echo "Installing homebrew (required to run script)"
 
-dialog --title "Disclaimer" --clear --yesno "I am NOT responsible for damage caused by this script. Use at your own risk. Do you accept risk?" 0 0
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+    if ! command -v brew
+    then
+        echo "Error: homebrew installation failed"
+        exit 1
+    fi
+fi
+
+install_required()
+{
+    if ! command -v "$1"
+    then
+        echo "Installing $1 (required to run script)"
+
+        if [[ $OS == "arch" || $OS == "ubuntu" ]]; then
+            read -r -s -p "Password:" password
+        fi
+        case "$OS" in
+            "arch")   echo "$password" | sudo -S pacman -S "$1" >/dev/null;;
+            "ubuntu") echo "$password" | sudo -S apt-get update >/dev/null;echo "$password" | sudo -S apt-get install "$1" >/dev/null;;
+            "macos")  brew install "$1" >/dev/null;;
+        esac
+
+        if ! command -v "$1"
+        then
+            echo "Error: $1 installation failed"
+            exit 1
+        fi
+    fi
+}
+install_required dialog
+install_required git
 
 # welcome message
 dialog --title "Welcome" --clear \
