@@ -84,15 +84,23 @@ then
 fi
 
 # user password
-password=$(dialog --title "password" --clear --insecure --passwordbox "Input password for curent user:" 0 0 3>&1 1>&2 2>&3 3>&1)
+if [[ ! $password ]]; then
+    password=$(dialog --title "Password" --clear --insecure \
+        --passwordbox "Enter password current user:" 8 40 \
+        3>&1 1>&2 2>&3 3>&1)
 
-if [ "$(echo "$password" | sudo -Skv 2> /dev/null; echo $?)" != 0 ];then
-    dialog --title "Error" --clear --msgbox "Incorrect password\n" 0 0
-    clear
-    exit 1
+    if ! echo "$password" | sudo -Skv 2>/dev/null
+    then
+        dialog --title "Error: User login" --clear \
+            --msgbox "Password is incorrect or user doesn't have root privileges." 6 35
+                    clear
+                    exit 1
+    fi
 fi
 
-preset=$(dialog --title "choose preset" --clear --radiolist "Choose preset for pre-selected values" 0 0 0 \
+# default selection preset
+preset=$(dialog --title "Default selection" --clear \
+    --radiolist "Choose preset for pre-selected values:" 0 0 0 \
     1 "development (local) environment" on \
     2 "server (remote) environment" off \
     3>&1 1>&2 2>&3 3>&1)
