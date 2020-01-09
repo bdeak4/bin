@@ -30,6 +30,22 @@ else
     exit 1
 fi
 
+# package install helpers
+arch()
+{
+    echo "$password" | sudo -S pacman -S "$1" --noconfirm >/dev/null
+}
+
+ubuntu()
+{
+    echo "$password" | sudo -S apt-get update >/dev/null;echo "$password" | sudo -S apt-get install "$1" -y >/dev/null
+}
+
+macos()
+{
+    brew install "$1" >/dev/null
+}
+
 # install required programs
 if [[ $OS == "macos" && ! $(command -v brew) ]]; then
     echo "Installing homebrew (required to run script)"
@@ -53,9 +69,9 @@ install_required()
             read -r -s -p "Password:" password
         fi
         case "$OS" in
-            "arch")   echo "$password" | sudo -S pacman -S "$1" --noconfirm >/dev/null;;
-            "ubuntu") echo "$password" | sudo -S apt-get update >/dev/null;echo "$password" | sudo -S apt-get install "$1" -y >/dev/null;;
-            "macos")  brew install "$1" >/dev/null;;
+            "arch")   arch "$1";;
+            "ubuntu") ubuntu "$1";;
+            "macos")  macos "$1";;
         esac
 
         if ! command -v "$1"
