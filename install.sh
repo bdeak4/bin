@@ -9,10 +9,10 @@ if [[ $OSTYPE == "linux-gnu" ]]; then
         if command -v dialog
         then
             dialog --title "Error: Distribution not supported" --clear \
-                --msgbox "Sorry, Arch and Ubuntu are only supported Linux distributions. Feel free to open pull request and add your favorite distribution. https://github.com/bartol/dotfiles/issues/new/" 0 0
+                --msgbox "Sorry, Arch and Ubuntu are only supported Linux distributions. Feel free to open pull request and add your favorite distribution. https://github.com/bartol/config/issues/new/" 0 0
         else
             echo Error: Distribution not supported
-            printf "Sorry, Arch and Ubuntu are only supported Linux distributions.\nFeel free to open pull request and add your favorite distribution.\nhttps://github.com/bartol/dotfiles/issues/new/"
+            printf "Sorry, Arch and Ubuntu are only supported Linux distributions.\nFeel free to open pull request and add your favorite distribution.\nhttps://github.com/bartol/config/issues/new/"
         fi
         exit 1
     fi
@@ -22,10 +22,10 @@ else
     if command -v dialog
     then
         dialog --title "Error: OS not supported" --clear \
-            --msgbox "Sorry, Arch, Ubuntu and MacOS are only supported Operating Systems. Feel free to open pull request and add your favorite OS. https://github.com/bartol/dotfiles/issues/new/" 0 0
+            --msgbox "Sorry, Arch, Ubuntu and MacOS are only supported Operating Systems. Feel free to open pull request and add your favorite OS. https://github.com/bartol/config/issues/new/" 0 0
     else
         echo Error: OS not supported
-        printf "Sorry, Arch, Ubuntu and MacOS are only supported Operating Systems.\nFeel free to open pull request and add your favorite OS.\nhttps://github.com/bartol/dotfiles/issues/new/"
+        printf "Sorry, Arch, Ubuntu and MacOS are only supported Operating Systems.\nFeel free to open pull request and add your favorite OS.\nhttps://github.com/bartol/config/issues/new/"
     fi
     exit 1
 fi
