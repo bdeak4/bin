@@ -121,7 +121,64 @@ preset=$(dialog --title "Default selection" --clear \
     2 "server (remote) environment" off \
     3>&1 1>&2 2>&3 3>&1)
 
-info ()
+# select programs
+# id  name                        description                    selected
+programs=(
+"1    zsh                         shell                          on on  "
+"2    alacritty                   terminal emulator              on off "
+"3    firefox-developer-edition   web browser                    on off "
+"4    nvim                        text editor                    on on  "
+"5    nnn                         file manager                   on on  "
+"6    fzf                         fuzzy finder                   on on  "
+"7    tmux                        terminal multiplexer           off on "
+"8    neomutt                     email client                   off off"
+"9    zathura                     pdf viewer                     off off"
+"10   youtube-dl                  youtube downloader             off off"
+"11   autojump                    directory navigation           on on  "
+"12   rg                          better grep                    on on  "
+"13   fd                          better find                    on on  "
+"14   exa                         better ls                      off off"
+"15   bat                         better cat                     off off"
+"16   htop                        process viewer                 off on "
+"17   neofetch                    system info                    off off"
+"18   bspwm                       tiling window manager, linux   off off"
+"19   sxhkd                       hotkey daemon, linux           off off"
+"20   polybar                     status bar, linux              off off"
+)
+
+programs_args=()
+for program in "${programs[@]}"; do
+    index=$(echo "$program" | awk -F'[[:space:]][[:space:]][[:space:]]*' '{print $1}')
+    name=$(echo "$program" | awk -F'[[:space:]][[:space:]][[:space:]]*' '{print $2}')
+    desc=$(echo "$program" | awk -F'[[:space:]][[:space:]][[:space:]]*' '{print $3}')
+    selection=$(echo "$program" | awk -F'[[:space:]][[:space:]][[:space:]]*' '{print $4}')
+    selected=$(echo "$selection" | awk -F'[[:space:]]' -v preset="$preset" '{print $preset}')
+    programs_args+=("$index" "$name ($desc)" "$selected")
+done
+
+selected_programs=$(dialog --title "Programs" --clear \
+    --checklist "Choose programs to install:" 0 0 0 "${programs_args[@]}" \
+    3>&1 1>&2 2>&3 3>&1)
+
+# prep for install
+dialog --title "Install" --infobox "Preparing for install.\n" 0 0
+sleep 1
+
+cd ~ || exit
+mkdir config_tmp
+
+# clone config repository
+dialog --title "Install" --infobox "Cloning config repository.\n" 0 0
+
+git clone --recursive https://github.com/bartol/config config_tmp &>/dev/null
+
+# program stats init
+touch config_tmp/successful_installs
+touch config_tmp/failed_installs
+touch config_tmp/already_installed
+
+# check if program is already installed
+is_already_installed()
 {
     if [[ $OS == "arch" ]]; then
         echo "$password" | sudo -S pacman -S "$1" --noconfirm >/dev/null
