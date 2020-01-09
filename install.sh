@@ -53,8 +53,8 @@ install_required()
             read -r -s -p "Password:" password
         fi
         case "$OS" in
-            "arch")   echo "$password" | sudo -S pacman -S "$1" >/dev/null;;
-            "ubuntu") echo "$password" | sudo -S apt-get update >/dev/null;echo "$password" | sudo -S apt-get install "$1" >/dev/null;;
+            "arch")   echo "$password" | sudo -S pacman -S "$1" --noconfirm >/dev/null;;
+            "ubuntu") echo "$password" | sudo -S apt-get update >/dev/null;echo "$password" | sudo -S apt-get install "$1" -y >/dev/null;;
             "macos")  brew install "$1" >/dev/null;;
         esac
 
@@ -89,7 +89,7 @@ if [[ ! $password ]]; then
         --passwordbox "Enter password current user:" 8 40 \
         3>&1 1>&2 2>&3 3>&1)
 
-    if ! echo "$password" | sudo -Skv 2>/dev/null
+    if ! echo "$password" | sudo -Skv &>/dev/null
     then
         dialog --title "Error: User login" --clear \
             --msgbox "Password is incorrect or user doesn't have root privileges." 6 35
@@ -107,34 +107,25 @@ preset=$(dialog --title "Default selection" --clear \
 
 info ()
 {
-    dialog --infobox "$1\n" 0 0; sleep 1s
+    if [[ $OS == "arch" ]]; then
+        echo "$password" | sudo -S pacman -S "$1" --noconfirm >/dev/null
+    fi
 }
 
-install_program ()
+ubuntu()
 {
-    # check if program is already installed
-    if ! [ -x "$(command -v "$1")" ]; then
+    if [[ $OS == "ubuntu" ]]; then
+        echo "$password" | sudo -S apt-get update >/dev/null;echo "$password" | sudo -S apt-get install "$1" -y >/dev/null
+    fi
+}
 
-        info "installing $1"
-        # install it
-        if [[ "$2" && "$2" != "install_from_package_manager" ]]; then
-            ($2)
-        else
-            case "$OS" in
-                "arch")   echo "$password" | sudo -S pacman -S "$1";;
-                "ubuntu") echo "$password" | sudo -S apt-get update && sudo apt-get install "$1";;
-                "macos")  brew install "$1";;
-            esac
-        fi
+macos()
+{
+    if [[ $OS == "macos" ]]; then
+        brew install "$1" >/dev/null
+    fi
+}
 
-        # check if installation was successful
-        if [ -x "$(command -v "$1")" ]; then
-            info "$1 successfuly installed"
-            return 0
-        else
-            info "$1 installation failed"
-            exit 1
-        fi
 
     else
         info "$1 already installed"
