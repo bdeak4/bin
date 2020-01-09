@@ -180,19 +180,40 @@ touch config_tmp/already_installed
 # check if program is already installed
 is_already_installed()
 {
-    if [[ $OS == "arch" ]]; then
-        echo "$password" | sudo -S pacman -S "$1" --noconfirm >/dev/null
+    if command -v "$1"
+    then
+        dialog --title "$1" --infobox "Already installed.\n" 0 0
+        echo "$1" >> config_tmp/already_installed
+        sleep 1
+        return 0
     fi
 }
 
-ubuntu()
+# check if installation was successful
+is_install_successful()
 {
-    if [[ $OS == "ubuntu" ]]; then
-        echo "$password" | sudo -S apt-get update >/dev/null;echo "$password" | sudo -S apt-get install "$1" -y >/dev/null
+    if command -v "$1"
+    then
+        dialog --title "$1" --infobox "Install succesful.\n" 0 0
+        echo "$1" >> config_tmp/successful_installs
+        sleep 1
+        return 1
+    else
+        dialog --title "$1" --infobox "Install failed.\n" 0 0
+        echo "$1" >> config_tmp/failed_installs
+        sleep 1
+        return 0
     fi
 }
 
-macos()
+# notify user that it is installing
+installing_message()
+{
+    dialog --title "$1" --infobox "Installing...\n" 0 0
+}
+
+# program install functions
+zsh_install()
 {
     if [[ $OS == "macos" ]]; then
         brew install "$1" >/dev/null
