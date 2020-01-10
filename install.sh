@@ -6,7 +6,7 @@ if [[ $OSTYPE == "linux-gnu" ]]; then
     if [[ $distribution == "arch" || $distribution == "ubuntu" ]]; then
         OS="$distribution"
     else
-        if command -v dialog
+        if command -v dialog &>/dev/null
         then
             dialog --title "Error: Distribution not supported" --clear \
                 --msgbox "Sorry, Arch and Ubuntu are only supported Linux distributions. Feel free to open pull request and add your favorite distribution. https://github.com/bartol/config/issues/new/" 0 0
@@ -19,7 +19,7 @@ if [[ $OSTYPE == "linux-gnu" ]]; then
 elif [[ $OSTYPE == "darwin"* ]]; then
     OS="macos"
 else
-    if command -v dialog
+    if command -v dialog &>/dev/null
     then
         dialog --title "Error: OS not supported" --clear \
             --msgbox "Sorry, Arch, Ubuntu and MacOS are only supported Operating Systems. Feel free to open pull request and add your favorite OS. https://github.com/bartol/config/issues/new/" 0 0
@@ -33,52 +33,124 @@ fi
 # package install helpers
 arch()
 {
-    echo "$password" | sudo -S pacman -S "$1" --noconfirm >/dev/null
+    echo "$password" | sudo -S pacman -S "$1" --noconfirm &>/dev/null
 }
 
 ubuntu()
 {
-    echo "$password" | sudo -S apt-get update >/dev/null;echo "$password" | sudo -S apt-get install "$1" -y >/dev/null
+    echo "$password" | sudo -S apt-get update &>/dev/null;echo "$password" | sudo -S apt-get install "$1" -y &>/dev/null
 }
 
 macos()
 {
-    brew install "$1" >/dev/null
+    brew install "$1" &>/dev/null
 }
 
-# install required programs
-if [[ $OS == "macos" && ! $(command -v brew) ]]; then
-    echo "Installing homebrew (required to run script)"
-
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-
-    if ! command -v brew
-    then
-        echo "Error: homebrew installation failed"
-        exit 1
-    fi
-fi
-
-install_required()
+install_all_platforms()
 {
-    if ! command -v "$1"
+    case "$OS" in
+        "arch")   arch "$1";;
+        "ubuntu") ubuntu "$1";;
+        "macos")  macos "$1";;
+    esac
+}
+
+is_already_installed()
+{
+    if command -v "$1" &>/dev/null
     then
-        echo "Installing $1 (required to run script)"
-
-        if [[ $OS == "arch" || $OS == "ubuntu" ]]; then
-            read -r -s -p "Password:" password
+        if [[ $2 == '--dialog' ]]; then
+            if command -v dialog &>/dev/null
+            then
+                dialog --title "$1" --infobox "Already installed.\n" 0 0
+                sleep 1
+            else
+                echo "$1" already installed
+            fi
         fi
-        case "$OS" in
-            "arch")   arch "$1";;
-            "ubuntu") ubuntu "$1";;
-            "macos")  macos "$1";;
-        esac
+        echo "$1" >> config_tmp/already_installed
+        return 0
+    else
+        return 1
+    fi
+}
 
-        if ! command -v "$1"
-        then
-            echo "Error: $1 installation failed"
+is_install_successful()
+{
+    if command -v "$1" &>/dev/null
+    then
+        if [[ $2 == '--dialog' ]]; then
+            if command -v dialog &>/dev/null
+            then
+                dialog --title "$1" --infobox "Install succesful.\n" 0 0
+                sleep 1
+            else
+                echo "$1" install succesful
+            fi
+        fi
+        echo "$1" >> config_tmp/successful_installs
+        return 0
+    else
+        if [[ $2 == '--dialog' ]]; then
+            if command -v dialog &>/dev/null
+            then
+                dialog --title "$1" --infobox "Install failed.\n" 0 0
+                sleep 1
+            else
+                echo "$1" install failed
+            fi
+        fi
+        echo "$1" >> config_tmp/failed_installs
+        if [[ $3 == '--required' ]]; then
             exit 1
         fi
+        return 1
+    fi
+}
+
+installing_message()
+{
+    if [[ $2 == '--required' ]]; then
+        if command -v dialog &>/dev/null
+        then
+            dialog --title "$1" --infobox "Installing $1... (required to run script)\n" 0 0
+        else
+            echo installing "$1"... "(required to run script)"
+        fi
+    else
+        if command -v dialog &>/dev/null
+        then
+            dialog --title "$1" --infobox "Installing $1...\n" 0 0
+        else
+            echo installing "$1"...
+        fi
+    fi
+}
+
+ask_for_password()
+{
+    if command -v dialog &>/dev/null
+    then
+        password=$(dialog --title "Password" --clear --insecure \
+            --passwordbox "Enter password current user:" 8 40 \
+            3>&1 1>&2 2>&3 3>&1)
+    else
+        read -r -s -p "Password:" password
+    fi
+
+    # verify
+    if ! echo "$password" | sudo -Skv &>/dev/null
+    then
+        if command -v dialog &>/dev/null
+        then
+            dialog --title "Error: User login" --clear \
+                --msgbox "Password is incorrect or user doesn't have root privileges." 6 35
+            clear
+        else
+            echo Error: User login
+            echo "Password is incorrect or user doesn't have root privileges."
+        fi
+        exit 1
     fi
 }
 install_required dialog
