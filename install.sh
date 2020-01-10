@@ -309,7 +309,19 @@ alacritty_install()
     is_install_successful alacritty --dialog
 }
 
-# firefox
+firefox-developer-edition_install()
+{
+    # there is no firefox developer edition in ubuntu packages
+    if [[ $OS == "ubuntu" ]]; then
+        firefox_package="firefox"
+    else
+        firefox_package="firefox-developer-edition"
+    fi
+
+    install_all_platforms $firefox_package
+
+    is_install_successful $firefox_package --dialog
+}
 
 neovim_install()
 {
