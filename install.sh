@@ -215,7 +215,7 @@ dialog --title "Welcome" --clear \
 if ! dialog --title "Terms of Service" --clear --yes-label "Accept" --no-label "Decline" \
     --yesno "You have to keep in mind that I made this for myself as a weekend project. There are no tests and things can go wrong. I warned you. Use at your own risk and don't blame me later." 0 0
 then
-    # TODO
+    # TODO add lyrics
     dialog --title "Odjeb je lansiran" --clear \
         --msgbox "" 0 0
     clear
@@ -224,17 +224,7 @@ fi
 
 # user password
 if [[ ! $password ]]; then
-    password=$(dialog --title "Password" --clear --insecure \
-        --passwordbox "Enter password current user:" 8 40 \
-        3>&1 1>&2 2>&3 3>&1)
-
-    if ! echo "$password" | sudo -Skv &>/dev/null
-    then
-        dialog --title "Error: User login" --clear \
-            --msgbox "Password is incorrect or user doesn't have root privileges." 6 35
-                    clear
-                    exit 1
-    fi
+    ask_for_password
 fi
 
 # default selection preset
@@ -250,7 +240,7 @@ programs=(
 "1    zsh                         shell                          on on  "
 "2    alacritty                   terminal emulator              on off "
 "3    firefox-developer-edition   web browser                    on off "
-"4    nvim                        text editor                    on on  "
+"4    neovim                      text editor                    on on  "
 "5    nnn                         file manager                   on on  "
 "6    fzf                         fuzzy finder                   on on  "
 "7    tmux                        terminal multiplexer           off on "
@@ -283,57 +273,10 @@ selected_programs=$(dialog --title "Programs" --clear \
     --checklist "Choose programs to install:" 0 0 0 "${programs_args[@]}" \
     3>&1 1>&2 2>&3 3>&1)
 
-# prep for install
-dialog --title "Install" --infobox "Preparing for install.\n" 0 0
-sleep 1
-
-cd ~ || exit
-mkdir config_tmp
-
 # clone config repository
-dialog --title "Install" --infobox "Cloning config repository.\n" 0 0
+dialog --title "Config" --infobox "Cloning config repository.\n" 0 0
 
 git clone --recursive https://github.com/bartol/config config_tmp &>/dev/null
-
-# program stats init
-touch config_tmp/successful_installs
-touch config_tmp/failed_installs
-touch config_tmp/already_installed
-
-# check if program is already installed
-is_already_installed()
-{
-    if command -v "$1"
-    then
-        dialog --title "$1" --infobox "Already installed.\n" 0 0
-        echo "$1" >> config_tmp/already_installed
-        sleep 1
-        return 0
-    fi
-}
-
-# check if installation was successful
-is_install_successful()
-{
-    if command -v "$1"
-    then
-        dialog --title "$1" --infobox "Install succesful.\n" 0 0
-        echo "$1" >> config_tmp/successful_installs
-        sleep 1
-        return 1
-    else
-        dialog --title "$1" --infobox "Install failed.\n" 0 0
-        echo "$1" >> config_tmp/failed_installs
-        sleep 1
-        return 0
-    fi
-}
-
-# notify user that it is installing
-installing_message()
-{
-    dialog --title "$1" --infobox "Installing...\n" 0 0
-}
 
 # program install functions
 zsh_install()
@@ -388,11 +331,19 @@ echo "$required" | while IFS= read -r item; do
     install="_install"
     config="_config"
 
-    cmd="install_program $name"
-    cmd+=" $(function_exists "$name$install" && echo "$name$install" || echo "install_from_package_manager")"
-    cmd+=" $(function_exists "$name$config" && echo "$name$config" || echo "no_config")"
+# call program functions for all selected, not-installed programs
+IFS=' ' read -ra selected_programs_arr <<< "$selected_programs"
 
-    $cmd
+for program_id in "${selected_programs_arr[@]}"
+do
+    program=${programs[program_id - 1]}
+    program_name=$(echo "$program" | awk -F'[[:space:]][[:space:]][[:space:]]*' '{print $2}')
+    program_function_sufix="_install"
+
+    if ! is_already_installed "$program_name" --dialog
+    then
+        ("$program_name$program_function_sufix")
+    fi
 done
 
 clear
