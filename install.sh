@@ -68,7 +68,7 @@ is_already_installed()
                 echo "$1" already installed
             fi
         fi
-        echo "$1" >> config_tmp/already_installed
+        echo "$1" >> ~/.config/bartol/already_installed
         return 0
     else
         return 1
@@ -88,7 +88,7 @@ is_install_successful()
                 echo "$1" install succesful
             fi
         fi
-        echo "$1" >> config_tmp/successful_installs
+        echo "$1" >> ~/.config/bartol/successful_installs
         return 0
     else
         if [[ $2 == '--dialog' ]]; then
@@ -100,7 +100,7 @@ is_install_successful()
                 echo "$1" install failed
             fi
         fi
-        echo "$1" >> config_tmp/failed_installs
+        echo "$1" >> ~/.config/bartol/failed_installs
         if [[ $3 == '--required' ]]; then
             exit 1
         fi
@@ -155,13 +155,12 @@ ask_for_password()
 }
 
 # prep for script
-cd ~ || exit
-mkdir -p config_tmp
+mkdir -p ~/.config/bartol
 
 # program stats init
-touch config_tmp/successful_installs
-touch config_tmp/failed_installs
-touch config_tmp/already_installed
+touch ~/.config/bartol/successful_installs
+touch ~/.config/bartol/failed_installs
+touch ~/.config/bartol/already_installed
 
 # install required programs
 # brew
@@ -276,60 +275,52 @@ selected_programs=$(dialog --title "Programs" --clear \
 # clone config repository
 dialog --title "Config" --infobox "Cloning config repository.\n" 0 0
 
-git clone --recursive https://github.com/bartol/config config_tmp &>/dev/null
+git clone --recursive https://github.com/bartol/config ~/.config/bartol &>/dev/null
 
 # program install functions
 zsh_install()
 {
-    if [[ $OS == "macos" ]]; then
-        brew install "$1" >/dev/null
+    install_all_platforms zsh
+    echo "$password" | sudo -S chsh -s "$(command -v zsh)" "$USER"
+
+    mkdir -p ~/.config/zsh
+    ln -s ~/.config/bartol/zsh/.zprofile ~
+    ln -s ~/.config/bartol/zsh/.zshrc ~/.config/zsh
+    ln -s ~/.config/bartol/zsh/plugins ~/.config/zsh
+    ln -s ~/.config/bartol/zsh/history ~/.config/zsh
+
+    sudo --login --user "$USER"
+
+    is_install_successful zsh --dialog
+}
+
+alacritty_install()
+{
+    install_all_platforms alacritty
+
+    mkdir -p ~/.config/alacritty
+    ln -s ~/.config/bartol/alacritty/alacritty.yml ~/.config/alacritty
+
+    is_install_successful alacritty --dialog
+}
+
+# firefox
+
+neovim_install()
+{
+    if ! is_already_installed "nvim" --dialog
+    then
+        install_all_platforms neovim
+
+        mkdir -p ~/.config/nvim
+        ln -s ~/.config/bartol/nvim/init.vim ~/.config/nvim
+        curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        nvim -c "PlugInstall" -c ":qa"
+
+        is_install_successful nvim --dialog
     fi
 }
-
-
-    else
-        info "$1 already installed"
-        return 0
-    fi
-
-    # configure program
-    if [[ "$3" && "$3" != "no_configuration" ]]; then
-        info "configuring $1"
-        ($3)
-    fi
-}
-
-function_exists ()
-{
-    declare -f -F "$1" > /dev/null
-    return $?
-}
-
-brew_install ()
-{
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-}
-
-brew_config ()
-{
-    echo "brew config"
-}
-
-curl_install ()
-{
-    echo "curl install"
-}
-
-git_config ()
-{
-    echo "git config"
-}
-
-
-echo "$required" | while IFS= read -r item; do
-    name=$(echo "$item" | awk -F'[[:space:]][[:space:]][[:space:]]*' '{print $1}')
-    install="_install"
-    config="_config"
 
 # call program functions for all selected, not-installed programs
 IFS=' ' read -ra selected_programs_arr <<< "$selected_programs"
@@ -342,10 +333,18 @@ do
 
     if ! is_already_installed "$program_name" --dialog
     then
-        ("$program_name$program_function_sufix")
+        ("$program_name$program_function_sufix" &>/dev/null)
     fi
 done
 
 clear
 
-echo "Configuration done!"
+cat ~/.config/bartol/successful_installs
+cat ~/.config/bartol/failed_installs
+cat ~/.config/bartol/already_installed
+
+rm ~/.config/bartol/successful_installs
+rm ~/.config/bartol/failed_installs
+rm ~/.config/bartol/already_installed
+
+exit 0
