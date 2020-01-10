@@ -153,8 +153,59 @@ ask_for_password()
         exit 1
     fi
 }
-install_required dialog
-install_required git
+
+# prep for script
+cd ~ || exit
+mkdir -p config_tmp
+
+# program stats init
+touch config_tmp/successful_installs
+touch config_tmp/failed_installs
+touch config_tmp/already_installed
+
+# install required programs
+# brew
+if [[ $OS == "macos" ]]; then
+    if ! is_already_installed brew
+    then
+        installing_message brew
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        is_install_successful brew --dialog --required
+    fi
+fi
+
+# dialog
+if ! is_already_installed dialog
+then
+    installing_message dialog
+    if [[ $OS == "arch" || $OS == "ubuntu"  && ! $password ]]; then
+        ask_for_password
+    fi
+    install_all_platforms dialog
+    is_install_successful dialog --dialog --required
+fi
+
+# git
+if ! is_already_installed git
+then
+    installing_message git
+    if [[ $OS == "arch" || $OS == "ubuntu" && ! $password ]]; then
+        ask_for_password
+    fi
+    install_all_platforms git
+    is_install_successful git --dialog --required
+fi
+
+# curl
+if ! is_already_installed curl
+then
+    installing_message curl
+    if [[ $OS == "arch" || $OS == "ubuntu" && ! $password ]]; then
+        ask_for_password
+    fi
+    install_all_platforms curl
+    is_install_successful curl --dialog --required
+fi
 
 # welcome message
 dialog --title "Welcome" --clear \
