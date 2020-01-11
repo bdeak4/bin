@@ -5,7 +5,7 @@ start_time=$(date +%s)
 
 # os detection
 if [[ $OSTYPE == "linux-gnu" ]]; then
-    distribution=$(grep "^ID" /etc/os-release | awk -F'=' '{print $2}')
+    distribution=$(grep "^ID=" /etc/os-release | awk -F'=' '{print $2}')
     if [[ $distribution == "arch" || $distribution == "ubuntu" ]]; then
         OS="$distribution"
     else
