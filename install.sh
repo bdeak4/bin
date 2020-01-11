@@ -127,6 +127,11 @@ installing_message()
     fi
 }
 
+function_exists() {
+    declare -f -F "$1" &>/dev/null
+    return $?
+}
+
 ask_for_password()
 {
     if command -v dialog &>/dev/null
@@ -234,43 +239,57 @@ preset=$(dialog --title "Default selection" --clear \
     3>&1 1>&2 2>&3 3>&1)
 
 # select programs
-# id  name                        description                    selected
+# package                    bin                         description             platforms           selected
 programs=(
-"1    zsh                         shell                          on on  "
-"2    alacritty                   terminal emulator              on off "
-"3    firefox-developer-edition   web browser                    on off "
-"4    neovim                      text editor                    on on  "
-"5    nnn                         file manager                   on on  "
-"6    fzf                         fuzzy finder                   on on  "
-"7    tmux                        terminal multiplexer           off on "
-"8    neomutt                     email client                   off off"
-"9    zathura                     pdf viewer                     off off"
-"10   xsv                         csv tools                      off off"
-"11   pastel                      color tools                    off off"
-"12   youtube-dl                  youtube downloader             off off"
-"13   autojump                    directory navigation           on on  "
-"14   rg                          better grep                    on on  "
-"15   fd                          better find                    on on  "
-"16   exa                         better ls                      off off"
-"17   bat                         better cat                     off off"
-"18   asciinema                   record terminal                off off"
-"19   htop                        process viewer                 off on "
-"20   bandwhich                   network utilization            off off"
-"21   hyperfine                   cmd benchmark tool             off off"
-"22   neofetch                    system info                    off off"
-"23   bspwm                       tiling window manager, linux   off off"
-"24   sxhkd                       hotkey daemon, linux           off off"
-"25   polybar                     status bar, linux              off off"
+"zsh                         zsh                         shell                   arch ubuntu macos   on on  "
+"alacritty                   alacritty                   terminal emulator       arch ubuntu macos   on off "
+"firefox-developer-edition   firefox-developer-edition   web browser             arch macos          on off "
+"firefox                     firefox                     web browser             ubuntu              on off "
+"neovim                      nvim                        text editor             arch ubuntu macos   on on  "
+"nnn                         nnn                         file manager            arch ubuntu macos   on on  "
+"fzf                         fzf                         fuzzy finder            arch ubuntu macos   on on  "
+"pass                        pass                        password manager        arch ubuntu macos   on off "
+"tmux                        tmux                        terminal multiplexer    arch ubuntu macos   off on "
+"neomutt                     neomutt                     email client            arch ubuntu macos   off off"
+"hub                         hub                         github cli              arch ubuntu macos   on off "
+"ffsend                      ffsend                      firefox send cli        arch macos          on off "
+"zathura                     zathura                     pdf viewer              arch ubuntu         off off"
+"xsv                         xsv                         csv tools               arch ubuntu macos   off off"
+"pastel                      pastel                      color tools             arch ubuntu macos   off off"
+"bcal                        bcal                        calculator              arch ubuntu macos   off off"
+"youtube-dl                  youtube-dl                  youtube downloader      arch ubuntu macos   off off"
+"autojump                    autojump                    directory navigation    arch ubuntu macos   on on  "
+"ripgrep                     rg                          better grep             arch ubuntu macos   on on  "
+"fd                          fd                          better find             arch macos          on off "
+"fd-find                     fd                          better find             ubuntu              on off "
+"exa                         exa                         better ls               arch ubuntu macos   off off"
+"bat                         bat                         better cat              arch ubuntu macos   off off"
+"asciinema                   asciinema                   record terminal         arch ubuntu macos   off off"
+"htop                        htop                        process viewer          arch ubuntu macos   off on "
+"bandwhich                   bandwhich                   network utilization     arch ubuntu macos   off off"
+"hyperfine                   hyperfine                   cmd benchmark tool      arch ubuntu macos   off off"
+"trash-cli                   trash                       trashcan                arch ubuntu macos   on on  "
+"neofetch                    neofetch                    system info             arch ubuntu macos   off off"
+"bspwm                       bspwm                       tiling window manager   arch ubuntu         off off"
+"sxhkd                       sxhkd                       hotkey daemon           arch ubuntu         off off"
+"polybar                     polybar                     status bar              arch ubuntu         off off"
+"xclip                       xclip                       access clipboard        arch ubuntu         off off"
 )
 
 programs_args=()
-for program in "${programs[@]}"; do
-    index=$(echo "$program" | awk -F'[[:space:]][[:space:]][[:space:]]*' '{print $1}')
-    name=$(echo "$program" | awk -F'[[:space:]][[:space:]][[:space:]]*' '{print $2}')
+for index in "${!programs[@]}"; do
+    program=${programs[$index]}
+    package=$(echo "$program" | awk -F'[[:space:]][[:space:]][[:space:]]*' '{print $1}')
     desc=$(echo "$program" | awk -F'[[:space:]][[:space:]][[:space:]]*' '{print $3}')
-    selection=$(echo "$program" | awk -F'[[:space:]][[:space:]][[:space:]]*' '{print $4}')
+    platforms=$(echo "$program" | awk -F'[[:space:]][[:space:]][[:space:]]*' '{print $4}')
+    IFS=' ' read -ra platforms_arr <<< "$platforms"
+    selection=$(echo "$program" | awk -F'[[:space:]][[:space:]][[:space:]]*' '{print $5}')
     selected=$(echo "$selection" | awk -F'[[:space:]]' -v preset="$preset" '{print $preset}')
-    programs_args+=("$index" "$name ($desc)" "$selected")
+
+    if [[ ${platforms_arr[*]} =~ $OS ]]; then
+        programs_args+=("$index" "$package ($desc)" "$selected")
+        ((index++))
+    fi
 done
 
 selected_programs=$(dialog --title "Programs" --clear \
@@ -280,9 +299,9 @@ selected_programs=$(dialog --title "Programs" --clear \
 # clone config repository
 dialog --title "Config" --infobox "Cloning config repository.\n" 0 0
 
-git clone --recursive https://github.com/bartol/config ~/.config/bartol &>/dev/null
+git clone https://github.com/bartol/config ~/.config/bartol &>/dev/null
 
-# program install functions
+# program custom install functions
 zsh_install()
 {
     install_all_platforms zsh
@@ -291,12 +310,14 @@ zsh_install()
     mkdir -p ~/.config/zsh
     ln -s ~/.config/bartol/zsh/.zprofile ~
     ln -s ~/.config/bartol/zsh/.zshrc ~/.config/zsh
-    ln -s ~/.config/bartol/zsh/plugins ~/.config/zsh
-    ln -s ~/.config/bartol/zsh/history ~/.config/zsh
+    touch ~/.config/zsh/history
+    mkdir -p ~/.config/zsh/plugins
+    git clone https://github.com/zsh-users/zsh-autosuggestions \
+        ~/.config/zsh/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting \
+        ~/.config/zsh/plugins/zsh-syntax-highlighting
 
     sudo --login --user "$USER"
-
-    is_install_successful zsh --dialog
 }
 
 alacritty_install()
@@ -305,52 +326,120 @@ alacritty_install()
 
     mkdir -p ~/.config/alacritty
     ln -s ~/.config/bartol/alacritty/alacritty.yml ~/.config/alacritty
-
-    is_install_successful alacritty --dialog
-}
-
-firefox-developer-edition_install()
-{
-    # there is no firefox developer edition in ubuntu packages
-    if [[ $OS == "ubuntu" ]]; then
-        firefox_package="firefox"
-    else
-        firefox_package="firefox-developer-edition"
-    fi
-
-    install_all_platforms $firefox_package
-
-    is_install_successful $firefox_package --dialog
 }
 
 neovim_install()
 {
-    if ! is_already_installed "nvim" --dialog
-    then
-        install_all_platforms neovim
+    install_all_platforms neovim
 
-        mkdir -p ~/.config/nvim
-        ln -s ~/.config/bartol/nvim/init.vim ~/.config/nvim
-        curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
-            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-        nvim -c "PlugInstall" -c ":qa"
+    mkdir -p ~/.config/nvim
+    ln -s ~/.config/bartol/nvim/init.vim ~/.config/nvim
+    curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    nvim -c "PlugInstall" -c ":qa"
+}
 
-        is_install_successful nvim --dialog
-    fi
+tmux_install()
+{
+    install_all_platforms tmux
+
+    ln -s ~/.config/bartol/tmux/.tmux.conf ~
+}
+
+neomutt_install()
+{
+    install_all_platforms neomutt
+
+    mkdir -p ~/.config/neomutt
+    ln -s ~/.config/bartol/neomutt/neomuttrc ~/.config/neomutt
+}
+
+zathura_install()
+{
+    install_all_platforms zathura
+
+    mkdir -p ~/.config/zathura
+    ln -s ~/.config/bartol/zathura/zathurarc ~/.config/zathura
+}
+
+youtube-dl_install()
+{
+    install_all_platforms youtube-dl
+
+    mkdir -p ~/.config/youtube-dl
+    ln -s ~/.config/bartol/youtube-dl/config ~/.config/youtube-dl
+}
+
+ripgrep_install()
+{
+    install_all_platforms ripgrep
+
+    mkdir -p ~/.config/ripgrep
+    ln -s ~/.config/bartol/ripgrep/.ripgreprc ~/.config/ripgrep
+}
+
+bat_install()
+{
+    install_all_platforms bat
+
+    mkdir -p ~/.config/bat
+    ln -s ~/.config/bartol/bat/config ~/.config/bat
+}
+
+asciinema_install()
+{
+    install_all_platforms asciinema
+
+    mkdir -p ~/.config/asciinema
+    ln -s ~/.config/bartol/asciinema/config ~/.config/asciinema
+}
+
+bspwm_install()
+{
+    install_all_platforms bspwm
+
+    mkdir -p ~/.config/bspwm
+    ln -s ~/.config/bartol/bspwm/bspwmrc ~/.config/bspwm
+}
+
+sxhkd_install()
+{
+    install_all_platforms sxhkd
+
+    mkdir -p ~/.config/sxhkd
+    ln -s ~/.config/bartol/sxhkd/sxhkdrc ~/.config/sxhkd
+}
+
+polybar_install()
+{
+    install_all_platforms polybar
+
+    mkdir -p ~/.config/polybar
+    ln -s ~/.config/bartol/polybar/config ~/.config/polybar
 }
 
 # call program functions for all selected, not-installed programs
 IFS=' ' read -ra selected_programs_arr <<< "$selected_programs"
 
-for program_id in "${selected_programs_arr[@]}"
+for id in "${selected_programs_arr[@]}"
 do
-    program=${programs[program_id - 1]}
-    program_name=$(echo "$program" | awk -F'[[:space:]][[:space:]][[:space:]]*' '{print $2}')
-    program_function_sufix="_install"
+    program=${programs[id]}
+    package=$(echo "$program" | awk -F'[[:space:]][[:space:]][[:space:]]*' '{print $1}')
+    bin=$(echo "$program" | awk -F'[[:space:]][[:space:]][[:space:]]*' '{print $2}')
+    package_function_sufix="_install"
 
-    if ! is_already_installed "$program_name" --dialog
+    if ! is_already_installed "$bin" --dialog
     then
-        ("$program_name$program_function_sufix" &>/dev/null)
+        installing_message "$package"
+
+        if function_exists "$package$package_function_sufix"
+        then
+            ("$package$package_function_sufix" &>/dev/null)
+        else
+            install_all_platforms "$package"
+        fi
+
+        is_install_successful "$bin" --dialog
     fi
 done
 
