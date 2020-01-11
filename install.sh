@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# start time counter
+start_time=$(date +%s)
+
 # os detection
 if [[ $OSTYPE == "linux-gnu" ]]; then
     distribution=$(grep "^ID" /etc/os-release | awk -F'=' '{print $2}')
@@ -63,12 +66,14 @@ is_already_installed()
             if command -v dialog &>/dev/null
             then
                 dialog --title "$1" --infobox "Already installed.\n" 0 0
-                sleep 1
+                sleep 2
             else
                 echo "$1" already installed
             fi
         fi
-        echo "$1" >> ~/.config/bartol/already_installed
+        if [[ $3 != '--nowrite' ]]; then
+            echo "$1" >> ~/.config/bartol/already_installed
+        fi
         return 0
     else
         return 1
@@ -83,7 +88,7 @@ is_install_successful()
             if command -v dialog &>/dev/null
             then
                 dialog --title "$1" --infobox "Install succesful.\n" 0 0
-                sleep 1
+                sleep 2
             else
                 echo "$1" install succesful
             fi
@@ -95,7 +100,7 @@ is_install_successful()
             if command -v dialog &>/dev/null
             then
                 dialog --title "$1" --infobox "Install failed.\n" 0 0
-                sleep 1
+                sleep 2
             else
                 echo "$1" install failed
             fi
@@ -170,18 +175,18 @@ touch ~/.config/bartol/already_installed
 # install required programs
 # brew
 if [[ $OS == "macos" ]]; then
-    if ! is_already_installed brew
+    if ! is_already_installed brew --nodialog --nowrite
     then
-        installing_message brew
+        installing_message brew --required
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         is_install_successful brew --dialog --required
     fi
 fi
 
 # dialog
-if ! is_already_installed dialog
+if ! is_already_installed dialog --nodialog --nowrite
 then
-    installing_message dialog
+    installing_message dialog --required
     if [[ $OS == "arch" || $OS == "ubuntu"  && ! $password ]]; then
         ask_for_password
     fi
@@ -190,9 +195,9 @@ then
 fi
 
 # git
-if ! is_already_installed git
+if ! is_already_installed git --nodialog --nowrite
 then
-    installing_message git
+    installing_message git --required
     if [[ $OS == "arch" || $OS == "ubuntu" && ! $password ]]; then
         ask_for_password
     fi
@@ -201,9 +206,9 @@ then
 fi
 
 # curl
-if ! is_already_installed curl
+if ! is_already_installed curl --nodialog --nowrite
 then
-    installing_message curl
+    installing_message curl --required
     if [[ $OS == "arch" || $OS == "ubuntu" && ! $password ]]; then
         ask_for_password
     fi
@@ -243,7 +248,7 @@ preset=$(dialog --title "Default selection" --clear \
 programs=(
 "zsh                         zsh                         shell                   arch ubuntu macos   on on  "
 "alacritty                   alacritty                   terminal emulator       arch ubuntu macos   on off "
-"firefox-developer-edition   firefox-developer-edition   web browser             arch macos          on off "
+"firefox_developer_edition   firefox-developer-edition   web browser             arch macos          on off "
 "firefox                     firefox                     web browser             ubuntu              on off "
 "neovim                      nvim                        text editor             arch ubuntu macos   on on  "
 "nnn                         nnn                         file manager            arch ubuntu macos   on on  "
@@ -257,7 +262,7 @@ programs=(
 "xsv                         xsv                         csv tools               arch ubuntu macos   off off"
 "pastel                      pastel                      color tools             arch ubuntu macos   off off"
 "bcal                        bcal                        calculator              arch ubuntu macos   off off"
-"youtube-dl                  youtube-dl                  youtube downloader      arch ubuntu macos   off off"
+"youtube_dl                  youtube-dl                  youtube downloader      arch ubuntu macos   off off"
 "autojump                    autojump                    directory navigation    arch ubuntu macos   on on  "
 "ripgrep                     rg                          better grep             arch ubuntu macos   on on  "
 "fd                          fd                          better find             arch macos          on off "
@@ -274,6 +279,7 @@ programs=(
 "sxhkd                       sxhkd                       hotkey daemon           arch ubuntu         off off"
 "polybar                     polybar                     status bar              arch ubuntu         off off"
 "xclip                       xclip                       access clipboard        arch ubuntu         off off"
+"maim                        maim                        take screenshot         arch ubuntu         off off"
 )
 
 programs_args=()
@@ -336,7 +342,7 @@ neovim_install()
     ln -s ~/.config/bartol/nvim/init.vim ~/.config/nvim
     curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    nvim -c "PlugInstall" -c ":qa"
+    nvim -c "PlugInstall" -c ":qa" &>/dev/null
 }
 
 tmux_install()
@@ -362,7 +368,7 @@ zathura_install()
     ln -s ~/.config/bartol/zathura/zathurarc ~/.config/zathura
 }
 
-youtube-dl_install()
+youtube_dl_install()
 {
     install_all_platforms youtube-dl
 
@@ -445,10 +451,69 @@ done
 
 clear
 
-cat ~/.config/bartol/successful_installs
-cat ~/.config/bartol/failed_installs
-cat ~/.config/bartol/already_installed
+# exit message
+echo
+echo "  Script finished, thanks for using it!"
+echo
 
+if  [ -s ~/.config/bartol/successful_installs ]
+then
+    echo "  Successful installs:"
+    awk '{ print "  - " $0 }' ~/.config/bartol/successful_installs
+    echo
+fi
+
+if  [ -s ~/.config/bartol/failed_installs ]
+then
+    echo "  Failed installs:"
+    awk '{ print "  - " $0 }' ~/.config/bartol/failed_installs
+    echo
+fi
+
+if  [ -s ~/.config/bartol/already_installed ]
+then
+    echo "  Already installed:"
+    awk '{ print "  - " $0 }' ~/.config/bartol/already_installed
+    echo
+fi
+
+# end time counter
+end_time=$(date +%s)
+
+# elapsed time
+elapsed_time=$((end_time - start_time))
+if ((elapsed_time > 60))
+then
+    minutes=$((elapsed_time / 60))
+    seconds=$((elapsed_time % 60))
+
+    if ((minutes == 1))
+    then
+        minutes_text="minute"
+    else
+        minutes_text="minutes"
+    fi
+    if ((seconds == 1))
+    then
+        seconds_text="second"
+    else
+        seconds_text="seconds"
+    fi
+
+    echo "  Elapsed time: $minutes $minutes_text and $seconds $seconds_text"
+else
+    if ((elapsed_time == 1))
+    then
+        seconds_text="second"
+    else
+        seconds_text="seconds"
+    fi
+
+    echo "  Elapsed time: $elapsed_time $seconds_text"
+fi
+echo
+
+# remove tmp dirs
 rm ~/.config/bartol/successful_installs
 rm ~/.config/bartol/failed_installs
 rm ~/.config/bartol/already_installed
