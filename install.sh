@@ -145,7 +145,8 @@ ask_for_password()
             --passwordbox "Enter password current user:" 8 40 \
             3>&1 1>&2 2>&3 3>&1)
     else
-        read -r -s -p "Password:" password
+        echo -n Password:
+        read -r -s password
     fi
 
     # verify
