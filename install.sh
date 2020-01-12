@@ -72,7 +72,7 @@ is_already_installed()
             fi
         fi
         if [[ $3 != '--nowrite' ]]; then
-            echo "$1" >> "$HOME"/.config/bartol/already_installed
+            echo "$1" >> "$HOME"/config_install_stats_please_delete/already_installed
         fi
         return 0
     else
@@ -93,7 +93,7 @@ is_install_successful()
                 echo "$1" install succesful
             fi
         fi
-        echo "$1" >> "$HOME"/.config/bartol/successful_installs
+        echo "$1" >> "$HOME"/config_install_stats_please_delete/successful_installs
         return 0
     else
         if [[ $2 == '--dialog' ]]; then
@@ -105,7 +105,7 @@ is_install_successful()
                 echo "$1" install failed
             fi
         fi
-        echo "$1" >> "$HOME"/.config/bartol/failed_installs
+        echo "$1" >> "$HOME"/config_install_stats_please_delete/failed_installs
         if [[ $3 == '--required' ]]; then
             exit 1
         fi
@@ -165,12 +165,15 @@ ask_for_password()
 }
 
 # prep for script
-mkdir -p "$HOME"/.config/bartol
+mkdir -p "$HOME"/config_install_stats_please_delete
 
 # program stats init
-touch "$HOME"/.config/bartol/successful_installs
-touch "$HOME"/.config/bartol/failed_installs
-touch "$HOME"/.config/bartol/already_installed
+touch "$HOME"/config_install_stats_please_delete/successful_installs
+touch "$HOME"/config_install_stats_please_delete/failed_installs
+touch "$HOME"/config_install_stats_please_delete/already_installed
+
+# init password var
+password=""
 
 # install required programs
 # brew
@@ -188,7 +191,7 @@ if ! is_already_installed dialog --nodialog --nowrite
 then
     installing_message dialog --required
     if [[ $OS == "arch" || $OS == "ubuntu" ]]; then
-        if ! [[ $password ]]; then
+        if [[ -z $password ]]; then
             ask_for_password
         fi
     fi
@@ -201,7 +204,7 @@ if ! is_already_installed git --nodialog --nowrite
 then
     installing_message git --required
     if [[ $OS == "arch" || $OS == "ubuntu" ]]; then
-        if ! [[ $password ]]; then
+        if [[ -z $password ]]; then
             ask_for_password
         fi
     fi
@@ -214,7 +217,7 @@ if ! is_already_installed curl --nodialog --nowrite
 then
     installing_message curl --required
     if [[ $OS == "arch" || $OS == "ubuntu" ]]; then
-        if ! [[ $password ]]; then
+        if [[ -z $password ]]; then
             ask_for_password
         fi
     fi
@@ -238,7 +241,7 @@ then
 fi
 
 # user password
-if ! [[ $password ]]; then
+if [[ -z $password ]]; then
     ask_for_password
 fi
 
@@ -460,24 +463,24 @@ echo
 echo "  Script finished, thanks for using it!"
 echo
 
-if  [ -s "$HOME"/.config/bartol/successful_installs ]
+if  [ -s "$HOME"/config_install_stats_please_delete/successful_installs ]
 then
     echo "  Successful installs:"
-    awk '{ print "  - " $0 }' "$HOME"/.config/bartol/successful_installs
+    awk '{ print "  - " $0 }' "$HOME"/config_install_stats_please_delete/successful_installs
     echo
 fi
 
-if  [ -s "$HOME"/.config/bartol/failed_installs ]
+if  [ -s "$HOME"/config_install_stats_please_delete/failed_installs ]
 then
     echo "  Failed installs:"
-    awk '{ print "  - " $0 }' "$HOME"/.config/bartol/failed_installs
+    awk '{ print "  - " $0 }' "$HOME"/config_install_stats_please_delete/failed_installs
     echo
 fi
 
-if  [ -s "$HOME"/.config/bartol/already_installed ]
+if  [ -s "$HOME"/config_install_stats_please_delete/already_installed ]
 then
     echo "  Already installed:"
-    awk '{ print "  - " $0 }' "$HOME"/.config/bartol/already_installed
+    awk '{ print "  - " $0 }' "$HOME"/config_install_stats_please_delete/already_installed
     echo
 fi
 
@@ -518,8 +521,6 @@ fi
 echo
 
 # remove tmp
-rm "$HOME"/.config/bartol/successful_installs
-rm "$HOME"/.config/bartol/failed_installs
-rm "$HOME"/.config/bartol/already_installed
+rm -rf "$HOME"/config_install_stats_please_delete
 
 exit 0
