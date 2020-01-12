@@ -187,8 +187,10 @@ fi
 if ! is_already_installed dialog --nodialog --nowrite
 then
     installing_message dialog --required
-    if [[ $OS == "arch" || $OS == "ubuntu"  && ! $password ]]; then
-        ask_for_password
+    if [[ $OS == "arch" || $OS == "ubuntu" ]]; then
+        if ! [[ $password ]]; then
+            ask_for_password
+        fi
     fi
     install_all_platforms dialog
     is_install_successful dialog --dialog --required
@@ -198,8 +200,10 @@ fi
 if ! is_already_installed git --nodialog --nowrite
 then
     installing_message git --required
-    if [[ $OS == "arch" || $OS == "ubuntu" && ! $password ]]; then
-        ask_for_password
+    if [[ $OS == "arch" || $OS == "ubuntu" ]]; then
+        if ! [[ $password ]]; then
+            ask_for_password
+        fi
     fi
     install_all_platforms git
     is_install_successful git --dialog --required
@@ -209,8 +213,10 @@ fi
 if ! is_already_installed curl --nodialog --nowrite
 then
     installing_message curl --required
-    if [[ $OS == "arch" || $OS == "ubuntu" && ! $password ]]; then
-        ask_for_password
+    if [[ $OS == "arch" || $OS == "ubuntu" ]]; then
+        if ! [[ $password ]]; then
+            ask_for_password
+        fi
     fi
     install_all_platforms curl
     is_install_successful curl --dialog --required
@@ -232,7 +238,7 @@ then
 fi
 
 # user password
-if [[ ! $password ]]; then
+if ! [[ $password ]]; then
     ask_for_password
 fi
 
@@ -249,7 +255,7 @@ programs=(
 "zsh                         zsh                         shell                   arch ubuntu macos   on on  "
 "alacritty                   alacritty                   terminal emulator       arch ubuntu macos   on off "
 "firefox_developer_edition   firefox-developer-edition   web browser             arch macos          on off "
-"firefox                     firefox                     web browser             ubuntu              on off "
+# "firefox                     firefox                     web browser             ubuntu              on off "
 "neovim                      nvim                        text editor             arch ubuntu macos   on on  "
 "nnn                         nnn                         file manager            arch ubuntu macos   on on  "
 "fzf                         fzf                         fuzzy finder            arch ubuntu macos   on on  "
@@ -258,7 +264,7 @@ programs=(
 "neomutt                     neomutt                     email client            arch ubuntu macos   off off"
 "hub                         hub                         github cli              arch ubuntu macos   on off "
 "ffsend                      ffsend                      firefox send cli        arch macos          on off "
-"zathura                     zathura                     pdf viewer              arch ubuntu         off off"
+# "zathura                     zathura                     pdf viewer              arch ubuntu         off off"
 "xsv                         xsv                         csv tools               arch ubuntu macos   off off"
 "pastel                      pastel                      color tools             arch ubuntu macos   off off"
 "bcal                        bcal                        calculator              arch ubuntu macos   off off"
@@ -266,7 +272,7 @@ programs=(
 "autojump                    autojump                    directory navigation    arch ubuntu macos   on on  "
 "ripgrep                     rg                          better grep             arch ubuntu macos   on on  "
 "fd                          fd                          better find             arch macos          on off "
-"fd-find                     fd                          better find             ubuntu              on off "
+"fd-find                     fdfind                      better find             ubuntu              on off "
 "exa                         exa                         better ls               arch ubuntu macos   off off"
 "bat                         bat                         better cat              arch ubuntu macos   off off"
 "asciinema                   asciinema                   record terminal         arch ubuntu macos   off off"
@@ -275,11 +281,11 @@ programs=(
 "hyperfine                   hyperfine                   cmd benchmark tool      arch ubuntu macos   off off"
 "trash-cli                   trash                       trashcan                arch ubuntu macos   on on  "
 "neofetch                    neofetch                    system info             arch ubuntu macos   off off"
-"bspwm                       bspwm                       tiling window manager   arch ubuntu         off off"
-"sxhkd                       sxhkd                       hotkey daemon           arch ubuntu         off off"
-"polybar                     polybar                     status bar              arch ubuntu         off off"
-"xclip                       xclip                       access clipboard        arch ubuntu         off off"
-"maim                        maim                        take screenshot         arch ubuntu         off off"
+# "bspwm                       bspwm                       tiling window manager   arch ubuntu         off off"
+# "sxhkd                       sxhkd                       hotkey daemon           arch ubuntu         off off"
+# "polybar                     polybar                     status bar              arch ubuntu         off off"
+# "xclip                       xclip                       access clipboard        arch ubuntu         off off"
+# "maim                        maim                        take screenshot         arch ubuntu         off off"
 )
 
 programs_args=()
@@ -322,8 +328,6 @@ zsh_install()
         ~/.config/zsh/plugins/zsh-autosuggestions
     git clone https://github.com/zsh-users/zsh-syntax-highlighting \
         ~/.config/zsh/plugins/zsh-syntax-highlighting
-
-    sudo --login --user "$USER"
 }
 
 alacritty_install()
@@ -513,7 +517,7 @@ else
 fi
 echo
 
-# remove tmp dirs
+# remove tmp
 rm ~/.config/bartol/successful_installs
 rm ~/.config/bartol/failed_installs
 rm ~/.config/bartol/already_installed
