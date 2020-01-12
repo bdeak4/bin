@@ -57,12 +57,12 @@ export FZF_DEFAULT_OPTS="
 
 _gen_fzf_default_opts
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f "$HOME"/.fzf.zsh ] && source "$HOME"/.fzf.zsh
 
 # nnn
 
 # bookmarks
-export NNN_BMS='d:~/dev/;D:~/downloads/;c:~/.config/;s:~/scripts/'
+export NNN_BMS='d:$HOME/dev/;D:$HOME/downloads/;c:$HOME/.config/;s:$HOME/scripts/'
 
 # different colors for every context
 export NNN_CONTEXT_COLORS='4231'

@@ -1,5 +1,5 @@
-export ZDOTDIR="~/.config/zsh"
-export RIPGREP_CONFIG_PATH="~/.config/ripgrep"
+export ZDOTDIR=""$HOME"/.config/zsh"
+export RIPGREP_CONFIG_PATH=""$HOME"/.config/ripgrep"
 
 export EDITOR="nvim"
 export TERMINAL="alacritty"

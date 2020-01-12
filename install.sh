@@ -72,7 +72,7 @@ is_already_installed()
             fi
         fi
         if [[ $3 != '--nowrite' ]]; then
-            echo "$1" >> ~/.config/bartol/already_installed
+            echo "$1" >> "$HOME"/.config/bartol/already_installed
         fi
         return 0
     else
@@ -93,7 +93,7 @@ is_install_successful()
                 echo "$1" install succesful
             fi
         fi
-        echo "$1" >> ~/.config/bartol/successful_installs
+        echo "$1" >> "$HOME"/.config/bartol/successful_installs
         return 0
     else
         if [[ $2 == '--dialog' ]]; then
@@ -105,7 +105,7 @@ is_install_successful()
                 echo "$1" install failed
             fi
         fi
-        echo "$1" >> ~/.config/bartol/failed_installs
+        echo "$1" >> "$HOME"/.config/bartol/failed_installs
         if [[ $3 == '--required' ]]; then
             exit 1
         fi
@@ -165,12 +165,12 @@ ask_for_password()
 }
 
 # prep for script
-mkdir -p ~/.config/bartol
+mkdir -p "$HOME"/.config/bartol
 
 # program stats init
-touch ~/.config/bartol/successful_installs
-touch ~/.config/bartol/failed_installs
-touch ~/.config/bartol/already_installed
+touch "$HOME"/.config/bartol/successful_installs
+touch "$HOME"/.config/bartol/failed_installs
+touch "$HOME"/.config/bartol/already_installed
 
 # install required programs
 # brew
@@ -311,7 +311,7 @@ selected_programs=$(dialog --title "Programs" --clear \
 # clone config repository
 dialog --title "Config" --infobox "Cloning config repository.\n" 0 0
 
-git clone https://github.com/bartol/config ~/.config/bartol &>/dev/null
+git clone https://github.com/bartol/config "$HOME"/.config/bartol &>/dev/null
 
 # program custom install functions
 zsh_install()
@@ -319,32 +319,32 @@ zsh_install()
     install_all_platforms zsh
     echo "$password" | sudo -S chsh -s "$(command -v zsh)" "$USER"
 
-    mkdir -p ~/.config/zsh
-    ln -s ~/.config/bartol/zsh/.zprofile ~
-    ln -s ~/.config/bartol/zsh/.zshrc ~/.config/zsh
-    touch ~/.config/zsh/history
-    mkdir -p ~/.config/zsh/plugins
+    mkdir -p "$HOME"/.config/zsh
+    ln -s "$HOME"/.config/bartol/zsh/.zprofile "$HOME"
+    ln -s "$HOME"/.config/bartol/zsh/.zshrc "$HOME"/.config/zsh
+    touch "$HOME"/.config/zsh/history
+    mkdir -p "$HOME"/.config/zsh/plugins
     git clone https://github.com/zsh-users/zsh-autosuggestions \
-        ~/.config/zsh/plugins/zsh-autosuggestions
+        "$HOME"/.config/zsh/plugins/zsh-autosuggestions
     git clone https://github.com/zsh-users/zsh-syntax-highlighting \
-        ~/.config/zsh/plugins/zsh-syntax-highlighting
+        "$HOME"/.config/zsh/plugins/zsh-syntax-highlighting
 }
 
 alacritty_install()
 {
     install_all_platforms alacritty
 
-    mkdir -p ~/.config/alacritty
-    ln -s ~/.config/bartol/alacritty/alacritty.yml ~/.config/alacritty
+    mkdir -p "$HOME"/.config/alacritty
+    ln -s "$HOME"/.config/bartol/alacritty/alacritty.yml "$HOME"/.config/alacritty
 }
 
 neovim_install()
 {
     install_all_platforms neovim
 
-    mkdir -p ~/.config/nvim
-    ln -s ~/.config/bartol/nvim/init.vim ~/.config/nvim
-    curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+    mkdir -p "$HOME"/.config/nvim
+    ln -s "$HOME"/.config/bartol/nvim/init.vim "$HOME"/.config/nvim
+    curl -fLo "$HOME"/.config/nvim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     nvim -c "PlugInstall" -c ":qa" &>/dev/null
 }
@@ -353,79 +353,79 @@ tmux_install()
 {
     install_all_platforms tmux
 
-    ln -s ~/.config/bartol/tmux/.tmux.conf ~
+    ln -s "$HOME"/.config/bartol/tmux/.tmux.conf "$HOME"
 }
 
 neomutt_install()
 {
     install_all_platforms neomutt
 
-    mkdir -p ~/.config/neomutt
-    ln -s ~/.config/bartol/neomutt/neomuttrc ~/.config/neomutt
+    mkdir -p "$HOME"/.config/neomutt
+    ln -s "$HOME"/.config/bartol/neomutt/neomuttrc "$HOME"/.config/neomutt
 }
 
 zathura_install()
 {
     install_all_platforms zathura
 
-    mkdir -p ~/.config/zathura
-    ln -s ~/.config/bartol/zathura/zathurarc ~/.config/zathura
+    mkdir -p "$HOME"/.config/zathura
+    ln -s "$HOME"/.config/bartol/zathura/zathurarc "$HOME"/.config/zathura
 }
 
 youtube_dl_install()
 {
     install_all_platforms youtube-dl
 
-    mkdir -p ~/.config/youtube-dl
-    ln -s ~/.config/bartol/youtube-dl/config ~/.config/youtube-dl
+    mkdir -p "$HOME"/.config/youtube-dl
+    ln -s "$HOME"/.config/bartol/youtube-dl/config "$HOME"/.config/youtube-dl
 }
 
 ripgrep_install()
 {
     install_all_platforms ripgrep
 
-    mkdir -p ~/.config/ripgrep
-    ln -s ~/.config/bartol/ripgrep/.ripgreprc ~/.config/ripgrep
+    mkdir -p "$HOME"/.config/ripgrep
+    ln -s "$HOME"/.config/bartol/ripgrep/.ripgreprc "$HOME"/.config/ripgrep
 }
 
 bat_install()
 {
     install_all_platforms bat
 
-    mkdir -p ~/.config/bat
-    ln -s ~/.config/bartol/bat/config ~/.config/bat
+    mkdir -p "$HOME"/.config/bat
+    ln -s "$HOME"/.config/bartol/bat/config "$HOME"/.config/bat
 }
 
 asciinema_install()
 {
     install_all_platforms asciinema
 
-    mkdir -p ~/.config/asciinema
-    ln -s ~/.config/bartol/asciinema/config ~/.config/asciinema
+    mkdir -p "$HOME"/.config/asciinema
+    ln -s "$HOME"/.config/bartol/asciinema/config "$HOME"/.config/asciinema
 }
 
 bspwm_install()
 {
     install_all_platforms bspwm
 
-    mkdir -p ~/.config/bspwm
-    ln -s ~/.config/bartol/bspwm/bspwmrc ~/.config/bspwm
+    mkdir -p "$HOME"/.config/bspwm
+    ln -s "$HOME"/.config/bartol/bspwm/bspwmrc "$HOME"/.config/bspwm
 }
 
 sxhkd_install()
 {
     install_all_platforms sxhkd
 
-    mkdir -p ~/.config/sxhkd
-    ln -s ~/.config/bartol/sxhkd/sxhkdrc ~/.config/sxhkd
+    mkdir -p "$HOME"/.config/sxhkd
+    ln -s "$HOME"/.config/bartol/sxhkd/sxhkdrc "$HOME"/.config/sxhkd
 }
 
 polybar_install()
 {
     install_all_platforms polybar
 
-    mkdir -p ~/.config/polybar
-    ln -s ~/.config/bartol/polybar/config ~/.config/polybar
+    mkdir -p "$HOME"/.config/polybar
+    ln -s "$HOME"/.config/bartol/polybar/config "$HOME"/.config/polybar
 }
 
 # call program functions for all selected, not-installed programs
@@ -460,24 +460,24 @@ echo
 echo "  Script finished, thanks for using it!"
 echo
 
-if  [ -s ~/.config/bartol/successful_installs ]
+if  [ -s "$HOME"/.config/bartol/successful_installs ]
 then
     echo "  Successful installs:"
-    awk '{ print "  - " $0 }' ~/.config/bartol/successful_installs
+    awk '{ print "  - " $0 }' "$HOME"/.config/bartol/successful_installs
     echo
 fi
 
-if  [ -s ~/.config/bartol/failed_installs ]
+if  [ -s "$HOME"/.config/bartol/failed_installs ]
 then
     echo "  Failed installs:"
-    awk '{ print "  - " $0 }' ~/.config/bartol/failed_installs
+    awk '{ print "  - " $0 }' "$HOME"/.config/bartol/failed_installs
     echo
 fi
 
-if  [ -s ~/.config/bartol/already_installed ]
+if  [ -s "$HOME"/.config/bartol/already_installed ]
 then
     echo "  Already installed:"
-    awk '{ print "  - " $0 }' ~/.config/bartol/already_installed
+    awk '{ print "  - " $0 }' "$HOME"/.config/bartol/already_installed
     echo
 fi
 
@@ -518,8 +518,8 @@ fi
 echo
 
 # remove tmp
-rm ~/.config/bartol/successful_installs
-rm ~/.config/bartol/failed_installs
-rm ~/.config/bartol/already_installed
+rm "$HOME"/.config/bartol/successful_installs
+rm "$HOME"/.config/bartol/failed_installs
+rm "$HOME"/.config/bartol/already_installed
 
 exit 0

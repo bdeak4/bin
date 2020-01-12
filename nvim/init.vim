@@ -1,6 +1,6 @@
 """ plugins
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 Plug 'sheerun/vim-polyglot'                                       " syntax
 Plug 'dense-analysis/ale'                                         " linter
 Plug 'junegunn/fzf'                                               " fuzzy search install
