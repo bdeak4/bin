@@ -63,10 +63,6 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-n> :bnext<CR>
 nnoremap <C-p> :bprev<CR>
 
-" quickfix list navigation
-nnoremap ]q :cnext<CR>
-nnoremap [q :cprev<CR>
-
 " put vim in background
 nnoremap , <C-z>
 
@@ -129,8 +125,6 @@ let g:gitgutter_sign_removed = '▎'
 let g:gitgutter_sign_modified_removed = '▎'
 let g:gitgutter_sign_removed_first_line = '▎'
 let g:gitgutter_sign_removed_above_and_below = '▎'
-nnoremap ]h <Plug>(GitGutterNextHunk)
-nnoremap [h <Plug>(GitGutterPrevHunk)
 
 " ale
 let g:ale_fix_on_save = 1
@@ -144,8 +138,6 @@ let g:ale_fixers = {
 nnoremap gd :<C-u>ALEGoToDefinition<CR>
 nnoremap gr :<C-u>ALEFindReferences<CR>
 nnoremap gh :<C-u>ALEHover<CR>
-nnoremap ]w <Plug>(ale_next)
-nnoremap [w <Plug>(ale_previous)
 
 " clever-f.vim
 let g:clever_f_smart_case = 1

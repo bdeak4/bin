@@ -15,7 +15,7 @@ font:
     family: Dank Mono
     style: Italic
 
-  size: 16.0
+  size: 14.0
 
 # Color scheme (base16 default dark)
 colors:

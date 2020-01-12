@@ -1,9 +1,0 @@
-#!/bin/sh
-
-### configurations
-
-# fzf
-[ -f "$HOME/.config/fzf/config" ] && source "$HOME/.config/fzf/config"
-
-# nnn
-[ -f "$HOME/.config/nnn/config" ] && source "$HOME/.config/nnn/config"
