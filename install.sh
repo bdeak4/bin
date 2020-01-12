@@ -346,7 +346,7 @@ neovim_install()
     ln -s "$HOME"/.config/bartol/nvim/init.vim "$HOME"/.config/nvim
     curl -fLo "$HOME"/.config/nvim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    nvim -c "PlugInstall" -c ":qa" &>/dev/null
+    nvim -V0 -c "PlugInstall" -c ":qa" &>/dev/null
 }
 
 tmux_install()
