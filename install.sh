@@ -36,12 +36,12 @@ fi
 # package install helpers
 arch()
 {
-    echo "$password" | sudo -S pacman -S "$1" --noconfirm &>/dev/null
+    sudo pacman -S "$1" --noconfirm &>/dev/null
 }
 
 ubuntu()
 {
-    echo "$password" | sudo -S apt-get update &>/dev/null;echo "$password" | sudo -S apt-get install "$1" -y &>/dev/null
+    sudo apt-get update &>/dev/null;sudo apt-get install "$1" -y &>/dev/null
 }
 
 macos()
@@ -137,34 +137,6 @@ function_exists() {
     return $?
 }
 
-ask_for_password()
-{
-    if command -v dialog &>/dev/null
-    then
-        password=$(dialog --title "Password" --clear --insecure \
-            --passwordbox "Enter password current user:" 8 40 \
-            3>&1 1>&2 2>&3 3>&1)
-    else
-        echo -n Password:
-        read -r -s password
-    fi
-
-    # verify
-    if ! echo "$password" | sudo -Skv &>/dev/null
-    then
-        if command -v dialog &>/dev/null
-        then
-            dialog --title "Error: User login" --clear \
-                --msgbox "Password is incorrect or user doesn't have root privileges." 6 35
-            clear
-        else
-            echo Error: User login
-            echo "Password is incorrect or user doesn't have root privileges."
-        fi
-        exit 1
-    fi
-}
-
 # prep for script
 mkdir -p "$HOME"/config_install_stats_please_delete
 
@@ -172,9 +144,6 @@ mkdir -p "$HOME"/config_install_stats_please_delete
 touch "$HOME"/config_install_stats_please_delete/successful_installs
 touch "$HOME"/config_install_stats_please_delete/failed_installs
 touch "$HOME"/config_install_stats_please_delete/already_installed
-
-# init password var
-password=""
 
 # install required programs
 # brew
@@ -191,11 +160,6 @@ fi
 if ! is_already_installed dialog --nodialog --nowrite
 then
     installing_message dialog --required
-    if [[ $OS == "arch" || $OS == "ubuntu" ]]; then
-        if [[ -z $password ]]; then
-            ask_for_password
-        fi
-    fi
     install_all_platforms dialog
     is_install_successful dialog --dialog --required
 fi
@@ -204,11 +168,6 @@ fi
 if ! is_already_installed git --nodialog --nowrite
 then
     installing_message git --required
-    if [[ $OS == "arch" || $OS == "ubuntu" ]]; then
-        if [[ -z $password ]]; then
-            ask_for_password
-        fi
-    fi
     install_all_platforms git
     is_install_successful git --dialog --required
 fi
@@ -217,11 +176,6 @@ fi
 if ! is_already_installed curl --nodialog --nowrite
 then
     installing_message curl --required
-    if [[ $OS == "arch" || $OS == "ubuntu" ]]; then
-        if [[ -z $password ]]; then
-            ask_for_password
-        fi
-    fi
     install_all_platforms curl
     is_install_successful curl --dialog --required
 fi
@@ -239,11 +193,6 @@ then
         --msgbox "" 0 0
     clear
     exit 1
-fi
-
-# user password
-if [[ -z $password ]]; then
-    ask_for_password
 fi
 
 # default selection preset
@@ -321,7 +270,7 @@ git clone https://github.com/bartol/config "$HOME"/.config/bartol &>/dev/null
 zsh_install()
 {
     install_all_platforms zsh
-    echo "$password" | sudo -S chsh -s "$(command -v zsh)" "$USER"
+    sudo chsh -s "$(command -v zsh)" "$USER"
 
     mkdir -p "$HOME"/.config/zsh
     ln -s "$HOME"/.config/bartol/zsh/.zprofile "$HOME"
