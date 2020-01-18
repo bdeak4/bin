@@ -228,7 +228,10 @@ zsh_install()
 
 alacritty_install()
 {
-    if command -v alacritty &>/dev/null; then
+    if ([[ $OS != "macos" ]] &&
+        ! command -v alacritty &>/dev/null) ||
+        ([[ $OS == "macos" ]] &&
+        ! brew cask list | grep -q alacritty); then
         echo "    Installing..."
         case "$OS" in
             "arch")   install_with_pacman alacritty;;
