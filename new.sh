@@ -3,12 +3,12 @@
 # os detection
 if [[ $OSTYPE == "linux-gnu" ]]; then
     distribution=$(grep "^ID=" /etc/os-release | awk -F'=' '{print $2}')
-    if [[ $distribution == "arch" || $distribution == "ubuntu" ]]; then
+    if [[ $distribution == "arch" ]]; then
         OS="$distribution"
     else
         clear
         printf "\n    Error: Distribution not supported\n
-    Sorry, Arch and Ubuntu are only supported Linux distributions.
+    Sorry, Arch is the only supported Linux distributions.
     Feel free to open pull request and add your favorite distribution.
     https://github.com/bartol/config/issues/new/\n\n"
         exit 1
@@ -18,7 +18,7 @@ elif [[ $OSTYPE == "darwin"* ]]; then
 else
     clear
     printf "\n    Error: OS not supported\n
-    Sorry, Arch, Ubuntu and MacOS are only supported Operating Systems.
+    Sorry, Arch and MacOS are only supported Operating Systems.
     Feel free to open pull request and add your favorite OS.
     https://github.com/bartol/config/issues/new/\n\n"
     exit 1
@@ -95,11 +95,6 @@ install_with_pacman()
     sudo pacman -S "$1" --noconfirm &>/dev/null
 }
 
-install_with_aptget()
-{
-    sudo apt-get update &>/dev/null;sudo apt-get install "$1" -y &>/dev/null
-}
-
 install_with_brew()
 {
     brew install "$1" &>/dev/null
@@ -151,7 +146,6 @@ fi
 if ! command -v git &>/dev/null; then
     case "$OS" in
         "arch")   install_with_pacman git;;
-        "ubuntu") install_with_aptget git;;
         "macos")  install_with_brew git;;
     esac
 
@@ -165,7 +159,6 @@ fi
 if ! command -v curl &>/dev/null; then
     case "$OS" in
         "arch")   install_with_pacman curl;;
-        "ubuntu") install_with_aptget curl;;
         "macos")  install_with_brew curl;;
     esac
 
@@ -189,7 +182,6 @@ zsh_install()
         echo "    Installing..."
         case "$OS" in
             "arch")   install_with_pacman zsh;;
-            "ubuntu") install_with_aptget zsh;;
             "macos")  install_with_brew zsh;;
         esac
 
@@ -235,7 +227,6 @@ alacritty_install()
         echo "    Installing..."
         case "$OS" in
             "arch")   install_with_pacman alacritty;;
-            "ubuntu") install_with_aptget alacritty;;
             "macos")  install_with_brewcask alacritty;;
         esac
 
@@ -267,7 +258,6 @@ neovim_install()
         echo "    Installing..."
         case "$OS" in
             "arch")   install_with_pacman neovim;;
-            "ubuntu") install_with_aptget neovim;;
             "macos")  install_with_brew neovim;;
         esac
 
@@ -305,7 +295,6 @@ nnn_install()
         echo "    Installing..."
         case "$OS" in
             "arch")   install_with_pacman nnn;;
-            "ubuntu") install_with_aptget nnn;;
             "macos")  install_with_brew nnn;;
         esac
 
@@ -331,7 +320,6 @@ fzf_install()
         echo "    Installing..."
         case "$OS" in
             "arch")   install_with_pacman fzf;;
-            "ubuntu") install_with_aptget fzf;;
             "macos")  install_with_brew fzf;;
         esac
 
