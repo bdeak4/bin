@@ -3,5 +3,5 @@
 Install with script:
 
 ```
-sudo bash -c "$(curl -sSL https://bartol.dev/install.sh)
+sudo bash -c "$(curl -sSL https://bartol.dev/install.sh)"
 ```
