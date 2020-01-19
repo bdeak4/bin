@@ -1,48 +1,47 @@
 """ plugins
 
 call plug#begin('~/.config/nvim/plugged')
-Plug 'sheerun/vim-polyglot'                                       " syntax
-Plug 'dense-analysis/ale'                                         " linter
-Plug 'junegunn/fzf'                                               " fuzzy search install
-Plug 'junegunn/fzf.vim'                                           " fuzzy search
-Plug 'airblade/vim-gitgutter'                                     " git status
-Plug 'itchyny/lightline.vim'                                      " status line
-Plug 'tpope/vim-sleuth'                                           " tab width based on file
-Plug 'machakann/vim-sandwich'                                     " change quotes
-Plug 'rhysd/clever-f.vim'                                         " better f/t
-Plug 'reedes/vim-pencil'                                          " writing
-Plug 'tpope/vim-commentary'                                       " comments
-Plug 'meain/vim-printer'                                          " print variable
-Plug 'airblade/vim-rooter'                                        " cd to nearest root dir
-Plug 'chriskempson/base16-vim'                                    " color scheme
-Plug 'ap/vim-css-color'                                           " highlight colors
+Plug 'sheerun/vim-polyglot'                      " syntax highlighting
+Plug 'dense-analysis/ale'                        " linter
+Plug 'junegunn/fzf'                              " fuzzy search install
+Plug 'junegunn/fzf.vim'                          " fuzzy search
+Plug 'airblade/vim-gitgutter'                    " git status
+Plug 'itchyny/lightline.vim'                     " status line
+Plug 'tpope/vim-sleuth'                          " tab width based on file
+Plug 'machakann/vim-sandwich'                    " change quotes
+Plug 'tpope/vim-commentary'                      " comments
+Plug 'mbbill/undotree'                           " undo tree
+Plug 'airblade/vim-rooter'                       " cd to nearest root dir
+Plug 'chriskempson/base16-vim'                   " color scheme
+Plug 'ap/vim-css-color'                          " highlight colors
 call plug#end()
 
 
 """ vim options
 
-let mapleader = " "                                               " map space to leader
-syntax enable                                                     " syntax highlight
-colorscheme base16-default-dark                                   " color scheme
-set termguicolors                                                 " true color in terminal
-set splitright splitbelow                                         " splits open on natural side
-set number relativenumber                                         " line numbers
-set cursorline                                                    " highlight current line
-set undofile                                                      " persistent undo
-set list listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·    " show whitespace
-set updatetime=100                                                " faster update time
-set ignorecase smartcase                                          " case insensitive search
-set scrolloff=3                                                   " offset from top/bottom
-set tabstop=4 shiftwidth=4                                        " tab width
-set signcolumn=yes                                                " always show sign column
-set spelllang=en_us                                               " spell check language
-set mouse=a                                                       " mouse scroll
-set lazyredraw                                                    " redraw only when needed
-set showmatch                                                     " highlight bracket pairs
-set hidden                                                        " hide modified file
-set laststatus=2 noshowmode                                       " show status bar, hide mode
-autocmd FileType markdown setlocal spell                          " spell check markdown
-autocmd FileType gitcommit setlocal spell                         " spell check git commits
+let mapleader = " "                              " map space to leader
+syntax enable                                    " syntax highlight
+colorscheme base16-default-dark                  " color scheme
+set termguicolors                                " true color in terminal
+set splitright splitbelow                        " splits open on natural side
+set number relativenumber                        " line numbers
+set cursorline                                   " highlight current line
+set colorcolumn=80                               " highlight max width column
+set undofile                                     " persistent undo
+set updatetime=100                               " faster update time
+set ignorecase smartcase                         " case insensitive search
+set scrolloff=3                                  " offset from top/bottom
+set tabstop=4 shiftwidth=4                       " tab width
+set signcolumn=yes                               " always show sign column
+set spelllang=en_us                              " spell check language
+set mouse=a                                      " mouse scroll
+set lazyredraw                                   " redraw only when needed
+set showmatch                                    " highlight bracket pairs
+set hidden                                       " hide modified file
+set laststatus=2 noshowmode                      " show status bar, hide mode
+
+" show whitespace
+set list listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
 
 " jump to the last known cursor position
 autocmd BufReadPost *
@@ -50,8 +49,9 @@ autocmd BufReadPost *
   \ |   exe "normal! g`\""
   \ | endif
 
-" command mode without shift
-nnoremap ; :
+" enable spell check on files
+autocmd FileType markdown setlocal spell
+autocmd FileType gitcommit setlocal spell
 
 " splits navigation
 nnoremap <C-j> <C-w>j
@@ -63,9 +63,6 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-n> :bnext<CR>
 nnoremap <C-p> :bprev<CR>
 
-" put vim in background
-nnoremap , <C-z>
-
 " fix last spell check error
 nnoremap <leader>z [s1z=
 
@@ -74,14 +71,6 @@ nnoremap <leader>s :setlocal spell!<CR>
 
 " remove search highlight
 nnoremap <leader>n :nohlsearch<CR>
-
-" new line without input mode
-nnoremap <CR> o<Esc>
-nnoremap <S-CR> O<Esc>
-
-" inc/dec number
-nnoremap + <C-a>
-nnoremap - <C-x>
 
 " emacs keybindings for insert and command mode
 inoremap <C-b> <Left>
@@ -95,23 +84,17 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-h> <BS>
 
-" todos
-nmap \c m`^rx:r! date +"<Space>[\%H:\%M]"<CR>kJ``
-nmap \u m`^r_$F<Space>"_D``
-nmap \t o<Esc>0i<Space><Space>_<Space>
-nmap \d ggO<Esc>:r! date +"\%Y/\%m/\%d"<CR>kJo<CR><CR><CR><Esc>kkk\t
-
 
 """ plugin options
 
 " fzf.vim
 nnoremap <C-t> :<C-u>Files<CR>
-nnoremap <C-f> :<C-u>Rg<CR>
-nnoremap <C-b> :<C-u>Buffers<CR>
-nnoremap <C-c> :<C-u>Commits<CR>
-" nnoremap <C-m> :<C-u>Marks<CR>
+nnoremap <leader>r :<C-u>Rg<CR>
+nnoremap <leader>b :<C-u>Buffers<CR>
+nnoremap <leader>c :<C-u>Commits<CR>
+nnoremap <leader>m :<C-u>Marks<CR>
 nnoremap <leader>t :<C-u>History<CR>
-nnoremap <leader>; :<C-u>History:<CR>
+nnoremap <leader>: :<C-u>History:<CR>
 nnoremap <leader>/ :<C-u>History/<CR>
 
 autocmd! FileType fzf
@@ -139,12 +122,10 @@ nnoremap gd :<C-u>ALEGoToDefinition<CR>
 nnoremap gr :<C-u>ALEFindReferences<CR>
 nnoremap gh :<C-u>ALEHover<CR>
 
-" clever-f.vim
-let g:clever_f_smart_case = 1
-
-" vim-pencil
-let g:pencil#conceallevel = 0
-autocmd FileType markdown call pencil#init()
+" undotree
+let g:undotree_WindowLayout = 4
+let g:undotree_SetFocusWhenToggle = 1
+nnoremap <leader>u :<C-u>UndotreeToggle<CR>
 
 " base16-vim
 let base16colorspace = 256
