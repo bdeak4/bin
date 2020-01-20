@@ -26,6 +26,7 @@ _comp_options+=(globdots)
 alias g='git'
 alias v='nvim'
 alias t='tmux'
+alias m='neomutt'
 alias y='yarn'
 
 # edit line in editor with ctrl-v:
@@ -65,9 +66,6 @@ export NNN_USE_EDITOR=1
 export NNN_TRASH=1
 export NNN_CONTEXT_COLORS="4231"
 export NNN_BMS="d:$HOME/dev/;D:$HOME/downloads/;c:$HOME/.config/bartol/;s:$HOME/.local/bin/"
-
-# less
-export LESS="-R"
 
 
 ### plugins
