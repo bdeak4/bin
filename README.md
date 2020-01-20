@@ -1,7 +1,7 @@
 # config
 
-Install with script:
-
-```
-sudo bash -c "$(curl -sSL https://bartol.dev/install.sh)"
+```bash
+git clone https://github.com/bartol/config
+cd config
+./install.sh
 ```
