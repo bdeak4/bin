@@ -13,7 +13,6 @@ Plug 'tpope/vim-commentary'                      " comments
 Plug 'mbbill/undotree'                           " undo tree
 Plug 'airblade/vim-rooter'                       " cd to nearest root dir
 Plug 'chriskempson/base16-vim'                   " color scheme
-Plug 'ap/vim-css-color'                          " highlight colors
 call plug#end()
 
 
@@ -38,6 +37,7 @@ set mouse=a                                      " mouse scroll
 set lazyredraw                                   " redraw only when needed
 set showmatch                                    " highlight bracket pairs
 set hidden                                       " hide modified file
+set wildoptions-=pum                             " horizontal wildmenu
 set laststatus=2 noshowmode                      " show status bar, hide mode
 
 " show whitespace
@@ -52,12 +52,6 @@ autocmd BufReadPost *
 " enable spell check on files
 autocmd FileType markdown setlocal spell
 autocmd FileType gitcommit setlocal spell
-
-" splits navigation
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-nnoremap <C-h> <C-w>h
 
 " buffers navigation
 nnoremap <C-n> :bnext<CR>
