@@ -1,0 +1,10 @@
+[user]
+    name = bartol
+    email = b@bartol.dev
+
+[color]
+    ui = true
+
+[core]
+    pager = less --tabs=4 -RFX
+    excludesfile = ~/.gitignore_global
