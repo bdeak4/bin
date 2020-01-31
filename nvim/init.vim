@@ -7,7 +7,6 @@ Plug 'junegunn/fzf'                              " fuzzy search install
 Plug 'junegunn/fzf.vim'                          " fuzzy search
 Plug 'airblade/vim-gitgutter'                    " git status
 Plug 'itchyny/lightline.vim'                     " status line
-Plug 'tpope/vim-sleuth'                          " tab width based on file
 Plug 'machakann/vim-sandwich'                    " change quotes
 Plug 'tpope/vim-commentary'                      " comments
 Plug 'mbbill/undotree'                           " undo tree
@@ -30,7 +29,7 @@ set undofile                                     " persistent undo
 set updatetime=100                               " faster update time
 set ignorecase smartcase                         " case insensitive search
 set scrolloff=3                                  " offset from top/bottom
-set tabstop=4 shiftwidth=4                       " tab width
+set tabstop=4 shiftwidth=4 expandtab             " tab width
 set signcolumn=yes                               " always show sign column
 set spelllang=en_us                              " spell check language
 set mouse=a                                      " mouse scroll
@@ -66,10 +65,7 @@ nnoremap <leader>s :setlocal spell!<CR>
 " remove search highlight
 nnoremap <leader>n :nohlsearch<CR>
 
-" emacs keybindings for insert and command mode
-inoremap <C-b> <Left>
-inoremap <C-f> <Right>
-
+" emacs keybindings command mode
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 cnoremap <C-b> <Left>
