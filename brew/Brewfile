@@ -1,0 +1,48 @@
+# shell
+brew "fish"
+brew "bash"
+brew "shellcheck"
+
+# programs
+brew "tmux"
+brew "neovim"
+brew "vim"
+brew "git"
+brew "fzf"
+brew "curl"
+brew "htop"
+brew "nnn"
+brew "links"
+brew "pass"
+
+# mail
+# brew "neomutt"
+# brew "isync"
+# brew "notmuch"
+
+# utilities
+brew "ripgrep"
+brew "fd"
+brew "trash-cli"
+brew "hub"
+brew "awscli"
+brew "ffsend"
+brew "asciinema"
+brew "xsv"
+brew "pastel"
+brew "youtube-dl"
+brew "ffmpeg"
+
+# langs
+brew "rust"
+brew "gcc"
+brew "node"
+brew "yarn"
+brew "python"
+brew "deno"
+
+# casks (MacOS only)
+tap "homebrew/cask-versions"
+cask "alacritty"
+cask "firefox-developer-edition"
+cask "alfred"
