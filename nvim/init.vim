@@ -51,6 +51,7 @@ autocmd BufReadPost *
 " enable spell check on files
 autocmd FileType markdown setlocal spell
 autocmd FileType gitcommit setlocal spell
+autocmd FileType mail setlocal spell
 
 " buffers navigation
 nnoremap <C-n> :bnext<CR>
