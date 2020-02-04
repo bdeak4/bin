@@ -1,0 +1,21 @@
+IMAPStore bartol-remote
+Host imap.fastmail.com
+Port  993
+User b@bartol.dev
+PassCmd "pass mail"
+SSLType IMAPS
+CertificateFile /etc/ssl/cert.pem
+
+MaildirStore bartol-local
+Subfolders Verbatim
+Path ~/.mail/
+Inbox ~/.mail/INBOX
+
+Channel bartol
+Master :bartol-remote:
+Slave :bartol-local:
+Create Both
+Expunge Both
+Patterns *
+SyncState *
+ExpireUnread no
