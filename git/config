@@ -7,4 +7,11 @@
 
 [core]
     pager = less --tabs=4 -RFX
-    excludesfile = ~/.gitignore_global
+
+[merge]
+    tool = nvim -d
+
+[alias]
+    s = status
+    a = add
+    c = commit
