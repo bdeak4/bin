@@ -16,13 +16,12 @@ brew "links"
 brew "pass"
 
 # mail
-# brew "neomutt"
-# brew "isync"
-# brew "notmuch"
+brew "neomutt"
+brew "isync"
+brew "msmtp"
 
 # utilities
 brew "ripgrep"
-brew "fd"
 brew "trash-cli"
 brew "hub"
 brew "awscli"
@@ -32,8 +31,10 @@ brew "xsv"
 brew "pastel"
 brew "youtube-dl"
 brew "ffmpeg"
+brew "imageoptim-cli"
+brew "tldr"
 
-# langs
+# programming languages
 brew "rust"
 brew "gcc"
 brew "node"
@@ -46,3 +47,5 @@ tap "homebrew/cask-versions"
 cask "alacritty"
 cask "firefox-developer-edition"
 cask "alfred"
+cask "pock"
+cask "macs-fan-control"
