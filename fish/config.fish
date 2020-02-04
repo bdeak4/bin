@@ -37,6 +37,7 @@ if command -v fzf >/dev/null
     --color=fg:#b8b8b8,header:#7cafc2,info:#f7ca88,pointer:#86c1b9
     --color=marker:#86c1b9,fg+:#e8e8e8,prompt:#f7ca88,hl+:#7cafc2
     --bind 'ctrl-a:select-all'"
+    source ~/.config/fish/functions/fzf_key_bindings.fish
 end
 
 # nnn
@@ -45,6 +46,11 @@ if command -v nnn >/dev/null
     set -x NNN_BMS "d:~/dev/;D:~/downloads/;c:~/config/;s:~/config/scripts"
     set -x NNN_TRASH 1
     set -x NNN_USE_EDITOR 1
+end
+
+# pass
+if command -v pass >/dev/null
+    source ~/.config/fish/functions/pass_completion.fish
 end
 
 # colored man pages
