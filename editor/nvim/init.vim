@@ -32,7 +32,6 @@ set scrolloff=3                                  " offset from top/bottom
 set tabstop=4 shiftwidth=4 expandtab             " tab width
 set signcolumn=yes                               " always show sign column
 set spelllang=en_us                              " spell check language
-set mouse=a                                      " mouse scroll
 set lazyredraw                                   " redraw only when needed
 set showmatch                                    " highlight bracket pairs
 set hidden                                       " hide modified file

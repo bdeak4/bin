@@ -40,12 +40,13 @@ brew "gcc"
 brew "node"
 brew "yarn"
 brew "python"
-brew "deno"
 
-# casks (MacOS only)
+# gui (MacOS only)
 tap "homebrew/cask-versions"
 cask "alacritty"
 cask "firefox-developer-edition"
 cask "alfred"
 cask "pock"
 cask "macs-fan-control"
+# karabiner elements
+# Magnet
