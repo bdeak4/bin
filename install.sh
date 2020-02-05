@@ -20,10 +20,10 @@ then
 fi
 
 # install programs
-brew bundle -v --file="./shell/Brewfile"
+brew bundle -v --file="~/config/shell/Brewfile"
 
-# run scripts
-for file in */*.sh
+# link configs
+for file in */link.sh
 do
     bash "$file"
 done
