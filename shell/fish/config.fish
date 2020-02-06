@@ -17,7 +17,7 @@ abbr -a y yarn
 abbr -a m neomutt
 
 # environment
-set -x PATH $PATH ~/.local/bin
+set -x PATH ~/.local/bin $PATH
 
 set -x EDITOR nvim
 set -x PAGER less
@@ -58,3 +58,19 @@ set -x LESS_TERMCAP_md \e'[01;34m'
 set -x LESS_TERMCAP_me \e'[0m'
 set -x LESS_TERMCAP_so \e'[01;33m'
 set -x LESS_TERMCAP_se \e'[0m'
+
+# gnu coreutils on mac
+if test (uname) = "Darwin"
+    set -x PATH (brew --prefix)/opt/coreutils/libexec/gnubin $PATH
+    set -x PATH (brew --prefix)/opt/findutils/libexec/gnubin $PATH
+    set -x PATH (brew --prefix)/opt/gnu-tar/libexec/gnubin $PATH
+    set -x PATH (brew --prefix)/opt/gnu-sed/libexec/gnubin $PATH
+    set -x PATH (brew --prefix)/opt/gnu-indent/libexec/gnubin $PATH
+    set -x PATH (brew --prefix)/opt/grep/libexec/gnubin $PATH
+    set -x MANPATH (brew --prefix)/opt/coreutils/libexec/gnuman $MANPATH
+    set -x MANPATH (brew --prefix)/opt/findutils/libexec/gnuman $MANPATH
+    set -x MANPATH (brew --prefix)/opt/gnu-tar/libexec/gnuman $MANPATH
+    set -x MANPATH (brew --prefix)/opt/gnu-sed/libexec/gnuman $MANPATH
+    set -x MANPATH (brew --prefix)/opt/gnu-indent/libexec/gnuman $MANPATH
+    set -x MANPATH (brew --prefix)/opt/grep/libexec/gnuman $MANPATH
+end

@@ -41,6 +41,19 @@ brew "node"
 brew "yarn"
 brew "python"
 
+# gnu coreutils
+if OS.mac?
+    brew "coreutils"
+    brew "findutils"
+    brew "gnu-tar"
+    brew "gnu-sed"
+    brew "gawk"
+    brew "gnutls"
+    brew "gnu-indent"
+    brew "gnu-getopt"
+    brew "grep"
+end
+
 # gui (MacOS only)
 tap "homebrew/cask-versions"
 cask "alacritty"
