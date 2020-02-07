@@ -23,35 +23,35 @@ set -x EDITOR nvim
 set -x PAGER less
 
 if set -q SSH_TTY
-  set -x BROWSER links
+    set -x BROWSER links
 else
-  set -x BROWSER 'Firefox Developer Edition'
+    switch (uname)
+    case Linux
+        set -x BROWSER 'firefox-developer-edition'
+    case Darwin
+        set -x BROWSER 'Firefox Developer Edition'
+    case '*'
+        set -x BROWSER links
+    end
 end
 
 # fzf
-if command -v fzf >/dev/null
-    set -x FZF_DEFAULT_COMMAND "rg --files --follow --hidden -g '!.git'"
-    set -x FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
-    set -x FZF_DEFAULT_OPTS \
-    "--color=bg+:#282828,bg:#181818,spinner:#86c1b9,hl:#7cafc2
-    --color=fg:#b8b8b8,header:#7cafc2,info:#f7ca88,pointer:#86c1b9
-    --color=marker:#86c1b9,fg+:#e8e8e8,prompt:#f7ca88,hl+:#7cafc2
-    --bind 'ctrl-a:select-all'"
-    source ~/.config/fish/functions/fzf_key_bindings.fish
-end
+set -x FZF_DEFAULT_COMMAND "rg --files --follow --hidden -g '!.git'"
+set -x FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
+set -x FZF_DEFAULT_OPTS \
+"--color=bg+:#282828,bg:#181818,spinner:#86c1b9,hl:#7cafc2
+--color=fg:#b8b8b8,header:#7cafc2,info:#f7ca88,pointer:#86c1b9
+--color=marker:#86c1b9,fg+:#e8e8e8,prompt:#f7ca88,hl+:#7cafc2
+--bind 'ctrl-a:select-all'"
 
 # nnn
-if command -v nnn >/dev/null
-    set -x NNN_COLORS '4231'
-    set -x NNN_BMS "d:~/dev/;D:~/downloads/;c:~/config/;s:~/config/scripts"
-    set -x NNN_TRASH 1
-    set -x NNN_USE_EDITOR 1
-end
+set -x NNN_CONTEXT_COLORS '4231'
+set -x NNN_BMS "d:~/dev/;D:~/downloads/;c:~/config/;s:~/config/scripts"
+set -x NNN_TRASH 1
+set -x NNN_USE_EDITOR 1
 
 # pass
-if command -v pass >/dev/null
-    source ~/.config/fish/functions/pass_completion.fish
-end
+source ~/.config/fish/functions/pass.fish-completion
 
 # colored man pages
 set -x LESS_TERMCAP_md \e'[01;34m'
