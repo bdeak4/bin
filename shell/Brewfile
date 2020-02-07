@@ -17,8 +17,8 @@ brew "pass"
 
 # mail
 brew "neomutt"
-brew "isync"
 brew "msmtp"
+brew "isync"
 
 # utilities
 brew "ripgrep"
@@ -54,8 +54,6 @@ if OS.mac?
     tap "homebrew/cask-versions"
     cask "alacritty"
     cask "firefox-developer-edition"
-    cask "alfred"
-    cask "pock"
     cask "macs-fan-control"
     cask "karabiner-elements"
 end
