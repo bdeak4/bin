@@ -8,10 +8,10 @@ brew "tmux"
 brew "neovim"
 brew "vim"
 brew "git"
+brew "nnn"
 brew "fzf"
 brew "curl"
 brew "htop"
-brew "nnn"
 brew "links"
 brew "pass"
 
@@ -23,26 +23,23 @@ brew "msmtp"
 # utilities
 brew "ripgrep"
 brew "trash-cli"
-brew "hub"
 brew "awscli"
-brew "ffsend"
+brew "tldr"
 brew "asciinema"
-brew "xsv"
-brew "pastel"
 brew "youtube-dl"
 brew "ffmpeg"
 brew "imageoptim-cli"
-brew "tldr"
 
 # programming languages
 brew "rust"
 brew "gcc"
 brew "node"
-brew "yarn"
 brew "python"
+brew "yarn"
+brew "serverless"
 
-# gnu coreutils
 if OS.mac?
+    # gnu coreutils
     brew "coreutils"
     brew "findutils"
     brew "gnu-tar"
@@ -52,14 +49,13 @@ if OS.mac?
     brew "gnu-indent"
     brew "gnu-getopt"
     brew "grep"
-end
 
-# gui (MacOS only)
-tap "homebrew/cask-versions"
-cask "alacritty"
-cask "firefox-developer-edition"
-cask "alfred"
-cask "pock"
-cask "macs-fan-control"
-# karabiner elements
-# Magnet
+    # gui
+    tap "homebrew/cask-versions"
+    cask "alacritty"
+    cask "firefox-developer-edition"
+    cask "alfred"
+    cask "pock"
+    cask "macs-fan-control"
+    cask "karabiner-elements"
+end
