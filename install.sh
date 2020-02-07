@@ -65,7 +65,7 @@ mkdir -p ~/.config/msmtp
 ln -svi ~/config/mail/msmtp/config ~/.config/msmtp
 
 # isync
-ln -svi ~/config/mail/.mbsync ~
+ln -svi ~/config/mail/.mbsyncrc ~
 
 # fonts
-cp ~/config/fonts/*/*.* /Library/Fonts/
+ln -svi ~/config/fonts/*/*.* /Library/Fonts
