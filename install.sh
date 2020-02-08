@@ -4,7 +4,6 @@
 if ! command -v brew >/dev/null; then
     case $OSTYPE in
         "darwin"*)
-            xcode-select --install
             /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
             ;;
         "linux-gnu")
