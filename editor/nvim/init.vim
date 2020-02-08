@@ -28,12 +28,14 @@ set colorcolumn=80                               " highlight max width column
 set undofile                                     " persistent undo
 set updatetime=100                               " faster update time
 set ignorecase smartcase                         " case insensitive search
+set inccommand=split                             " substitute visual feedback
 set scrolloff=3                                  " offset from top/bottom
 set tabstop=4 shiftwidth=4 expandtab             " tab width
 set signcolumn=yes                               " always show sign column
 set spelllang=en_us                              " spell check language
 set lazyredraw                                   " redraw only when needed
 set showmatch                                    " highlight bracket pairs
+set matchpairs+=<:>                              " showmach for html tags
 set hidden                                       " hide modified file
 set wildoptions-=pum                             " horizontal wildmenu
 set laststatus=2 noshowmode                      " show status bar, hide mode
