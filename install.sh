@@ -67,4 +67,4 @@ ln -svi ~/config/mail/msmtp/config ~/.config/msmtp
 ln -svi ~/config/mail/.mbsyncrc ~
 
 # fonts
-ln -svi ~/config/fonts/*/*.* /Library/Fonts
+cp -vi ~/config/fonts/*/*.* /Library/Fonts
