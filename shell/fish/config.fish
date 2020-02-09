@@ -22,17 +22,12 @@ set -x PATH ~/.local/bin $PATH
 set -x EDITOR nvim
 set -x PAGER less
 
-if set -q SSH_TTY
-    set -x BROWSER links
-else
-    switch (uname)
-    case Linux
-        set -x BROWSER 'firefox-developer-edition'
-    case Darwin
-        set -x BROWSER 'Firefox Developer Edition'
-    case '*'
-        set -x BROWSER links
-    end
+set -x BROWSER links
+if ! set -q SSH_TTY && test (uname) = "Linux"
+    set -x BROWSER 'firefox-developer-edition'
+end
+if ! set -q SSH_TTY && test (uname) = "Darwin"
+    set -x BROWSER 'Firefox Developer Edition'
 end
 
 # fzf
