@@ -67,15 +67,6 @@ nnoremap <leader>s :setlocal spell!<CR>
 " remove search highlight
 nnoremap <leader>n :nohlsearch<CR>
 
-" emacs keybindings command mode
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-cnoremap <C-b> <Left>
-cnoremap <C-f> <Right>
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-cnoremap <C-h> <BS>
-
 
 """ plugin options
 
