@@ -144,5 +144,5 @@ set laststatus=2
 set noshowmode
 
 " base16-vim
-let base16colorspace=256
+let base16colorspace = 256
 colorscheme base16-default-dark
