@@ -1,14 +1,15 @@
 # mailbox
 set folder = ~/.mail
-set smtp_url = "smtps://b@bartol.dev@smtp.fastmail.com:465"
-set smtp_pass = "`gpg --batch -q --decrypt ~/.mutt/password.gpg`"
-
 set mbox_type = Maildir
 set spoolfile = "+INBOX"
 set record = "+Sent"
 set trash = "+Trash"
 set postponed = "+Drafts"
 mailboxes =INBOX =Sent =Trash =Drafts =Archive =Spam
+
+# smtp
+set smtp_url = "smtps://b@bartol.dev@smtp.fastmail.com:465"
+set smtp_pass = "`gpg --batch -q --decrypt ~/.mutt/password.gpg`"
 
 # identity
 set from = "b@bartol.dev"
@@ -26,29 +27,40 @@ set history = 100
 set save_history = 100
 set history_file = ~/.mutt/history
 set history_remove_dups
-
 bind editor \Cp history-up
 bind editor \Cn history-down
 
-# message composition
+# vi bindings
+bind index k previous-entry
+bind index j next-entry
+bind pager k previous-line
+bind pager j next-line
+bind index,pager \Cf next-page
+bind index,pager \Cb previous-page
+bind index,pager \Cd half-down
+bind index,pager \Cu half-up
+
+# mail composition
 set forward_format = "Fwd: %s"
 set fast_reply
 set include
 
 # list
 set sort = reverse-threads
+set sort_aux = last-date-received
 set index_format = "%4C %Z %D %-15.15F (%4c) %s"
 set date_format = "%H:%M %d/%m/%Y"
+set delete
 unset mark_old
+
 
 # pager
 set pager_stop
 unset markers
 
-# html emails
+# html mail
 auto_view text/html
 alternative_order text/plain text/html
-set mailcap_path = ~/.mutt/mailcap
 
 # sync
 macro index S "<shell-escape>mbsync -a<enter>" "sync imap"
@@ -64,12 +76,3 @@ macro index <space>t "<change-folder>=Trash<enter>" "go to trash"
 macro index <space>d "<change-folder>=Drafts<enter>" "go to drafts"
 macro index <space>a "<change-folder>=Archive<enter>" "go to archive"
 set sleep_time = 0
-
-# vi bindings
-bind pager k previous-line
-bind pager j next-line
-
-bind index,pager \Cf next-page
-bind index,pager \Cb previous-page
-bind index,pager \Cd half-down
-bind index,pager \Cu half-up
