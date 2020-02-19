@@ -70,10 +70,6 @@ set backspace=indent,eol,start
 " fix slow esc
 set ttimeout ttimeoutlen=0
 
-" switch to normal mode
-inoremap <C-l> <Esc>
-vnoremap <C-l> <Esc>
-
 " persistent undo
 if empty(glob('~/.vim/undo'))
 	silent !mkdir -p ~/.vim/undo
