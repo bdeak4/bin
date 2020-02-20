@@ -2,7 +2,7 @@
 PS1="\033[0;31m[\033[0;33m\u\033[0;32m@\033[0;34m\h \033[0;35m\w\033[0;31m]\033[0m\$ "
 
 # history
-HISTSIZE=10000 
+HISTSIZE=10000
 HISTFILESIZE=10000
 
 # aliases
@@ -15,9 +15,13 @@ alias y="yarn"
 
 alias ls="ls --color=auto"
 alias grep="grep --color=auto"
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
 
-# cd without command
+# cd
 shopt -s autocd
+shopt -s cdspell
 
 # fzf
 export FZF_DEFAULT_COMMAND="rg --files --follow --hidden -g '!.git'"
