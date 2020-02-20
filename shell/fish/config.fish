@@ -33,6 +33,11 @@ end
 # fzf
 set -x FZF_DEFAULT_COMMAND "rg --files --follow --hidden -g '!.git'"
 set -x FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
+set -x FZF_DEFAULT_OPTS \
+"--color=bg+:#282828,bg:#181818,spinner:#86c1b9,hl:#7cafc2
+--color=fg:#b8b8b8,header:#7cafc2,info:#f7ca88,pointer:#86c1b9
+--color=marker:#86c1b9,fg+:#e8e8e8,prompt:#f7ca88,hl+:#7cafc2
+--bind 'ctrl-a:select-all'"
 
 # nnn
 set -x NNN_CONTEXT_COLORS '4231'
