@@ -9,17 +9,17 @@ function fish_prompt
 end
 
 # abbreviations
+abbr -a v vim
 abbr -a g git
 abbr -a n nnn
-abbr -a v nvim
+abbr -a m mutt
 abbr -a t tmux
 abbr -a y yarn
-abbr -a m neomutt
 
 # environment
 set -x PATH ~/.local/bin $PATH
 
-set -x EDITOR nvim
+set -x EDITOR vim
 set -x PAGER less
 
 set -x BROWSER links
@@ -33,11 +33,6 @@ end
 # fzf
 set -x FZF_DEFAULT_COMMAND "rg --files --follow --hidden -g '!.git'"
 set -x FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
-set -x FZF_DEFAULT_OPTS \
-"--color=bg+:#282828,bg:#181818,spinner:#86c1b9,hl:#7cafc2
---color=fg:#b8b8b8,header:#7cafc2,info:#f7ca88,pointer:#86c1b9
---color=marker:#86c1b9,fg+:#e8e8e8,prompt:#f7ca88,hl+:#7cafc2
---bind 'ctrl-a:select-all'"
 
 # nnn
 set -x NNN_CONTEXT_COLORS '4231'
@@ -45,8 +40,8 @@ set -x NNN_BMS "d:~/dev/;D:~/downloads/;c:~/config/;s:~/config/scripts"
 set -x NNN_TRASH 1
 set -x NNN_USE_EDITOR 1
 
-# pass
-source ~/.config/fish/functions/pass.fish-completion
+# rust
+set -x PATH ~/.cargo/bin $PATH
 
 # colored man pages
 set -x LESS_TERMCAP_md \e'[01;34m'
@@ -62,10 +57,10 @@ if test (uname) = "Darwin"
     set -x PATH (brew --prefix)/opt/gnu-sed/libexec/gnubin $PATH
     set -x PATH (brew --prefix)/opt/gnu-indent/libexec/gnubin $PATH
     set -x PATH (brew --prefix)/opt/grep/libexec/gnubin $PATH
-    set -x MANPATH (brew --prefix)/opt/coreutils/libexec/gnuman $MANPATH
-    set -x MANPATH (brew --prefix)/opt/findutils/libexec/gnuman $MANPATH
-    set -x MANPATH (brew --prefix)/opt/gnu-tar/libexec/gnuman $MANPATH
-    set -x MANPATH (brew --prefix)/opt/gnu-sed/libexec/gnuman $MANPATH
-    set -x MANPATH (brew --prefix)/opt/gnu-indent/libexec/gnuman $MANPATH
-    set -x MANPATH (brew --prefix)/opt/grep/libexec/gnuman $MANPATH
+    set -x MANPATH :(brew --prefix)/opt/coreutils/libexec/gnuman $MANPATH
+    set -x MANPATH :(brew --prefix)/opt/findutils/libexec/gnuman $MANPATH
+    set -x MANPATH :(brew --prefix)/opt/gnu-tar/libexec/gnuman $MANPATH
+    set -x MANPATH :(brew --prefix)/opt/gnu-sed/libexec/gnuman $MANPATH
+    set -x MANPATH :(brew --prefix)/opt/gnu-indent/libexec/gnuman $MANPATH
+    set -x MANPATH :(brew --prefix)/opt/grep/libexec/gnuman $MANPATH
 end
