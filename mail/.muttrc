@@ -48,8 +48,11 @@ set include
 # list
 set sort = reverse-threads
 set sort_aux = last-date-received
-set index_format = "%4C %Z %D %-15.15F (%4c) %s"
-set date_format = "%H:%M %d/%m/%Y"
+set index_format = "%4C %Z %-6@date@ %-15.15F (%4c) %s"
+index-format-hook  date  "~d<1d"    "%[%H:%M]"
+index-format-hook  date  "~d<1m"    "%[%a %d]"
+index-format-hook  date  "~d<1y"    "%[%b %d]"
+index-format-hook  date  "~A"       "%[%m/%y]"
 set delete
 unset mark_old
 
