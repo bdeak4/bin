@@ -61,5 +61,5 @@ mouse:
   hide_when_typing: true
 
 key_bindings:
-  - { key: V,        mods: Super,          action: Paste            }
-  - { key: C,        mods: Super,          action: Copy             }
+  - { key: C,        mods: Alt,     chars: "\x1bc"                       }
+  - { key: E,        mods: Alt,     chars: "\x1be"                       }
