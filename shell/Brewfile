@@ -31,7 +31,7 @@ brew "ffmpeg"
 brew "imageoptim-cli"
 
 # programming languages
-brew "rust"
+brew "rustup-init"
 brew "gcc"
 brew "node"
 brew "python"
