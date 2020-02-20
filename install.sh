@@ -23,9 +23,6 @@ brew bundle -v --file="~/config/shell/Brewfile"
 mkdir -p ~/.config/fish
 ln -svi ~/config/shell/fish/config.fish ~/.config/fish
 
-mkdir -p ~/.config/fish/functions
-curl https://git.zx2c4.com/password-store/plain/src/completion/pass.fish-completion > ~/.config/fish/functions/pass.fish-completion
-
 echo /usr/local/bin/fish | sudo tee -a /etc/shells
 chsh -s /usr/local/bin/fish
 
@@ -51,6 +48,10 @@ ln -svi ~/config/editor/.vimrc ~
 # fzf
 "$(brew --prefix)"/opt/fzf/install
 
+# pass
+mkdir -p ~/.config/fish/completions
+curl https://git.zx2c4.com/password-store/plain/src/completion/pass.fish-completion > ~/.config/fish/completions/pass.fish
+
 # alacritty
 mkdir -p ~/.config/alacritty
 ln -svi ~/config/gui/alacritty/alacritty.yml ~/.config/alacritty
@@ -59,6 +60,9 @@ ln -svi ~/config/gui/alacritty/alacritty.yml ~/.config/alacritty
 mkdir -p ~/.config/neomutt
 ln -svi ~/config/mail/neomutt/neomuttrc ~/.config/neomutt
 
+# mutt
+ln -svi ~/config/mail/.muttrc ~
+
 # msmtp
 mkdir -p ~/.config/msmtp
 ln -svi ~/config/mail/msmtp/config ~/.config/msmtp
@@ -66,5 +70,17 @@ ln -svi ~/config/mail/msmtp/config ~/.config/msmtp
 # isync
 ln -svi ~/config/mail/.mbsyncrc ~
 
+# mailcap
+ln -svi ~/config/mail/.mailcap ~
+
+# rust
+rustup-init -y
+mkdir -p ~/.config/fish/completions
+rustup completions fish > ~/.config/fish/completions/rustup.fish
+
 # fonts
 cp -vi ~/config/fonts/*/*.* /Library/Fonts
+
+# scripts
+mkdir -p ~/.local/bin
+ln -svi ~/config/scripts ~/.local/bin
