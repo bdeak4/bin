@@ -1,7 +1,7 @@
 #!/bin/bash
 
 home=$(pwd)
-dirs=$(find . -type d -name .git -maxdepth "${1:-2}")
+dirs=$(find . -maxdepth "${1:-2}" -type d -name .git)
 
 for dir in $dirs
 do
