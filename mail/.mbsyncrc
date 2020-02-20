@@ -2,7 +2,7 @@ IMAPStore bartol-remote
 Host imap.fastmail.com
 Port  993
 User b@bartol.dev
-PassCmd "pass mail"
+PassCmd "gpg --batch -q --decrypt ~/.mutt/password.gpg"
 SSLType IMAPS
 CertificateFile /etc/ssl/cert.pem
 
