@@ -142,3 +142,10 @@ set noshowmode
 " base16-vim
 let base16colorspace = 256
 colorscheme base16-default-dark
+
+hi clear SpellBad
+hi SpellBad cterm=underline
+
+let &t_ZH="\e[3m"
+let &t_ZR="\e[23m"
+highlight Comment cterm=italic
