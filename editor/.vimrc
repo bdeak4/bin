@@ -39,6 +39,8 @@ set splitright splitbelow
 " search
 set incsearch hlsearch
 set ignorecase smartcase
+set grepprg=rg\ --vimgrep
+set grepformat=%f:%l:%c:%m
 nnoremap <leader>n :nohlsearch<CR>
 
 " spell check
