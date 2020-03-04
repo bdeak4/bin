@@ -32,6 +32,13 @@ if ! set -q SSH_TTY && test (uname) = "Darwin"
     set -x BROWSER 'Firefox Developer Edition'
 end
 
+# ctags
+set -x CTAGS \
+"--recurse=yes
+--exclude=.git
+--exclude=vendor
+--exclude=node_modules"
+
 # fzf
 set -x FZF_DEFAULT_COMMAND "rg --files --follow --hidden -g '!.git'"
 set -x FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
