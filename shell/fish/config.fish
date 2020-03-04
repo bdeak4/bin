@@ -15,6 +15,8 @@ abbr -a n nnn
 abbr -a m mutt
 abbr -a t tmux
 abbr -a y yarn
+abbr -a r rails
+abbr -a h heroku
 
 # environment
 set -x PATH ~/.local/bin $PATH
