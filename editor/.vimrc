@@ -35,6 +35,9 @@ set number relativenumber
 
 " splits
 set splitright splitbelow
+set textwidth=80
+let &winwidth = &textwidth + &numberwidth + 2
+set nowrap
 
 " search
 set incsearch hlsearch
