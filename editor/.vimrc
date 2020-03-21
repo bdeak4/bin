@@ -7,73 +7,85 @@ endif
 
 " plugins
 call plug#begin('~/.vim/plugged')
-Plug 'sheerun/vim-polyglot'
 Plug 'dense-analysis/ale'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-eunuch'
+" Plug 'tpope/vim-rails'
+Plug 'tpope/vim-endwise'
 Plug 'mbbill/undotree'
-Plug 'airblade/vim-rooter'
-Plug 'itchyny/lightline.vim'
-Plug 'chriskempson/base16-vim'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'pbrisbin/vim-colors-off'
 call plug#end()
 
 " leader key
 let mapleader = " "
 
 " highlight
-syntax enable
 filetype plugin indent on
-set cursorline
+syntax enable
+colorscheme off
+set background=dark
 set colorcolumn=81
-set showmatch
+packadd! matchit
+" set regexpengine=1
+syntax sync minlines=256
 
 " line numbers
 set number relativenumber
 
 " splits
 set splitright splitbelow
-set textwidth=80
+set textwidth=80 nowrap
 let &winwidth = &textwidth + &numberwidth + 2
-set nowrap
 
 " search
-set incsearch hlsearch
+set incsearch
 set ignorecase smartcase
 set grepprg=rg\ --vimgrep
 set grepformat=%f:%l:%c:%m
-nnoremap <leader>n :nohlsearch<CR>
+
+" completion
+set wildmenu
+" set path+=**
+set path+=src,app,config
+" autocmd VimEnter * :call SetPath()
+" function! SetPath()
+"   " let path = getcwd()
+"   " echom path
+"   " let out = !echo */
+"   echom system("echo */")
+" endfunction
+
+" status bar
+set laststatus=2
+set ruler
+set showcmd
 
 " spell check
 set spelllang=en,hr
 nnoremap <leader>z [s1z=
-nnoremap <leader>s :setlocal spell!<CR>
-autocmd FileType markdown,gitcommit,mail setlocal spell
+nnoremap <leader>s :setlocal spell!<cr>
+autocmd FileType markdown,txt,gitcommit,mail setlocal spell
 
 " indentation
 set tabstop=4 shiftwidth=4
 set autoindent
-nnoremap <leader>e :setlocal expandtab!<CR>
-nnoremap <leader>2 :setlocal tabstop=2 shiftwidth=2<CR>
-nnoremap <leader>4 :setlocal tabstop=4 shiftwidth=4<CR>
 
 " show whitespace
 set list listchars=tab:>\ ,trail:-,nbsp:+
 
-" command completion
-set wildmenu
-
 " files
 set hidden
 set autoread
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
 
 " fix backspace
 set backspace=indent,eol,start
-
-" fix slow esc
-set ttimeout ttimeoutlen=0
 
 " persistent undo
 if empty(glob('~/.vim/undo'))
@@ -114,43 +126,33 @@ augroup BWCCreateDir
 		\ s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
 augroup END
 
-" fzf.vim
-nnoremap <C-t> :Files<CR>
-nnoremap <leader>r :Rg<CR>
+" save file with sudo
+" cmap w!! w !sudo tee % > /dev/null
+
+" show registers on paste or jump to mark
+nnoremap <leader>p :registers<cr>:normal "p<left>
+nnoremap <leader>P :registers<cr>:normal "P<left>
+nnoremap <leader>' :marks<cr>:normal '
+nnoremap <leader>l :ls<cr>:b<space>
 
 " vim-gitgutter
 set updatetime=100
 set signcolumn=yes
 
 " ale
-let g:ale_completion_enabled = 1
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
 	\ '*': ['remove_trailing_lines', 'trim_whitespace'],
-	\ 'javascript': ['prettier', 'eslint'],
-	\ 'javascriptreact': ['prettier', 'eslint'],
+	\ 'ruby': ['rubocop'],
+	\ 'javascript': ['eslint', 'prettier'],
 \}
-set omnifunc=ale#completion#OmniFunc
-nnoremap gd :ALEGoToDefinition<CR>
-nnoremap gr :ALEFindReferences<CR>
-nnoremap gh :ALEHover<CR>
 
 " undotree
 let g:undotree_WindowLayout = 4
 let g:undotree_SetFocusWhenToggle = 1
-nnoremap <leader>u :UndotreeToggle<CR>
+nnoremap <leader>u :UndotreeToggle<cr>
 
-" lightline.vim
-set laststatus=2
-set noshowmode
-
-" base16-vim
-let base16colorspace = 256
-colorscheme base16-default-dark
-
-hi clear SpellBad
-hi SpellBad cterm=underline
-
-let &t_ZH="\e[3m"
-let &t_ZR="\e[23m"
-highlight Comment cterm=italic
+" abbreviations
+iabbrev medate <c-r>=strftime('%Y-%m-%d')<cr>
+iabbrev meweb https://bartol.dev
+iabbrev megit https://github.com/bartol
