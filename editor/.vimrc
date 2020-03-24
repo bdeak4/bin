@@ -50,15 +50,13 @@ set grepformat=%f:%l:%c:%m
 
 " completion
 set wildmenu
-" set path+=**
-set path+=src,app,config
-" autocmd VimEnter * :call SetPath()
-" function! SetPath()
-"   " let path = getcwd()
-"   " echom path
-"   " let out = !echo */
-"   echom system("echo */")
-" endfunction
+set wildignore+=tmp/*,log/*,vendor/*,node_modules/*,storage/*,coverage/*
+for directory in split(system("echo -n */"), " ")
+	if index(split(&wildignore, ","), directory . "*") == -1
+		\ && index(split(&path, ","), directory . "**") == -1
+		let &path .= "," . directory . "**"
+	endif
+endfor
 
 " status bar
 set laststatus=2
