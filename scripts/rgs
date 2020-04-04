@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 home=$(pwd)
 dirs=$(find . -maxdepth "${1:-2}" -type d -name .git)
