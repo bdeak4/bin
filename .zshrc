@@ -22,7 +22,8 @@ export VISUAL=$EDITOR
 
 # case insensitive path completion
 # source: https://scriptingosx.com/2019/07/moving-to-zsh-part-5-completions/
-zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' \
+zstyle ':completion:*' matcher-list \
+	'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' \
 	'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' \
 	'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' \
 	'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
@@ -102,6 +103,14 @@ bindkey '^N' history-beginning-search-forward
 autoload -z edit-command-line 
 zle -N edit-command-line
 bindkey '^[e' edit-command-line
+
+# switch back to suspended program
+ctrl_z () {
+	BUFFER="fg"
+	zle accept-line
+}
+zle -N ctrl_z
+bindkey '^Z' ctrl_z
 
 # keyboard shortcuts
 # ^A - beginning of the line
