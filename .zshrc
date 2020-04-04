@@ -9,16 +9,19 @@ setopt promptsp # prevent theme from eating output that doesn't end with \n
 # env
 export EDITOR='vim'
 export VISUAL=$EDITOR
+export PAGER='less'
+export PATH=~/.local/bin:$PATH
 
 # aliases
-alias g='git'
 alias vi='vim'
-alias vv="vim -N -u NONE" # without vimrc and plugins
-alias vvv="vim --noplugin" # without plugins
+alias vv='vim --noplugin' # without plugins
+alias vvv='vim -N -u NONE' # without vimrc and plugins
+alias g='git'
+alias n='nnn'
 alias t='tmux'
-alias tmosh='() {mosh $* -- sh -c "tmux a || tmux"}'
 alias m='mutt'
 alias r='rails'
+alias h='heroku'
 alias y='yarn'
 
 # global aliases
@@ -135,3 +138,17 @@ bindkey '^Z' ctrl_z
 # ^L - clear screen
 # ^C - kill process
 # ^Z - suspend process
+
+# colored man pages
+export LESS_TERMCAP_md=$'\e[01;36m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;32m'
+export LESS_TERMCAP_se=$'\e[0m'
+
+# nnn options
+export NNN_CONTEXT_COLORS='6277'
+export NNN_BMS='d:~/dev;D:~/Documents;c:~/config;s:~/config/scripts'
+export NNN_TRASH=1
+
+# ctags options
+export CTAGS='--recurse=yes --exclude=.git --exclude=node_modules'
