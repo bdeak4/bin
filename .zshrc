@@ -10,6 +10,31 @@ setopt promptsp # prevent theme from eating output that doesn't end with \n
 export EDITOR='vim'
 export VISUAL=$EDITOR
 
+# aliases
+alias g='git'
+alias vi='vim'
+alias vv="vim -N -u NONE" # without vimrc and plugins
+alias vvv="vim --noplugin" # without plugins
+alias t='tmux'
+alias tmosh='() {mosh $* -- sh -c "tmux a || tmux"}'
+alias m='mutt'
+alias r='rails'
+alias y='yarn'
+
+# global aliases
+# aliases that can be used everywhere in command
+# source: https://www.slideshare.net/brendon_jag/why-zsh-is-cooler-than-your-shell
+# alias -g gp='| grep -i'
+# $ ps ax gp ruby
+# $ ps ax | grep -i ruby
+
+# sufix aliases
+# aka open with aliases
+# source: https://www.slideshare.net/brendon_jag/why-zsh-is-cooler-than-your-shell
+# alias -s rb='vim'
+# $ test.rb
+# $ vim test.rb
+
 # path expansion
 # source: https://www.slideshare.net/brendon_jag/why-zsh-is-cooler-than-your-shell
 # $ cd /h/b/d<tab>
@@ -35,23 +60,6 @@ setopt autocd
 # spelling correction for commands
 # source: http://zsh.sourceforge.net/Intro/intro_16.html
 setopt correct
-
-# aliases
-alias g='git'
-
-# global aliases
-# aliases that can be used everywhere in command
-# source: https://www.slideshare.net/brendon_jag/why-zsh-is-cooler-than-your-shell
-# alias -g gp='| grep -i'
-# $ ps ax gp ruby
-# $ ps ax | grep -i ruby
-
-# sufix aliases
-# aka open with aliases
-# source: https://www.slideshare.net/brendon_jag/why-zsh-is-cooler-than-your-shell
-# alias -s rb='vim'
-# $ test.rb
-# $ vim test.rb
 
 # programmable file renaming
 # source: https://www.slideshare.net/brendon_jag/why-zsh-is-cooler-than-your-shell
