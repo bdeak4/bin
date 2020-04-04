@@ -4,6 +4,7 @@ autoload -Uz compinit && compinit
 # prompt
 autoload -Uz promptinit && promptinit
 prompt adam2
+setopt promptsp # prevent theme from eating output that doesn't end with \n
 
 # env
 export EDITOR='vim'
@@ -59,6 +60,14 @@ autoload zmv
 
 # run command without alias
 # $ \ls
+
+# share history across sessions
+# source: https://news.ycombinator.com/item?id=5692075
+setopt sharehistory
+
+# don't save commands starting with space in history
+# source: https://news.ycombinator.com/item?id=5692075
+setopt histignorespace
 
 # history search with globbing
 # source: https://unix.stackexchange.com/questions/30168/how-to-enable-reverse-search-in-zsh#comment40870_30169
