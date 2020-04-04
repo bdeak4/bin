@@ -17,11 +17,8 @@ alias vi='vim'
 alias vv='vim --noplugin' # without plugins
 alias vvv='vim -N -u NONE' # without vimrc and plugins
 alias g='git'
-alias n='nnn'
 alias t='tmux'
-alias m='mutt'
 alias r='rails'
-alias h='heroku'
 alias y='yarn'
 
 # global aliases
@@ -51,10 +48,10 @@ alias y='yarn'
 # case insensitive path completion
 # source: https://scriptingosx.com/2019/07/moving-to-zsh-part-5-completions/
 zstyle ':completion:*' matcher-list \
-	'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' \
-	'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' \
-	'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' \
-	'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
+  'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' \
+  'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' \
+  'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' \
+  'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 
 # change directory without cd command
 # source: http://zsh.sourceforge.net/Intro/intro_16.html
@@ -117,8 +114,8 @@ bindkey '^[e' edit-command-line
 
 # switch back to suspended program
 ctrl_z () {
-	BUFFER="fg"
-	zle accept-line
+  BUFFER="fg"
+  zle accept-line
 }
 zle -N ctrl_z
 bindkey '^Z' ctrl_z
