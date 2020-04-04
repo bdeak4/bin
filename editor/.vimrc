@@ -17,6 +17,7 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-endwise'
 Plug 'mbbill/undotree'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'editorconfig/editorconfig-vim'
 Plug 'pbrisbin/vim-colors-off'
 call plug#end()
 
