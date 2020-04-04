@@ -5,6 +5,10 @@ autoload -Uz compinit && compinit
 autoload -Uz promptinit && promptinit
 prompt adam2
 
+# env
+export EDITOR='vim'
+export VISUAL=$EDITOR
+
 # path expansion
 # source: https://www.slideshare.net/brendon_jag/why-zsh-is-cooler-than-your-shell
 # $ cd /h/b/d<tab>
@@ -80,8 +84,28 @@ bindkey '^N' history-beginning-search-forward
 # $ !?zshrc
 # $ vi ~/.zshrc
 
+# execute last command
+# source: http://www.geekmind.net/2011/01/shortcuts-to-improve-your-bash-zsh.html
+# $ !!
+
 # open current line in $EDITOR
 # source: https://unix.stackexchange.com/a/34251
 autoload -z edit-command-line 
 zle -N edit-command-line
-bindkey '^X^E' edit-command-line
+bindkey '^[e' edit-command-line
+
+# keyboard shortcuts
+# ^A - beginning of the line
+# ^E - end of the line
+# alt + b - move one word backward
+# alt + f - move one word forward
+# ^U - delete whole line
+# ^K - delete after cursor
+# ^W - delete word before cursor
+# alt + d - delete word after cursor
+# ^R - search history
+# ^G - escape from search
+# ^_ - undo last change
+# ^L - clear screen
+# ^C - kill process
+# ^Z - suspend process
