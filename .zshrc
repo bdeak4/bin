@@ -108,7 +108,7 @@ bindkey '^N' history-beginning-search-forward
 
 # open current line in $EDITOR
 # source: https://unix.stackexchange.com/a/34251
-autoload -z edit-command-line 
+autoload -z edit-command-line
 zle -N edit-command-line
 bindkey '^[e' edit-command-line
 
@@ -145,6 +145,7 @@ export LESS_TERMCAP_se=$'\e[0m'
 # nnn options
 export NNN_CONTEXT_COLORS='6277'
 export NNN_BMS='d:~/dev;D:~/Documents;c:~/config;s:~/config/scripts'
+export NNN_USE_EDITOR=1
 export NNN_TRASH=1
 
 # ctags options
