@@ -72,7 +72,6 @@ nnoremap <leader>s :set spell!<CR>
 nnoremap <leader>z [s1z=<C-o>
 
 " indentation
-set tabstop=4 shiftwidth=4
 set autoindent
 
 " show whitespace
