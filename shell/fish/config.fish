@@ -1,5 +1,5 @@
 # prompt
-set -g fish_prompt_pwd_dir_length 0
+# set -g fish_prompt_pwd_dir_length 0
 
 function fish_prompt
     printf '%s' (set_color red) [ (set_color yellow) $USER \
@@ -7,6 +7,10 @@ function fish_prompt
     (set_color magenta) (prompt_pwd) (set_color red) ] \
     (set_color normal) (test $USER = 'root' && echo -n '#' || echo -n '$') ' '
 end
+
+# function fish_prompt
+#     printf '%s' (set_color cyan) (prompt_pwd) (set_color normal) '> '
+# end
 
 # abbreviations
 abbr -a v vim
@@ -18,10 +22,13 @@ abbr -a y yarn
 abbr -a r rails
 abbr -a h heroku
 
+set -x GOOGLE_CHROME_BIN \
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
 # environment
 set -x PATH ~/.local/bin $PATH
 
-set -x EDITOR vim
+set -x EDITOR kak
 set -x PAGER less
 
 set -x BROWSER links
@@ -31,6 +38,9 @@ end
 if ! set -q SSH_TTY && test (uname) = "Darwin"
     set -x BROWSER 'Firefox Developer Edition'
 end
+
+# rbenv
+# status --is-interactive; and source (rbenv init -|psub)
 
 # ctags
 set -x CTAGS \
@@ -78,3 +88,5 @@ if test (uname) = "Darwin"
     set -x MANPATH :(brew --prefix)/opt/gnu-indent/libexec/gnuman $MANPATH
     set -x MANPATH :(brew --prefix)/opt/grep/libexec/gnuman $MANPATH
 end
+
+# set -g fish_user_paths "/usr/local/opt/ruby/bin" $fish_user_paths

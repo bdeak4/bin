@@ -44,6 +44,7 @@ bind index,pager \Cu half-up
 set forward_format = "Fwd: %s"
 set fast_reply
 set include
+set text_flowed
 
 # list
 set sort = reverse-threads

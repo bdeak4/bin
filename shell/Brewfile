@@ -37,6 +37,7 @@ brew "node"
 brew "python"
 brew "yarn"
 brew "serverless"
+brew "postgresql"
 
 if OS.mac?
     # gnu coreutils
