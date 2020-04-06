@@ -1,3 +1,0 @@
-text/html; links -html-numbered-links 1 -dump %s; nametemplate=%s.html; copiousoutput;
-applica/pdf; open %s;
-*/*; open %s;

@@ -16,10 +16,6 @@ export PATH=~/.local/bin:$PATH
 alias vi='vim'
 alias vv='vim --noplugin' # without plugins
 alias vvv='vim -N -u NONE' # without vimrc and plugins
-alias g='git'
-alias t='tmux'
-alias r='rails'
-alias y='yarn'
 
 # global aliases
 # aliases that can be used everywhere in command
@@ -147,6 +143,3 @@ export NNN_CONTEXT_COLORS='6277'
 export NNN_BMS='d:~/dev;D:~/Documents;c:~/config;s:~/config/scripts'
 export NNN_USE_EDITOR=1
 export NNN_TRASH=1
-
-# ctags options
-export CTAGS='--recurse=yes --exclude=.git --exclude=node_modules'
