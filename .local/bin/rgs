@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
+#
+# Recursive Git Status
 
 home=$(pwd)
 dirs=$(find . -maxdepth "${1:-2}" -type d -name .git)
 
-for dir in $dirs
-do
+for dir in $dirs; do
     dir=${dir//.git/}
     cd "$dir" || exit
 
     if [[ -n $(git status -s) ]]
     then
         printf "\n\e[36m%s\e[0m\n" "$dir"
-        git status -s
+        git status
     fi
 
     cd "$home" || exit
