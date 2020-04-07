@@ -133,8 +133,9 @@ vnoremap gb :<C-u>!git blame <C-r>=expand("%:p")<CR>
   \ \| sed -n <C-r>=line("'<")<CR>,<C-r>=line("'>")<CR>p<CR>
 
 " navigation shortcuts
-nnoremap <leader>t :tag<space>
 nnoremap <leader>f :find<space>
+nnoremap <leader>v :vert sfind<space>
+nnoremap <leader>t :tag<space>
 nnoremap <leader>g :grep<space>
 
 " show registers/marks/buffers
