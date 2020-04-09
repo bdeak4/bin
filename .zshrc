@@ -142,7 +142,7 @@ export LESS_TERMCAP_se=$'\e[0m'
 export FZF_DEFAULT_COMMAND='rg --files --follow --hidden -g "!.git"'
 
 # nnn options
-export NNN_CONTEXT_COLORS='6277'
-export NNN_BMS='d:~/dev;D:~/Documents;c:~/config;s:~/config/scripts'
-export NNN_USE_EDITOR=1
+export NNN_OPTS='eH'
+export NNN_COLORS='6277'
+export NNN_BMS='d:~/dev;D:~/Documents;c:~/dotfiles;s:~/dotfiles/.local/bin'
 export NNN_TRASH=1
