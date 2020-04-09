@@ -7,9 +7,9 @@ prompt adam2
 setopt promptsp # prevent theme from eating output that doesn't end with \n
 
 # env
-export EDITOR='vim'
+export EDITOR=vim
 export VISUAL=$EDITOR
-export PAGER='less'
+export PATH=/usr/local/bin:$PATH
 export PATH=~/.local/bin:$PATH
 
 # aliases
@@ -106,7 +106,7 @@ bindkey '^N' history-beginning-search-forward
 # source: https://unix.stackexchange.com/a/34251
 autoload -z edit-command-line
 zle -N edit-command-line
-bindkey '^[e' edit-command-line
+bindkey '^x^e' edit-command-line
 
 # switch back to suspended program
 ctrl_z () {
