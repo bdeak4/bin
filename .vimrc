@@ -18,7 +18,7 @@ Plug 'tpope/vim-endwise'
 Plug 'mbbill/undotree'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'pbrisbin/vim-colors-off'
+Plug 'owickstrom/vim-colors-paramount'
 call plug#end()
 
 " leader key
@@ -27,13 +27,12 @@ let mapleader = " "
 " highlight
 filetype plugin indent on
 syntax enable
-colorscheme off
+set termguicolors
 set background=dark
+colorscheme paramount
 set colorcolumn=81
 set showmatch
 packadd! matchit
-" set regexpengine=1
-syntax sync minlines=256
 
 " line numbers
 set number relativenumber
