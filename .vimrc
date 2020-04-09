@@ -9,6 +9,8 @@ endif
 " plugins
 call plug#begin('~/.vim/plugged')
 Plug 'dense-analysis/ale'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
@@ -132,7 +134,8 @@ vnoremap gb :<C-u>!git blame <C-r>=expand("%:p")<CR>
   \ \| sed -n <C-r>=line("'<")<CR>,<C-r>=line("'>")<CR>p<CR>
 
 " navigation shortcuts
-nnoremap <leader>f :find<space>
+" nnoremap <leader>f :find<space>
+nnoremap <leader>f :Files<cr>
 nnoremap <leader>v :vert sfind<space>
 nnoremap <leader>t :tag<space>
 nnoremap <leader>g :grep<space>

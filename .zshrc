@@ -138,6 +138,9 @@ export LESS_TERMCAP_me=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;32m'
 export LESS_TERMCAP_se=$'\e[0m'
 
+# fzf options
+export FZF_DEFAULT_COMMAND='rg --files --follow --hidden -g "!.git"'
+
 # nnn options
 export NNN_CONTEXT_COLORS='6277'
 export NNN_BMS='d:~/dev;D:~/Documents;c:~/config;s:~/config/scripts'
