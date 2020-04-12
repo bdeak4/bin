@@ -1,0 +1,21 @@
+# grep
+set-option global grepcmd 'rg --column'
+
+# editorconfig
+hook global WinCreate ^[^*]+$ %{editorconfig-load}
+
+# comments
+map global normal '#' :comment-line<ret>
+
+# tab
+hook global InsertCompletionShow .* %{ map window insert <tab> <c-n>; map window insert <s-tab> <c-p> }
+hook global InsertCompletionHide .* %{ unmap window insert <tab> <c-n>; unmap window insert <s-tab> <c-p> }
+
+# find
+define-command find -menu -params 1 -shell-script-candidates %{ rg --files --follow --hidden -g '!.git' } %{ edit %arg{1} }
+
+# line numbers
+add-highlighter global/ number-lines -separator ' '
+
+# highlight keywords
+add-highlighter global/ regex \b(TODO|FIXME|NOTE)\b 0:default+rb
