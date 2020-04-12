@@ -55,7 +55,7 @@ setopt autocd
 
 # spelling correction for commands
 # source: http://zsh.sourceforge.net/Intro/intro_16.html
-setopt correct
+# setopt correct
 
 # programmable file renaming
 # source: https://www.slideshare.net/brendon_jag/why-zsh-is-cooler-than-your-shell
@@ -73,6 +73,15 @@ setopt sharehistory
 # don't save commands starting with space in history
 # source: https://news.ycombinator.com/item?id=5692075
 setopt histignorespace
+
+# larger history size
+# source: https://github.com/garybernhardt/dotfiles/blob/master/.zshrc#L23
+export HISTSIZE=100000
+export SAVEHIST=$HISTSIZE
+
+# save history to specific file
+# source: https://github.com/garybernhardt/dotfiles/blob/master/.zshrc#L24
+export HISTFILE=$HOME/.zsh_history
 
 # history search with globbing
 # source: https://unix.stackexchange.com/questions/30168/how-to-enable-reverse-search-in-zsh#comment40870_30169
@@ -103,8 +112,7 @@ bindkey '^N' history-beginning-search-forward
 # $ !!
 
 # open current line in $EDITOR
-# source: https://unix.stackexchange.com/a/34251
-autoload -z edit-command-line
+# source: https://unix.stackexchange.com/a/34251 autoload -z edit-command-line
 zle -N edit-command-line
 bindkey '^x^e' edit-command-line
 
@@ -138,11 +146,12 @@ export LESS_TERMCAP_me=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;32m'
 export LESS_TERMCAP_se=$'\e[0m'
 
-# fzf options
-export FZF_DEFAULT_COMMAND='rg --files --follow --hidden -g "!.git"'
-
-# nnn options
+# nnn
 export NNN_OPTS='eH'
 export NNN_COLORS='6277'
 export NNN_BMS='d:~/dev;D:~/Documents;c:~/dotfiles;s:~/dotfiles/.local/bin'
 export NNN_TRASH=1
+
+# rbenv
+export PATH=~/.rbenv/bin:$PATH
+eval "$(rbenv init -)"
