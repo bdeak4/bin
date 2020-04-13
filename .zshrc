@@ -146,6 +146,14 @@ export LESS_TERMCAP_me=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;32m'
 export LESS_TERMCAP_se=$'\e[0m'
 
+# ripgrep
+export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
+
+# fzf
+export FZF_DEFAULT_COMMAND='rg --files'
+export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 # nnn
 export NNN_OPTS='eH'
 export NNN_COLORS='6277'
