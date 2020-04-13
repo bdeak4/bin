@@ -9,14 +9,13 @@ setopt promptsp # prevent theme from eating output that doesn't end with \n
 # env
 export EDITOR=vim
 export VISUAL=$EDITOR
-export PATH=/usr/local/bin:$PATH
+# export PATH=/usr/local/bin:$PATH
 export PATH=~/.local/bin:$PATH
-export PATH=./node_modules/.bin:$PATH
+# export PATH=./node_modules/.bin:$PATH
 
 # aliases
-alias vi='vim'
-alias vv='vim --noplugin' # without plugins
-alias vvv='vim -N -u NONE' # without vimrc and plugins
+# alias vv='vim --noplugin' # without plugins
+# alias vvv='vim -N -u NONE' # without vimrc and plugins
 
 # global aliases
 # aliases that can be used everywhere in command
@@ -86,7 +85,7 @@ export HISTFILE=$HOME/.zsh_history
 
 # history search with globbing
 # source: https://unix.stackexchange.com/questions/30168/how-to-enable-reverse-search-in-zsh#comment40870_30169
-bindkey '^R' history-incremental-pattern-search-backward
+# bindkey '^R' history-incremental-pattern-search-backward
 
 # move to next match in history search
 # source: https://www.gnu.org/software/emacs/manual/html_node/emacs/Repeat-Isearch.html
@@ -98,8 +97,8 @@ bindkey '^R' history-incremental-pattern-search-backward
 
 # filter history backward/forward with substring
 # source: https://unix.stackexchange.com/a/461262
-bindkey '^P' history-beginning-search-backward
-bindkey '^N' history-beginning-search-forward
+# bindkey '^P' history-beginning-search-backward
+# bindkey '^N' history-beginning-search-forward
 
 # search history shortcuts
 # source: https://stackoverflow.com/a/14469720/11197595
@@ -156,10 +155,10 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # nnn
-export NNN_OPTS='eH'
-export NNN_COLORS='6277'
-export NNN_BMS='d:~/dev;D:~/Documents;c:~/dotfiles;s:~/dotfiles/.local/bin'
-export NNN_TRASH=1
+# export NNN_OPTS='eH'
+# export NNN_COLORS='6277'
+# export NNN_BMS='d:~/dev;D:~/Documents;c:~/dotfiles;s:~/dotfiles/.local/bin'
+# export NNN_TRASH=1
 
 # rbenv
 export PATH=~/.rbenv/bin:$PATH

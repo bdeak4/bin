@@ -120,10 +120,6 @@ vnoremap gb :<C-u>!git blame <C-r>=expand("%:p")<CR>
 nnoremap <leader>p :registers<CR>:normal "p<left>
 nnoremap <leader>P :registers<CR>:normal "P<left>
 
-" fix command typos
-command! W w
-command! Q q
-
 " fix slow esc
 set ttimeout ttimeoutlen=0
 
