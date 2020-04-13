@@ -3,17 +3,19 @@
 # Recursive Git Status
 
 home=$(pwd)
-dirs=$(find . -maxdepth "${1:-2}" -type d -name .git)
+is_first_iteration=1
+dirs=$(find . -type d -name .git -prune -exec dirname {} \;)
 
 for dir in $dirs; do
-    dir=${dir//.git/}
-    cd "$dir" || exit
+	cd "$dir" || exit
 
-    if [[ -n $(git status -s) ]]
-    then
-        printf "\n\e[36m%s\e[0m\n" "$dir"
-        git status
-    fi
+	test $is_first_iteration -eq 0 && echo
+	is_first_iteration=0
 
-    cd "$home" || exit
+	printf "\e[36m%s\e[0m:\n" "$dir"
+	unpushed_commits=$(git log --branches --not --remotes --oneline | wc -l)
+	printf "%s unpushed commits\n" "$unpushed_commits"
+	git status --short
+
+	cd "$home" || exit
 done
