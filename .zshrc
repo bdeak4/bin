@@ -11,6 +11,7 @@ export EDITOR=vim
 export VISUAL=$EDITOR
 export PATH=/usr/local/bin:$PATH
 export PATH=~/.local/bin:$PATH
+export PATH=./node_modules/.bin:$PATH
 
 # aliases
 alias vi='vim'
@@ -163,3 +164,6 @@ export NNN_TRASH=1
 # rbenv
 export PATH=~/.rbenv/bin:$PATH
 eval "$(rbenv init -)"
+
+# linuxbrew
+eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
