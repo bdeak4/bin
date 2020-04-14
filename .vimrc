@@ -82,11 +82,8 @@ endif
 set undofile undodir=~/.vim/undo
 
 " swap and backup
-if empty(glob('~/.vim/tmp'))
-  silent !mkdir -p ~/.vim/tmp
-endif
-set swapfile directory=~/.vim/tmp
-set backup backupdir=~/.vim/tmp
+set directory=~/.cache
+set backupdir=~/.cache
 
 " jump to the last known cursor position
 autocmd BufReadPost *
