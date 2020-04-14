@@ -76,7 +76,7 @@ setopt histignorespace
 
 # larger history size
 # source: https://github.com/garybernhardt/dotfiles/blob/master/.zshrc#L23
-export HISTSIZE=100000
+export HISTSIZE=1000000
 export SAVEHIST=$HISTSIZE
 
 # save history to specific file
