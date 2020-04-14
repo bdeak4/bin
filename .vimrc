@@ -60,7 +60,7 @@ set showcmd
 set spelllang=en,hr
 autocmd FileType markdown,gitcommit setlocal spell
 nnoremap <leader>s :set spell!<CR>
-nnoremap <leader>z [s1z=<C-o>
+inoremap <C-l> <esc>[s1z=<C-o>a
 
 " indentation
 set autoindent
