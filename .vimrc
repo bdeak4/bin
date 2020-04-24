@@ -118,6 +118,10 @@ nnoremap <leader>P :registers<CR>:normal "P<left>
 " fix slow esc
 set ttimeout ttimeoutlen=0
 
+" copy to clipboard
+map gy "+y
+nmap gY gg"+yG
+
 " fzf.vim
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>b :Buffers<CR>
