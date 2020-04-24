@@ -123,6 +123,7 @@ export HISTFILE=$HOME/.zsh_history
 
 # open current line in $EDITOR
 # source: https://unix.stackexchange.com/a/34251 autoload -z edit-command-line
+autoload edit-command-line
 zle -N edit-command-line
 bindkey '^x^e' edit-command-line
 
