@@ -9,6 +9,9 @@
     pager = less --tabs=4 -RFX
     excludesfile = ~/.gitignore
 
+[commit]
+    verbose = true
+
 [merge]
     tool = vimdiff
 
