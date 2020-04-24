@@ -17,7 +17,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-abolish'
 Plug 'mbbill/undotree'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'owickstrom/vim-colors-paramount'
+Plug 'arcticicestudio/nord-vim'
 call plug#end()
 
 " leader key
@@ -27,10 +27,8 @@ let mapleader = " "
 filetype plugin indent on
 syntax enable
 set termguicolors
-set background=dark
-colorscheme paramount
+colorscheme nord
 set colorcolumn=81
-set showmatch
 packadd! matchit
 
 " line numbers
