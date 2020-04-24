@@ -175,5 +175,14 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export PATH=~/.rbenv/bin:$PATH
 eval "$(rbenv init -)"
 
+# yarn
+export PATH=~/.yarn/bin:$PATH
+
+# go
+export GOPATH=~/.local/bin/go
+
 # linuxbrew
 eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+
+# z
+. /home/linuxbrew/.linuxbrew/etc/profile.d/z.sh
