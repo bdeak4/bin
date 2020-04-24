@@ -16,6 +16,16 @@ export PATH=~/.local/bin:$PATH
 # aliases
 # alias vv='vim --noplugin' # without plugins
 # alias vvv='vim -N -u NONE' # without vimrc and plugins
+alias g='git'
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gco='git checkout'
+alias gd='git diff'
+alias gl='git log --graph --oneline --decorate --all'
+alias gp='git push'
+alias gpom='git push origin master'
+alias gpl='git pull'
 
 # global aliases
 # aliases that can be used everywhere in command
