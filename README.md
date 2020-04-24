@@ -1,8 +1,7 @@
-# config
+# Bartol's Dotfiles
 
 ```bash
-cd ~
-git clone https://github.com/bartol/config
-cd config
-bash ./install.sh
+git clone https://github.com/bartol/dotfiles .dotfiles
+.dotfiles/.local/bin/link_dotfiles
+.dotfiles/.local/bin/install_programs
 ```
