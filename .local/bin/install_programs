@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+#
+# Install Programs
+
+sudo apt install -y \
+	vim-gtk \
+	git \
+	zsh \
+	fzf \
+	ripgrep \
+	tmux \
+	trash-cli \
+	moreutils \
+	jq \
+	tree \
+	entr \
+	pandoc \
+	shellcheck \
+	python \
+	rbenv \
+	ruby-build \
+	postgresql \
+	postgresql-contrib \
+	nodejs \
+	yarn \
+	whois \
+	zathura
