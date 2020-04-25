@@ -189,3 +189,8 @@ eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
 # z
 . /home/linuxbrew/.linuxbrew/etc/profile.d/z.sh
+
+# load local zshrc
+if [[ -r ~/.zshrc.local ]]; then
+    source ~/.zshrc.local
+fi
