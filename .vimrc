@@ -144,3 +144,8 @@ let g:ale_fixers = {
 let g:undotree_WindowLayout = 4
 let g:undotree_SetFocusWhenToggle = 1
 nnoremap <leader>u :UndotreeToggle<CR>
+
+" load local vimrc
+if filereadable(expand("~/.vimrc.local"))
+  source ~/.vimrc.local
+endif
