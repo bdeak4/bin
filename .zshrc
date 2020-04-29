@@ -179,7 +179,7 @@ eval "$(rbenv init -)"
 export PATH=~/.yarn/bin:$PATH
 
 # go
-export GOPATH=~/.local/bin/go
+export GOBIN=/usr/local/bin
 
 # linuxbrew
 eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
