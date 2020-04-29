@@ -120,7 +120,17 @@ set ttimeout ttimeoutlen=0
 
 " copy to clipboard
 map gy "+y
-nmap gY gg"+yG
+nnoremap gY gg"+yG
+
+" faster navigation
+nnoremap <leader>w :w<CR>
+nnoremap <leader>x :x<CR>
+nnoremap <leader><leader> <C-^>
+
+" fix typos
+command! W w
+command! Q q
+nnoremap q: :q
 
 " fzf.vim
 nnoremap <leader>f :Files<CR>
