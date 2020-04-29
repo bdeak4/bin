@@ -157,6 +157,9 @@ export LESS_TERMCAP_me=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;32m'
 export LESS_TERMCAP_se=$'\e[0m'
 
+# vgrep
+compdef vgrep=rg
+
 # ripgrep
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
@@ -186,3 +189,8 @@ eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
 # z
 . /home/linuxbrew/.linuxbrew/etc/profile.d/z.sh
+
+# load local zshrc
+if [[ -r ~/.zshrc.local ]]; then
+    source ~/.zshrc.local
+fi

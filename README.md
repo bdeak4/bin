@@ -1,4 +1,4 @@
-# Bartol's Dotfiles
+### Bartol's dotfiles
 
 ```bash
 git clone https://github.com/bartol/dotfiles .dotfiles
