@@ -7,7 +7,7 @@ prompt adam2
 setopt promptsp # prevent theme from eating output that doesn't end with \n
 
 # env
-export EDITOR=vim
+export EDITOR=kak
 export VISUAL=$EDITOR
 # export PATH=/usr/local/bin:$PATH
 export PATH=~/.local/bin:$PATH
