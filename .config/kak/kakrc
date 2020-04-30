@@ -6,6 +6,7 @@ eval %sh{kak-lsp --kakoune -s $kak_session}
 hook global WinSetOption filetype=(go|javascript) %{
 	lsp-enable-window
 	lsp-auto-hover-enable
+	lsp-auto-hover-insert-mode-enable
 	hook window BufWritePre .* lsp-formatting-sync
 }
 
