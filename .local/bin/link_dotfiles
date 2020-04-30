@@ -3,10 +3,10 @@
 # Link Dotfiles
 
 # sym link files in home
-find dotfiles -type f -iname '.*' -exec ln -siv {} \;
+find ~/.dotfiles -type f -iname '.*' -exec ln -siv {} ~ \;
 
 # create directories
-find dotfiles -type d -not -iwholename '*.git*' | sed 's/dotfiles/./' | xargs mkdir -pv
+find ~/.dotfiles -type d -not -iwholename '*.git*' | sed 's/\.dotfiles\///' | xargs mkdir -pv
 
 # sym link files in directories
-find ~/dotfiles -mindepth 2 -type f -not -iwholename '*.git/*' -print0 -exec realpath -z --relative-to=dotfiles {} \; | xargs -0 -n2 -o ln -siv
+find ~/.dotfiles -mindepth 2 -type f -not -iwholename '*.git/*' | awk '{ print; gsub(/\.dotfiles\//, ""); print }' | xargs -n2 -o ln -siv
