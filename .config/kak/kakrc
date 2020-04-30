@@ -1,21 +1,48 @@
-# grep
-set-option global grepcmd 'rg --column'
-
 # editorconfig
 hook global WinCreate ^[^*]+$ %{editorconfig-load}
+
+# lsp
+eval %sh{kak-lsp --kakoune -s $kak_session}
+hook global WinSetOption filetype=(go|javascript) %{
+	lsp-enable-window
+	lsp-auto-hover-enable
+	hook window BufWritePre .* lsp-formatting-sync
+}
 
 # comments
 map global normal '#' :comment-line<ret>
 
 # tab
-hook global InsertCompletionShow .* %{ map window insert <tab> <c-n>; map window insert <s-tab> <c-p> }
-hook global InsertCompletionHide .* %{ unmap window insert <tab> <c-n>; unmap window insert <s-tab> <c-p> }
+hook global InsertCompletionShow .* %{
+	map window insert <tab> <c-n>
+	map window insert <s-tab> <c-p>
+}
+hook global InsertCompletionHide .* %{
+	unmap window insert <tab> <c-n>
+	unmap window insert <s-tab> <c-p>
+}
+
+# grep
+set global grepcmd 'rg --column'
 
 # find
-define-command find -menu -params 1 -shell-script-candidates %{ rg --files --follow --hidden -g '!.git' } %{ edit %arg{1} }
+def find -params 1 -shell-script-candidates %{ rg --files } %{ edit %arg{1} }
+alias global f find
 
 # line numbers
-add-highlighter global/ number-lines -separator ' '
+addhl global/ number-lines -separator ' '
+
+# column
+addhl global/ column 81 default,rgb:333333
+
+# whitespace
+addhl global/ show-whitespaces -lf ' ' -spc ' '
+
+# colorscheme
+colorscheme tomorrow-night
 
 # highlight keywords
-add-highlighter global/ regex \b(TODO|FIXME|NOTE)\b 0:default+rb
+addhl global/ regex \b(TODO|FIXME|NOTE)\b 0:+rb
+
+# highlight matching brackets
+addhl global/ show-matching
