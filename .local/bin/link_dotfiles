@@ -9,4 +9,4 @@ find dotfiles -type f -iname '.*' -exec ln -siv {} \;
 find dotfiles -type d -not -iwholename '*.git*' | sed 's/dotfiles/./' | xargs mkdir -pv
 
 # sym link files in directories
-find dotfiles -mindepth 2 -type f -not -iwholename '*.git/*' -print0 -exec realpath -z --relative-to=dotfiles {} \; | xargs -0 -n2 -o ln -siv
+find ~/dotfiles -mindepth 2 -type f -not -iwholename '*.git/*' -print0 -exec realpath -z --relative-to=dotfiles {} \; | xargs -0 -n2 -o ln -siv
