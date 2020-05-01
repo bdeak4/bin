@@ -2,39 +2,65 @@
 #
 # Install Programs
 
-popos install:
-sudo apt install -y
+sudo apt update -y
+sudo apt upgrade -y
+sudo apt install -y \
+	fish \
 	zsh \
-	fzf \
+	kakoune \
+	vim-gtk \
+	git \
+	ripgrep \
+	editorconfig \
+	curl \
+	entr \
 	tmux \
+	tldr \
+	xclip \
+	wget \
 	jq \
+	trash-cli \
 	pandoc \
-	python \
-	rbenv \
-	ruby-build \
+	tree \
+	whois \
+	moreutils \
+	sqlite3 \
+	postgresql \
+	postgresql-contrib \
+	golang \
+	nodejs \
+	npm \
 	yarn \
-
-tools:
-	kakoune
-	fish
-	git
-	vgrep
-	ripgrep
-	editorconfig
-	entr
-	curl
-	trash-cli
-
-	tree
-	wget
-	whois
-	moreutils
+	ruby \
+	python3 \
 	shellcheck
 
-databases:
-	sqlite3
-	postgresql
+# change shell
+sudo chsh -s $(which fish)
 
-languages:
-	go
-	nodejs
+# rust
+curl https://sh.rustup.rs -sSf | sh -s -- --no-modify-path -y
+
+cd ~/Downloads
+
+# vgrep
+curl -L https://github.com/vrothberg/vgrep/archive/master.zip -o vgrep.zip
+unzip vgrep.zip -d vgrep
+(cd vgrep/vgrep-master && make build && make install PREFIX=~/.local)
+rm -rf vgrep.zip vgrep
+
+# kak-lsp
+curl -L https://github.com/ul/kak-lsp/releases/download/v8.0.0/kak-lsp-v8.0.0-x86_64-unknown-linux-musl.tar.gz -o kak-lsp.tar.gz
+mkdir -pv kak-lsp
+tar xzvf kak-lsp.tar.gz -C kak-lsp
+mv -v kak-lsp/kak-lsp ~/.local/bin
+rm -rf kak-lsp.tar.gz kak-lsp
+
+# Iosevka
+curl -L https://github.com/be5invis/Iosevka/releases/download/v3.0.0-rc.8/03-iosevka-term-3.0.0-rc.8.zip -o iosevka.zip
+unzip iosevka.zip -d iosevka
+mkdir -pv ~/.fonts
+cp -vf iosevka/ttf/* ~/.fonts
+rm -rf iosevka.zip iosevka
+
+cd -
