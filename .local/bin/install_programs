@@ -2,26 +2,39 @@
 #
 # Install Programs
 
-sudo apt install -y \
-	vim-gtk \
-	git \
+popos install:
+sudo apt install -y
 	zsh \
 	fzf \
-	ripgrep \
 	tmux \
-	trash-cli \
-	moreutils \
 	jq \
-	tree \
-	entr \
 	pandoc \
-	shellcheck \
 	python \
 	rbenv \
 	ruby-build \
-	postgresql \
-	postgresql-contrib \
-	nodejs \
 	yarn \
-	whois \
-	zathura
+
+tools:
+	kakoune
+	fish
+	git
+	vgrep
+	ripgrep
+	editorconfig
+	entr
+	curl
+	trash-cli
+
+	tree
+	wget
+	whois
+	moreutils
+	shellcheck
+
+databases:
+	sqlite3
+	postgresql
+
+languages:
+	go
+	nodejs
