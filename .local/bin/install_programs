@@ -6,42 +6,42 @@ sudo apt update -y
 sudo apt upgrade -y
 sudo apt install -y \
 	fish \
-	zsh \
+	# zsh \
 	kakoune \
-	vim-gtk \
+	# vim-gtk \
 	git \
 	ripgrep \
 	editorconfig \
 	curl \
 	entr \
-	tmux \
-	tldr \
+	# tmux \
+	# tldr \
 	xclip \
 	wget \
-	jq \
+	# jq \
 	trash-cli \
-	pandoc \
-	tree \
-	whois \
+	# pandoc \
+	# tree \
+	# whois \
 	moreutils \
 	sqlite3 \
 	postgresql \
 	postgresql-contrib \
-	golang \
-	nodejs \
-	npm \
-	yarn \
-	ruby \
+	# golang \
+	# nodejs \
+	# npm \
+	# yarn \
+	# ruby \
 	python3 \
 	shellcheck
 
 # change shell
 sudo chsh -s $(which fish)
 
-# rust
-curl https://sh.rustup.rs -sSf | sh -s -- --no-modify-path -y
-
 cd ~/Downloads
+
+# gopls
+go get golang.org/x/tools/gopls
 
 # vgrep
 curl -L https://github.com/vrothberg/vgrep/archive/master.zip -o vgrep.zip
