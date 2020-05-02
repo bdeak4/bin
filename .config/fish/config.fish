@@ -22,7 +22,7 @@ set -x LESS_TERMCAP_se \e'[0m'
 set -x RIPGREP_CONFIG_PATH ~/.ripgreprc
 
 # go
-set -x GOBIN ~/.local/bin
+set -x PATH /usr/local/go/bin $PATH
 
 # rust
 set -x PATH ~/.cargo/bin $PATH
