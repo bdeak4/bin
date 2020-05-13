@@ -23,6 +23,8 @@ set -x RIPGREP_CONFIG_PATH ~/.ripgreprc
 
 # go
 set -x PATH /usr/local/go/bin $PATH
+set -x GOPATH ~/.go
+set -x PATH ~/.go/bin $PATH
 
 # rust
 set -x PATH ~/.cargo/bin $PATH
