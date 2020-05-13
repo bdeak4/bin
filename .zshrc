@@ -91,7 +91,7 @@ export SAVEHIST=$HISTSIZE
 
 # save history to specific file
 # source: https://github.com/garybernhardt/dotfiles/blob/master/.zshrc#L24
-export HISTFILE=$HOME/.zsh_history
+export HISTFILE=~/.zsh_history
 
 # history search with globbing
 # source: https://unix.stackexchange.com/questions/30168/how-to-enable-reverse-search-in-zsh#comment40870_30169
@@ -161,7 +161,18 @@ export LESS_TERMCAP_se=$'\e[0m'
 compdef vgrep=rg
 
 # ripgrep
-export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
+export RIPGREP_CONFIG_PATH=~/.ripgreprc
+
+# go
+export PATH=/usr/local/go/bin:$PATH
+export GOPATH=~/.go
+export PATH=~/.go/bin:$PATH
+
+# rust
+export PATH=~/.cargo/bin:$PATH
+
+# yarn
+export PATH=~/.yarn/bin:$PATH
 
 # fzf
 export FZF_DEFAULT_COMMAND='rg --files'
@@ -173,22 +184,6 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 # export NNN_COLORS='6277'
 # export NNN_BMS='d:~/dev;D:~/Documents;c:~/dotfiles;s:~/dotfiles/.local/bin'
 # export NNN_TRASH=1
-
-# rbenv
-export PATH=~/.rbenv/bin:$PATH
-eval "$(rbenv init -)"
-
-# yarn
-export PATH=~/.yarn/bin:$PATH
-
-# go
-export GOBIN=/usr/local/bin
-
-# linuxbrew
-eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-
-# z
-. /home/linuxbrew/.linuxbrew/etc/profile.d/z.sh
 
 # load local zshrc
 if [[ -r ~/.zshrc.local ]]; then
