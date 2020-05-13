@@ -2,65 +2,136 @@
 #
 # Install Programs
 
-sudo apt update -y
+cd ~/.cache
+
+# update outdated programs #####################################################
+sudo apt update
 sudo apt upgrade -y
-sudo apt install -y \
-	fish \
-	# zsh \
-	kakoune \
-	# vim-gtk \
-	git \
-	ripgrep \
-	editorconfig \
-	curl \
-	entr \
-	# tmux \
-	# tldr \
-	xclip \
-	wget \
-	# jq \
-	trash-cli \
-	# pandoc \
-	# tree \
-	# whois \
-	moreutils \
-	sqlite3 \
-	postgresql \
-	postgresql-contrib \
-	# golang \
-	# nodejs \
-	# npm \
-	# yarn \
-	# ruby \
-	python3 \
-	shellcheck
+
+# shell ########################################################################
+
+# fish - shell from the 90s
+sudo apt install -y fish
+
+# zsh
+# sudo apt install -y zsh
 
 # change shell
 sudo chsh -s $(which fish)
 
-cd ~/Downloads
+# editor #######################################################################
 
-# gopls
+# kakoune - modal editor
+sudo apt install -y kakoune
+
+# kak-lsp - kakoune language server exension
+KAK_LSP_VERSION=8.0.0
+curl -LO "https://github.com/ul/kak-lsp/releases/download/v$KAK_LSP_VERSION/kak-lsp-v$KAK_LSP_VERSION-x86_64-unknown-linux-musl.tar.gz"
+mkdir kak-lsp
+tar xzvf "kak-lsp-v$KAK_LSP_VERSION-x86_64-unknown-linux-musl.tar.gz" -C kak-lsp
+mv -v kak-lsp/kak-lsp ~/.local/bin
+rm -rf "kak-lsp-v$KAK_LSP_VERSION-x86_64-unknown-linux-musl.tar.gz" kak-lsp
+
+# vim
+# sudo apt install -y vim-gtk
+
+# programming languages ########################################################
+
+# go
+GO_VERSION=1.14.2
+curl -O "https://dl.google.com/go/go$GO_VERSION.linux-amd64.tar.gz"
+sudo tar -C /usr/local -xzf "go$GO_VERSION.linux-amd64.tar.gz"
+rm "go$GO_VERSION.linux-amd64.tar.gz"
+
+# gopls - go language server
 go get golang.org/x/tools/gopls
 
-# vgrep
-curl -L https://github.com/vrothberg/vgrep/archive/master.zip -o vgrep.zip
-unzip vgrep.zip -d vgrep
-(cd vgrep/vgrep-master && make build && make install PREFIX=~/.local)
-rm -rf vgrep.zip vgrep
+# c
+sudo apt install -y gcc
 
-# kak-lsp
-curl -L https://github.com/ul/kak-lsp/releases/download/v8.0.0/kak-lsp-v8.0.0-x86_64-unknown-linux-musl.tar.gz -o kak-lsp.tar.gz
-mkdir -pv kak-lsp
-tar xzvf kak-lsp.tar.gz -C kak-lsp
-mv -v kak-lsp/kak-lsp ~/.local/bin
-rm -rf kak-lsp.tar.gz kak-lsp
+# rust
+curl https://sh.rustup.rs -sSf | sh -s -- --no-modify-path -y
 
-# Iosevka
-curl -L https://github.com/be5invis/Iosevka/releases/download/v3.0.0-rc.8/03-iosevka-term-3.0.0-rc.8.zip -o iosevka.zip
-unzip iosevka.zip -d iosevka
-mkdir -pv ~/.fonts
-cp -vf iosevka/ttf/* ~/.fonts
-rm -rf iosevka.zip iosevka
+# python
+sudo apt install -y python3
+
+# shellcheck - shell script analysis tool
+sudo apt install -y shellcheck
+
+# databases ####################################################################
+
+# sqlite - Small. Fast. Reliable. Choose any three.
+sudo apt install -y sqlite3
+
+# postgresql - the most advanced relational database
+sudo apt install -y postgresql postgresql-contrib
+
+# code tooling #################################################################
+
+# git
+sudo apt install -y git
+
+# fossil - robust and reliable vcs
+# sudo apt install -y fossil
+
+# gdb - debugger
+sudo apt install -y gdb
+
+# editorconfig - enforce code styles
+sudo apt install -y editorconfig
+
+# ripgrep - smarter grep
+sudo apt install -y ripgrep
+
+# vgrep - interactive front-end for (rip)grep
+curl -LO https://github.com/vrothberg/vgrep/archive/master.zip
+unzip vgrep-master.zip
+(cd vgrep-master && make build && make install PREFIX=~/.local)
+rm -rf vgrep-master.zip vgrep-master
+
+# entr - rebuild project if files change
+sudo apt install -y entr
+
+# utils ########################################################################
+
+# curl - http client
+sudo apt install -y curl
+
+# tmux - terminal multiplexer
+# sudo apt install -y tmux
+
+# moreutils - vidir, vipe...
+sudo apt install -y moreutils
+
+# trash-cli - put files in trash from command line
+sudo apt install -y trash-cli
+
+# jq - command line json processor
+# sudo apt install -y jq
+
+# pandoc - universal document converter
+sudo apt install -y pandoc
+
+# youtube-dl - download videos from youtube
+sudo apt install -y youtube-dl
+
+# tree - view directory structure
+sudo apt install -y tree
+
+# whois - view domain info
+# sudo apt install -y whois
+
+# blueman - bluetooth manager
+sudo apt install -y blueman
+
+# fonts ########################################################################
+
+# Iosevka - slender typeface for code, from code
+IOSEVKA_VERSION=3.0.0-rc.8
+curl -L0 "https://github.com/be5invis/Iosevka/releases/download/v$IOSEVKA_VERSION/03-iosevka-term-$IOSEVKA_VERSION.zip"
+unzip "03-iosevka-term-$IOSEVKA_VERSION.zip" -d iosevka-term
+mkdir ~/.fonts
+cp -f iosevka-term/ttf/* ~/.fonts
+rm -rf "03-iosevka-term-$IOSEVKA_VERSION.zip" iosevka-term
 
 cd -
