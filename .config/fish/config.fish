@@ -28,6 +28,3 @@ set -x PATH ~/.go/bin $PATH
 
 # rust
 set -x PATH ~/.cargo/bin $PATH
-
-# yarn
-set -x PATH ~/.yarn/bin $PATH

@@ -171,9 +171,6 @@ export PATH=~/.go/bin:$PATH
 # rust
 export PATH=~/.cargo/bin:$PATH
 
-# yarn
-export PATH=~/.yarn/bin:$PATH
-
 # fzf
 export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
