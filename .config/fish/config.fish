@@ -1,5 +1,5 @@
 set -x PATH ~/.local/bin $PATH
-set -x EDITOR kak
+set -x EDITOR vi
 
 abbr -a g git
 abbr -a gs git status
