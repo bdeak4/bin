@@ -22,7 +22,7 @@ set list listchars=tab:>\ ,trail:-,nbsp:+
 set hidden autoread
 set backspace=indent,eol,start
 
-if empty(glob('~/.vim/undo'))
+if empty(glob("~/.vim/undo"))
 	silent !mkdir -p ~/.vim/undo
 endif
 set undofile undodir=~/.vim/undo
