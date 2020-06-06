@@ -6,6 +6,7 @@ endif
 call plug#begin("~/.vim/plugged")
 Plug 'editorconfig/editorconfig-vim'
 Plug 'fatih/vim-go'
+let g:go_fmt_command = "goimports"
 call plug#end()
 
 filetype plugin indent on
