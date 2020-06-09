@@ -15,8 +15,7 @@ colorscheme elflord
 set number relativenumber
 set incsearch ignorecase smartcase
 set splitright splitbelow
-set wildmenu
-set path+=**
+set wildmenu path+=**
 set showcmd
 set spelllang=en,hr
 set list listchars=tab:>\ ,trail:-,nbsp:+
@@ -27,8 +26,7 @@ if empty(glob("~/.vim/undo"))
 	silent !mkdir -p ~/.vim/undo
 endif
 set undofile undodir=~/.vim/undo
-set directory=~/.cache
-set backupdir=~/.cache
+set directory=~/.cache backupdir=~/.cache
 
 autocmd BufReadPost *
 	\ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
