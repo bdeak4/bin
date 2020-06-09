@@ -20,11 +20,11 @@ autocmd BufReadPost *
 
 nnoremap <leader>h :set hlsearch!<CR>
 nnoremap <leader>s :set spell!<CR>
-nnoremap <leader>l :set list!<CR>
 nnoremap <leader>c [s1z=<C-o>
 nnoremap <leader>b :ls<CR>:b<space>
 nnoremap <leader>p :reg<CR>:norm "p<left>
 nnoremap <leader>P :reg<CR>:norm "P<left>
+nnoremap <leader>y "+y
 cmap w!! w !sudo tee % > /dev/null
 
 let g:go_fmt_command = "goimports"
