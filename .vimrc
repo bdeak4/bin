@@ -1,6 +1,7 @@
 filetype plugin indent on
 syntax enable
 colorscheme elflord
+
 set number relativenumber
 set incsearch ignorecase smartcase
 set splitright splitbelow
@@ -13,10 +14,9 @@ set backspace=indent,eol,start
 set undofile undodir=~/.vim/undo
 set directory=~/.cache backupdir=~/.cache
 
-autocmd BufReadPost *
-	\ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-	\ | 	exe "normal! g`\""
-	\ | endif
+let g:go_fmt_command = "goimports"
+
+autocmd BufReadPost * :norm g`"<CR>
 
 nnoremap <leader>h :set hlsearch!<CR>
 nnoremap <leader>s :set spell!<CR>
@@ -25,9 +25,7 @@ nnoremap <leader>b :ls<CR>:b<space>
 nnoremap <leader>p :reg<CR>:norm "p<left>
 nnoremap <leader>P :reg<CR>:norm "P<left>
 nnoremap <leader>y "+y
-cmap w!! w !sudo tee % > /dev/null
-
-let g:go_fmt_command = "goimports"
+cnoremap w!! w !sudo tee % > /dev/null
 
 " mkdir -p ~/.vim/undo
 " git clone https://github.com/fatih/vim-go ~/.vim/pack/plugins/start/vim-go
