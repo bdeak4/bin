@@ -1,4 +1,4 @@
-filetype plugin indent on
+filetype plugin on
 syntax enable
 colorscheme elflord
 
@@ -7,7 +7,6 @@ set incsearch ignorecase smartcase
 set splitright splitbelow
 set wildmenu path+=**
 set showcmd
-set spelllang=en,hr
 set list listchars=tab:>\ ,trail:-,nbsp:+
 set hidden autoread
 set backspace=indent,eol,start
