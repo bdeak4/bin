@@ -5,47 +5,29 @@
 sudo apt update
 sudo apt upgrade -y
 sudo apt install -y \
-	fish \
 	zsh \
-	kakoune \
-	vim-gtk \
+	vim-gtk `# vim with clipboard support` \
+	git \
+	make \
+	gdb \
 	gcc \
 	python3 \
 	shellcheck \
-	git \
-	fossil \
 	sqlite3 \
-	postgresql postgresql-contrib \
-	gdb \
 	editorconfig \
-	ripgrep \
 	entr \
 	curl \
-	wget \
 	tmux \
 	tmate \
 	moreutils \
 	trash-cli \
-	jq \
 	pandoc \
 	youtube-dl \
-	tree \
-	whois \
-	blueman \
+	blueman
 
-echo
-echo "> change shell"
-echo "sudo chsh -s $(which fish)"
-echo
-echo "> programs"
-echo "go - https://golang.org/dl/"
-echo "gopls - go get golang.org/x/tools/gopls"
-echo "kak-lsp - https://github.com/ul/kak-lsp#manual"
-echo "rust - https://rustup.rs/"
-echo "gh - https://github.com/cli/cli#debianubuntu-linux"
-echo "CopyQ - https://github.com/hluk/CopyQ#debian-10-ubuntu-1804-and-their-derivatives"
-echo "vgrep - https://github.com/vrothberg/vgrep#build-instructions-and-dependencies"
-echo "        (make build && make install PREFIX=~/.local)"
-echo
-echo "> fonts"
-echo "Iosevka - https://github.com/be5invis/Iosevka/releases"
+cat << EOF
+sudo chsh -s $(which zsh)
+Go - https://golang.org/dl/
+Rust - https://rustup.rs/
+Iosevka - https://github.com/be5invis/Iosevka/releases
+EOF

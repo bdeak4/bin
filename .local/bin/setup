@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+# install programs
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y \
+	zsh \
+	vim-gtk `# vim with clipboard support` \
+	git \
+	make \
+	gdb \
+	gcc \
+	python3 \
+	shellcheck \
+	sqlite3 \
+	editorconfig \
+	entr \
+	curl \
+	tmux \
+	tmate \
+	moreutils \
+	trash-cli \
+	pandoc \
+	youtube-dl \
+	vlc \
+	blueman
+
+# link files in home
+find ~/dotfiles -type f -iname ".*" -exec ln -siv {} ~ \;
+
+# create directories
+find ~/dotfiles -type d -not -iwholename "*.git*" | sed "s/dotfiles\///" | xargs mkdir -pv
+
+# link files in directories
+find ~/dotfiles -mindepth 2 -type f -not -iwholename "*.git/*" | awk '{ print; gsub(/dotfiles\//, ""); print }' | xargs -n2 -o ln -siv
+
+cat << EOF
+.
+.
+.
+sudo chsh -s $(which zsh)
+Go      https://golang.org/dl/
+Rust    https://rustup.rs/
+Iosevka https://github.com/be5invis/Iosevka/releases
+EOF
