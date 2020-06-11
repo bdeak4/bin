@@ -3,6 +3,7 @@ PROMPT="[%n@%m %~]%(#.#.$) "
 export EDITOR=vi
 export PATH=~/.local/bin:$PATH
 bindkey -e
+stty -ixon
 alias vi="vim"
 alias g="git"
 setopt autocd
