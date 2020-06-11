@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#
+# Setup
 
 # install programs
 sudo apt update
