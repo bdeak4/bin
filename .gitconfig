@@ -1,19 +1,33 @@
 [user]
-    name = bartol
-    email = b@bartol.dev
+	name = bartol
+	email = b@bartol.dev
 
 [color]
-    ui = true
+	ui = true
 
 [core]
-    pager = less --tabs=4 -RFX
-    excludesfile = ~/.gitignore
+	pager = less --tabs=4 -RFX
 
 [commit]
-    verbose = true
+	verbose = true
 
 [merge]
-    tool = vimdiff
+	tool = vimdiff
+
+[alias]
+	s = status
+	a = add
+	c = commit
+	co = checkout
+	d = diff
+	l = log --oneline --graph
+	ll = log
+	p = push
+	po = push origin
+	pl = pull
+
+[help]
+	autocorrect = 1
 
 [url "git@github.com:"]
-    insteadOf = https://github.com/
+	insteadOf = https://github.com/
