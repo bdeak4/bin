@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+#
+# Setup dev machine
+
+DOTFILES=$HOME/dotfiles
+PROJECTS=$HOME/dev
+
+git clone https://github.com/bartol/dotfiles $DOTFILES
+ln -svi $DOTFILES/.vimrc $HOME
+ln -svi $DOTFILES/.zshrc $HOME
+ln -svi $DOTFILES/.gitconfig $HOME
+ln -svi $DOTFILES/.editorconfig $HOME
+ln -svi $DOTFILES/.tmux.conf $HOME
+ln -svi $DOTFILES/.tmate.conf $HOME
+
+mkdir -p $HOME/.vim/undo
+git clone https://github.com/fatih/vim-go $HOME/.vim/pack/plugins/start/vim-go
+git clone https://github.com/editorconfig/editorconfig-vim $HOME/.vim/pack/plugins/start/editorconfig-vim
+
+mkdir -p $PROJECTS
+git clone https://github.com/bartol/bartol.dev $PROJECTS/bartol.dev
+git clone https://github.com/bartol/amadeus2.hr $PROJECTS/amadeus2.hr
+git clone https://github.com/bartol/sandbox $PROJECTS/sandbox
