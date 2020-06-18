@@ -33,12 +33,6 @@ ctrl_z() {
 zle -N ctrl_z
 bindkey "^Z" ctrl_z
 
-# colored man pages
-export LESS_TERMCAP_md=$'\e[01;36m'
-export LESS_TERMCAP_me=$'\e[0m'
-export LESS_TERMCAP_so=$'\e[01;32m'
-export LESS_TERMCAP_se=$'\e[0m'
-
 # go
 export PATH=/usr/local/go/bin:$PATH
 export GOPATH=~/.go
