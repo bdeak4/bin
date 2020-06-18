@@ -1,6 +1,7 @@
 # dotfiles
 
 ```
-git clone https://github.com/bartol/dotfiles
-dotfiles/.local/bin/setup
+curl -LO https://bartol.dev/s/setup_dev
+vi setup_dev
+./setup_dev
 ```
