@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
 # Setup dev machine
+set -ex
 
 # dotfiles
 DOTFILES=$HOME/dotfiles
@@ -25,3 +26,4 @@ cd $PROJECTS
 git clone https://github.com/bartol/bartol.dev
 git clone https://github.com/bartol/amadeus2.hr
 git clone https://github.com/bartol/sandbox
+cd -
