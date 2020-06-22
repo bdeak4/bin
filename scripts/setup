@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-#
-# Setup dev machine
-set -ex
 
 # dotfiles
 DOTFILES=$HOME/dotfiles
@@ -20,7 +17,6 @@ git clone https://github.com/editorconfig/editorconfig-vim $HOME/.vim/pack/plugi
 
 # projects
 PROJECTS=$HOME/dev
-
 mkdir -pv $PROJECTS
 cd $PROJECTS
 git clone https://github.com/bartol/bartol.dev
