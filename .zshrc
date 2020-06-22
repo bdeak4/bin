@@ -1,7 +1,7 @@
 autoload -Uz compinit && compinit
 PROMPT="[%n@%m %~]%(#.#.$) "
 export EDITOR=vi
-export PATH=~/.local/bin:$PATH
+export PATH=~/dotfiles/scripts:$PATH
 bindkey -e
 stty -ixon
 alias vi="vim"
