@@ -1,7 +1,6 @@
 # dotfiles
 
 ```
-curl -LO https://bartol.dev/s/setup_dev
-vi setup_dev
-./setup_dev
+curl -LO https://bartol.dev/s/setup.sh
+./setup.sh
 ```
