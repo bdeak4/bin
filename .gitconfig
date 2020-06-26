@@ -21,7 +21,6 @@
 	co = checkout
 	d = diff
 	l = log --oneline --graph
-	ll = log
 	p = push
 	po = push origin
 	pl = pull
