@@ -10,8 +10,6 @@ set directory=~/.cache
 
 let g:go_fmt_command = "goimports"
 
-autocmd BufReadPost * :norm g`"<CR>
-
 nnoremap <leader>h :set hlsearch!<CR>
 nnoremap <leader>s :set spell!<CR>
 nnoremap <leader>c [s1z=<C-o>
