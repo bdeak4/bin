@@ -3,11 +3,10 @@ PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
 HISTSIZE=1000000
 HISTFILESIZE=$HISTSIZE
 EDITOR=vi
+PATH=~/dotfiles/scripts:$PATH
 
 shopt -s globstar
 
-alias ..='cd ..'
-alias ...='cd ../..'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias ll='ls -alF'
