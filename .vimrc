@@ -1,7 +1,3 @@
-filetype plugin on
-syntax enable
-colorscheme elflord
-
 set number relativenumber
 set incsearch ignorecase smartcase
 set splitright splitbelow
@@ -9,9 +5,8 @@ set wildmenu path+=**
 set showcmd
 set list listchars=tab:>\ ,trail:-,nbsp:+
 set hidden autoread
-set backspace=indent,eol,start
 set undofile undodir=~/.vim/undo
-set directory=~/.cache backupdir=~/.cache
+set directory=~/.cache
 
 let g:go_fmt_command = "goimports"
 
