@@ -1,7 +1,0 @@
-#!/usr/bin/env zsh
-#
-# History Statistics
-
-fc -R $HISTFILE
-
-history 1 | awk '{print $2}' | sort | uniq -c | sort -rn | head -20
