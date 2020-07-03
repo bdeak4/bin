@@ -9,17 +9,7 @@ shopt -s globstar
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-alias ll='ls -alF'
-alias la='ls -A'
-alias gs='git status'
-alias ga='git add'
-alias gc='git commit'
-alias gco='git checkout'
-alias gd='git diff'
-alias gl='git log --oneline --graph'
-alias gp='git push'
-alias gpl='git pull'
+alias ll='ls -lAF'
+alias la='ls -AF'
 
-if [ -f /etc/bash_completion ]; then
-	. /etc/bash_completion
-fi
+[ -f /etc/bash_completion ] && . /etc/bash_completion

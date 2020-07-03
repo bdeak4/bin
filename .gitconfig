@@ -5,5 +5,15 @@
 [commit]
 	verbose = true
 
+[alias]
+	s = status
+	a = add
+	c = commit
+	co = checkout
+	d = diff
+	l = log --oneline --graph
+	p = push
+	pl = pull
+
 [url "git@github.com:"]
 	insteadOf = https://github.com/
