@@ -13,3 +13,7 @@ alias ll='ls -lAF'
 alias la='ls -AF'
 
 [ -f /etc/bash_completion ] && . /etc/bash_completion
+
+# go
+GOPATH=~/.go
+PATH=~/.go/bin:$PATH
