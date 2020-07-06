@@ -1,3 +1,5 @@
+filetype indent plugin on
+
 set number relativenumber
 set incsearch ignorecase smartcase
 set splitright splitbelow
