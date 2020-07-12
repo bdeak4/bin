@@ -12,7 +12,7 @@
 	co = checkout
 	d = diff
 	l = log --oneline --graph
-	p = push
+	p = !git remote | xargs -L1 git push --all
 	pl = pull
 
 [url "git@github.com:"]
