@@ -3,11 +3,9 @@ export PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
 export HISTSIZE=1000000
 export HISTFILESIZE=$HISTSIZE
 export EDITOR=vi
-export PATH=~/dotfiles/scripts:$PATH
+export PATH=~/scripts:$PATH
 export GOPATH=~/.go
 export PATH=~/.go/bin:$PATH
-
-shopt -s globstar
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
