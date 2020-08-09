@@ -14,6 +14,3 @@
 	l = log --oneline --graph
 	p = !git remote | xargs -L1 git push --all
 	pl = pull
-
-[url "git@github.com:"]
-	insteadOf = https://github.com/

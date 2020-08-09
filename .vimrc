@@ -10,8 +10,6 @@ set hidden autoread
 set undofile undodir=~/.vim/undo
 set directory=~/.cache
 
-let g:go_fmt_command = "goimports"
-
 nnoremap <leader>h :set hlsearch!<CR>
 nnoremap <leader>b :ls<CR>:b<space>
 nnoremap <leader>p :reg<CR>:norm "p<left>
@@ -20,5 +18,4 @@ nnoremap <leader>y "+y
 cnoremap w!! w !sudo tee % > /dev/null
 
 " mkdir -p ~/.vim/undo
-" git clone https://github.com/fatih/vim-go ~/.vim/pack/plugins/start/vim-go
 " git clone https://github.com/editorconfig/editorconfig-vim ~/.vim/pack/plugins/start/editorconfig-vim

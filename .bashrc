@@ -3,8 +3,6 @@ PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
 export HISTSIZE=1000000
 export HISTFILESIZE=$HISTSIZE
 export EDITOR=vi
-export PATH=~/scripts:$PATH
-export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
