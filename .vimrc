@@ -11,6 +11,7 @@ set undofile undodir=~/.vim/undo
 set directory=~/.cache
 
 nnoremap <leader>h :set hlsearch!<CR>
+nnoremap <leader>s :set spell!<CR>
 nnoremap <leader>b :ls<CR>:b<space>
 nnoremap <leader>p :reg<CR>:norm "p<left>
 nnoremap <leader>P :reg<CR>:norm "P<left>
