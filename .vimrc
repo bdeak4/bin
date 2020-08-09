@@ -13,8 +13,6 @@ set directory=~/.cache
 let g:go_fmt_command = "goimports"
 
 nnoremap <leader>h :set hlsearch!<CR>
-nnoremap <leader>s :set spell!<CR>
-nnoremap <leader>c [s1z=<C-o>
 nnoremap <leader>b :ls<CR>:b<space>
 nnoremap <leader>p :reg<CR>:norm "p<left>
 nnoremap <leader>P :reg<CR>:norm "P<left>
