@@ -1,8 +1,0 @@
----
-- name: Install programs
-  hosts: all
-  become: yes
-  become_method: sudo
-  roles:
-    - programs
-
