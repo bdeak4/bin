@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+repo=$1
+project_dir=$1
+
+[ -z $repo ] && echo "Must supply repository name" && exit
+
+mkdir -p ~/dev
+cd ~/dev
+git clone git@srv1:/srv/git/$repo

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+repo=$1
+description=$2
+section=$3
+owner="Bartol Deak"
+
+[ -z $repo ] && echo "Must supply repository name" && exit
+
+ssh git@srv1 <<EOF
+cd /srv/git
+mkdir $repo
+cd $repo
+git init --bare
+[ -n $section ] && echo section=$section >> cgitrc
+echo owner=$owner >> cgitrc
+echo $description > description
+EOF
