@@ -2,17 +2,20 @@
 
 repo=$1
 description=$2
-section=$3
 owner="Bartol Deak"
 
 [ -z $repo ] && echo "Must supply repository name" && exit
+[ -z $description ] && echo "Must supply repository description" && exit
 
 ssh git@srv1 <<EOF
 cd /srv/git
 mkdir $repo
 cd $repo
 git init --bare
-[ -n $section ] && echo section=$section >> cgitrc
 echo owner=$owner >> cgitrc
+echo enable-blame=1 >> cgitrc
+echo enable-commit-graph=1 >> cgitrc
+echo clone-url=ssh://git@srv1:/srv/git/$repo >> cgitrc
+echo max-stats=year >> cgitrc
 echo $description > description
 EOF
