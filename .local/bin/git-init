@@ -1,21 +1,23 @@
 #!/usr/bin/env bash
 
 repo=$1
-description=$2
+desc=$2
 owner="Bartol Deak"
 
-[ -z $repo ] && echo "Must supply repository name" && exit
-[ -z $description ] && echo "Must supply repository description" && exit
+[ -z "$repo" ] && echo "Must supply repository name" && exit 1
+[ -z "$desc" ] && echo "Must supply repository description" && exit 1
 
 ssh git@srv1 <<EOF
 cd /srv/git
 mkdir $repo
 cd $repo
 git init --bare
-echo owner=$owner >> cgitrc
-echo enable-blame=1 >> cgitrc
-echo enable-commit-graph=1 >> cgitrc
-echo clone-url=ssh://git@srv1:/srv/git/$repo >> cgitrc
-echo max-stats=year >> cgitrc
-echo $description > description
+EOF
+
+ssh srv1 <<EOF
+echo | sudo tee -a /etc/cgitrc
+echo repo.url=$repo | sudo tee -a /etc/cgitrc
+echo repo.path=/srv/git/$repo | sudo tee -a /etc/cgitrc
+echo repo.desc=$desc | sudo tee -a /etc/cgitrc
+echo repo.owner=$owner | sudo tee -a /etc/cgitrc
 EOF
