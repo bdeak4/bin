@@ -1,83 +1,105 @@
 #!/usr/bin/env python
 
-import time
+import sys, time
 from selenium.webdriver import Firefox, FirefoxOptions
 import geckodriver_autoinstaller
 from pathlib import Path
-
-
-login_username_value = ''
-login_username_selector = '#top1_1_login'
-login_password_value = ''
-login_password_selector = '#top1_1_lozinka'
-login_submit_selector = '#top1_1_ImageButton1'
-
-search_query_selector = '#meni2_upit'
-search_query_value = 'unifi'
-search_submit_selector = '#meni2_ImageButton1'
+from settings import settings
+from helpers import fill_input, click_button
 
 geckodriver_autoinstaller.install()
-
 options = FirefoxOptions()
 options.headless = True
-driver = Firefox(options=options)
 
-driver.get('https://ezy.hr')
+settings = settings()
+query = sys.argv[1]
+pages = sys.argv[2].split(',')
 
-driver.execute_script('document.querySelector("%s").value = "%s"' % (login_username_selector, login_username_value))
-driver.execute_script('document.querySelector("%s").value = "%s"' % (login_password_selector, login_password_value))
-driver.execute_script('document.querySelector("%s").click()' % (login_submit_selector))
-driver.execute_script('document.querySelector("%s").value = "%s"' % (search_query_selector, search_query_value))
-driver.execute_script('document.querySelector("%s").click()' % (search_submit_selector))
+html = ''
 
-item_selector = '#GridView1 > tbody > tr'
-item_img_selector = 'querySelector("img").src'
-item_name_selector = 'querySelector("a[rel=iframe]").textContent'
-item_price_selector = 'querySelector(":nth-child(3)").textContent.trim()'
-item_discount_selector = 'querySelector(":nth-child(4)").textContent.trim()'
-item_quantity_selector = 'querySelector(":nth-child(5)").textContent.trim()'
-item_url_selector = 'querySelector("a[rel=iframe]").href'
+for page in pages:
+	if not page in settings:
+		continue
 
-while (len(driver.execute_script('return document.querySelectorAll("%s")' % (item_selector))) == 0):
-	time.sleep(1)
+	driver = Firefox(options=options)
 
-items = driver.execute_script('''
-const items = document.querySelectorAll("%s")
-const out = []
-const len = items.length < 10 ? items.length : 10
+	driver.get(settings[page]['url'])
 
-for(let i = 1; i < len; i += 2) {
-	const item = {
-		image:    items[i].%s,
-		name:     items[i].%s,
-		price:    items[i].%s,
-		discount: items[i].%s,
-		quantity: items[i].%s,
-		url:      items[i].%s,
+	# login
+
+	if (u := settings[page]['login']['username'])['value']:
+		fill_input(driver, u['selector'], u['value'])
+
+	if (p := settings[page]['login']['password'])['value']:
+		fill_input(driver, p['selector'], p['value'])
+
+	if (s := settings[page]['login']['submit'])['selector']:
+		click_button(driver, s['selector'])
+
+	# search
+
+	if (q := settings[page]['search']['query'])['selector']:
+		fill_input(driver, q['selector'], query)
+
+	if (s := settings[page]['search']['submit'])['selector']:
+		click_button(driver, s['selector'])
+
+	while (len(driver.execute_script('return document.querySelectorAll("%s")' % 
+				(settings[page]['items']['item']['selector']))) == 0):
+		time.sleep(1)
+
+	items = driver.execute_script('''
+	const items = document.querySelectorAll("%s")
+	const out = []
+	let j = 0
+	for(let i = 0; i < items.length; i++) {
+		const item = items[i]
+		%s
+		if(j < 5) j++ 
+		else continue
+		out.push({
+			image: %s,
+			name: %s,
+			price: %s,
+			discount: %s,
+			quantity: %s,
+			url: %s,
+		})
 	}
-	out.push(item)
-}
-return out
-''' % (item_selector, item_img_selector, item_name_selector, item_price_selector, item_discount_selector, item_quantity_selector, item_url_selector))
+	return out
+	''' % (
+		settings[page]['items']['item']['selector'], 
+		settings[page]['items']['item']['command'], 
+		settings[page]['items']['img']['command'], 
+		settings[page]['items']['name']['command'], 
+		settings[page]['items']['price']['command'], 
+		settings[page]['items']['discount']['command'], 
+		settings[page]['items']['quantity']['command'], 
+		settings[page]['items']['url']['command']))
 
-url = driver.execute_script('return window.location.href')
+	url = driver.execute_script('return window.location.href')
 
-html = '<h1>ezy.hr</h1>'
-html += '<table><tbody>'
+	html += '<h1>%s</h1>' % (page)
+	html += '<table><thead><tr>'
+	html += '<th>Slika</th>'
+	html += '<th>Naziv</th>'
+	html += '<th>Cijena</th>'
+	html += '<th>Cijena s popustom/rabatom</th>'
+	html += '<th>Količina</th>'
+	html += '</tr></thead><tbody>'
+	
+	for item in items:
+		html += '<tr>'
+		html += '<td><img src="%s"></td>' % (item['image'])
+		html += '<td><a href="%s">%s</a></td>' % (item['url'], item['name'])
+		html += '<td>%s</td>' % (item['price'])
+		html += '<td>%s</td>' % (item['discount'])
+		html += '<td>%s</td>' % (item['quantity'])
+		html += '</tr>'
+	
+	html += '</tbody></table>'
+	html += '<a href="%s">Prikazi sve &rarr;</a>' % (url)
 
-for item in items:
-	html += '<tr>'
-	html += '<td><img src="%s"></td>' % (item['image'])
-	html += '<td><a href="%s">%s</a></td>' % (item['url'], item['name'])
-	html += '<td>%s</td>' % (item['price'])
-	html += '<td>%s</td>' % (item['discount'])
-	html += '<td>%s</td>' % (item['quantity'])
-	html += '</tr>'
-
-html += '</tbody></table>'
-html += '<a href="%s">Prikazi sve &rarr;</a>' % (url)
+	driver.quit()
 
 Path('index.html').write_text(html)
-
-driver.quit()
-
