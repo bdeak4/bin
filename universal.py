@@ -9,7 +9,7 @@ from helpers import fill_input, click_button
 
 geckodriver_autoinstaller.install()
 options = FirefoxOptions()
-options.headless = True
+# options.headless = True
 
 settings = settings()
 query = sys.argv[1]
@@ -33,8 +33,17 @@ for page in pages:
 	if (p := settings[page]['login']['password'])['value']:
 		fill_input(driver, p['selector'], p['value'])
 
+	time.sleep(5)
+
 	if (s := settings[page]['login']['submit'])['selector']:
 		click_button(driver, s['selector'])
+
+	time.sleep(5)
+
+	if page == 'asbis':
+		driver.execute_script("document.querySelector('form').submit()")
+
+	time.sleep(5)
 
 	# search
 
@@ -44,12 +53,15 @@ for page in pages:
 	if (s := settings[page]['search']['submit'])['selector']:
 		click_button(driver, s['selector'])
 
+	# aggregate results
+
 	while (len(driver.execute_script('return document.querySelectorAll("%s")' % 
 				(settings[page]['items']['item']['selector']))) == 0):
 		time.sleep(1)
 
 	items = driver.execute_script('''
-	const items = document.querySelectorAll("%s")
+	let items = document.querySelectorAll("%s")
+	%s
 	const out = []
 	let j = 0
 	for(let i = 0; i < items.length; i++) {
@@ -69,21 +81,24 @@ for page in pages:
 	return out
 	''' % (
 		settings[page]['items']['item']['selector'], 
+		settings[page]['items']['item']['selector_command'],
 		settings[page]['items']['item']['command'], 
-		settings[page]['items']['img']['command'], 
+		settings[page]['items']['img']['command'],
 		settings[page]['items']['name']['command'], 
-		settings[page]['items']['price']['command'], 
-		settings[page]['items']['discount']['command'], 
+		settings[page]['items']['price']['command'],
+		settings[page]['items']['discount']['command'],
 		settings[page]['items']['quantity']['command'], 
 		settings[page]['items']['url']['command']))
 
 	url = driver.execute_script('return window.location.href')
 
+	# build html
+
 	html += '<h1>%s</h1>' % (page)
 	html += '<table><thead><tr>'
 	html += '<th>Slika</th>'
 	html += '<th>Naziv</th>'
-	html += '<th>Cijena</th>'
+	html += '<th>Cijena/VPC</th>'
 	html += '<th>Cijena s popustom/rabatom</th>'
 	html += '<th>Količina</th>'
 	html += '</tr></thead><tbody>'
@@ -100,6 +115,6 @@ for page in pages:
 	html += '</tbody></table>'
 	html += '<a href="%s">Prikazi sve &rarr;</a>' % (url)
 
-	driver.quit()
+	# driver.quit()
 
 Path('index.html').write_text(html)
