@@ -15,6 +15,7 @@ site_selections = []
 
 settings = dict(config.items('settings'))
 
+
 ### handle submit
 
 def submit(event=None):
