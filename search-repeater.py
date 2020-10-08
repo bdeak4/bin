@@ -22,7 +22,7 @@ def submit(event=None):
 
     for i, site in enumerate(sites_selected):
         if site.get() != '0':
-            url, encode_type = sites_available[i][1].split('\n')
+            url, encode_type = sites_available[i][1].split(',')
 
             if encode_type == 'quote_plus':
                 encoded_query = urllib.parse.quote_plus(query)
@@ -46,8 +46,9 @@ search_input = tk.StringVar(root)
 
 # fonts
 box_font = font.Font(size=20)
-btn_font = font.Font(size=14)
+btn_font = font.Font(size=16)
 ttk.Style(root).configure("TButton", font=btn_font)
+check_font = font.Font(size=14)
 
 # elements
 ttk.Entry(root, textvariable=search_input, font=box_font).grid(column=1, row=0)
@@ -56,7 +57,7 @@ ttk.Button(root, text='search', command=submit, style="TButton").grid(column=2, 
 for i, site in enumerate(sites_available):
     sites_selected.append(tk.StringVar())
     sites_selected[-1].set(0)
-    tk.Checkbutton(root, text=site[0], variable=sites_selected[-1], onvalue=1, offvalue=0).grid(column=1, columnspan=2, row=3+i, sticky="w")
+    tk.Checkbutton(root, text=site[0], variable=sites_selected[-1], onvalue=1, offvalue=0, font=check_font).grid(column=1, columnspan=2, row=3+i, sticky="w")
 
 # events
 root.bind('<Return>', submit)
