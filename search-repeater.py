@@ -3,6 +3,7 @@ from configparser import ConfigParser
 import tkinter as tk
 from tkinter import ttk, font
 
+
 ### config
 
 # parse config
@@ -12,10 +13,11 @@ config.read('config.ini')
 sites_available = list(config.items('sites'))
 sites_selected = []
 
+
 ### handle submit
 
 def submit(event=None):
-    q = query.get()
+    query = search_input.get()
     urls = []
 
     for i, site in enumerate(sites_selected):
@@ -23,10 +25,9 @@ def submit(event=None):
             url, encode_type = sites_available[i][1].split('\n')
 
             if encode_type == 'quote_plus':
-                encoded_query = urllib.parse.quote_plus(q)
+                encoded_query = urllib.parse.quote_plus(query)
 
             urls.append(url.replace('QUERY', encoded_query))
-
 
     # open new window and first tab
     webbrowser.open_new(urls[0])
@@ -36,12 +37,12 @@ def submit(event=None):
     for url in urls[1:]:
         webbrowser.open_new_tab(url)
 
+
 ### ui
 
-# window
 root = tk.Tk()
 root.wm_title("search repeater")
-query = tk.StringVar(root)
+search_input = tk.StringVar(root)
 
 # fonts
 box_font = font.Font(size=20)
@@ -49,7 +50,7 @@ btn_font = font.Font(size=14)
 ttk.Style(root).configure("TButton", font=btn_font)
 
 # elements
-ttk.Entry(root, textvariable=query, font=box_font).grid(column=1, row=0)
+ttk.Entry(root, textvariable=search_input, font=box_font).grid(column=1, row=0)
 ttk.Button(root, text='search', command=submit, style="TButton").grid(column=2, row=0)
 
 for i, site in enumerate(sites_available):
@@ -65,5 +66,4 @@ root.grid_columnconfigure((0, 3), weight=1, minsize=100)
 root.grid_rowconfigure(0, weight=1, minsize=100)
 root.grid_rowconfigure(3+len(sites_available), weight=1, minsize=50)
 
-# run
 root.mainloop()
