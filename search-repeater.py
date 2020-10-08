@@ -1,9 +1,56 @@
+
+
 import webbrowser
 import time, urllib.parse
 
 from configparser import ConfigParser
 config = ConfigParser()
 config.read('config.ini')
+
+
+import tkinter as tk
+from tkinter import ttk, font
+
+
+
+
+def submit(event=None):
+    q = query.get()
+    print(q)
+
+### ui
+
+# window
+root = tk.Tk()
+root.geometry('600x200')
+root.wm_title("search repeater")
+query = tk.StringVar(root)
+
+# fonts
+box_font = font.Font(size=20)
+btn_font = font.Font(size=14)
+ttk.Style(root).configure("TButton", font=btn_font)
+
+# elements
+box = ttk.Entry(root, textvariable=query, font=box_font).grid(column=1, row=0)
+btn = ttk.Button(root, text='search', command=submit, style="TButton").grid(column=2, row=0)
+
+# events
+root.bind('<Return>', submit)
+
+# center
+root.grid_columnconfigure((0, 3), weight=1)
+root.grid_rowconfigure(0, weight=1)
+
+# run
+root.mainloop()
+
+
+
+exit()
+
+
+
 
 query = 'testiranje čć'
 
