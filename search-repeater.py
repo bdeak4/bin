@@ -1,4 +1,4 @@
-import webbrowser, time, urllib.parse
+import webbrowser, os, time, urllib.parse
 from configparser import ConfigParser
 import tkinter as tk
 from tkinter import ttk, font
@@ -11,8 +11,10 @@ config = ConfigParser()
 config.read('config.ini')
 
 sites_available = list(config.items('sites'))
-sites_selected = []
+site_selections = []
 
+settings = dict(config.items('settings'))
+browser = webbrowser.get(settings['browser'])
 
 ### handle submit
 
@@ -20,7 +22,7 @@ def submit(event=None):
     query = search_input.get()
     urls = []
 
-    for i, site in enumerate(sites_selected):
+    for i, site in enumerate(site_selections):
         if site.get() != '0':
             url, encode_type = sites_available[i][1].split(',')
 
@@ -29,13 +31,11 @@ def submit(event=None):
 
             urls.append(url.replace('QUERY', encoded_query))
 
-    # open new window and first tab
-    webbrowser.open_new(urls[0])
+    os.system(settings['browser'])
+    time.sleep(0.3)
 
-    # wait for window and open other tabs
-    time.sleep(0.5)
-    for url in urls[1:]:
-        webbrowser.open_new_tab(url)
+    for url in urls:
+        browser.open(url)
 
 
 ### ui
@@ -55,9 +55,10 @@ ttk.Entry(root, textvariable=search_input, font=box_font).grid(column=1, row=0)
 ttk.Button(root, text='search', command=submit, style="TButton").grid(column=2, row=0)
 
 for i, site in enumerate(sites_available):
-    sites_selected.append(tk.StringVar())
-    sites_selected[-1].set(0)
-    tk.Checkbutton(root, text=site[0], variable=sites_selected[-1], onvalue=1, offvalue=0, font=check_font).grid(column=1, columnspan=2, row=3+i, sticky="w")
+    site_selections.append(tk.StringVar())
+    site_selections[-1].set(0)
+    tk.Checkbutton(root, text=site[0], variable=site_selections[-1], onvalue=1, offvalue=0, font=check_font
+    ).grid(column=1, columnspan=2, row=3+i, sticky="w")
 
 # events
 root.bind('<Return>', submit)
