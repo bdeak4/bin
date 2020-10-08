@@ -1,4 +1,4 @@
-import webbrowser, os, time, urllib.parse
+import webbrowser, subprocess, time, urllib.parse
 from configparser import ConfigParser
 import tkinter as tk
 from tkinter import ttk, font
@@ -14,7 +14,6 @@ sites_available = list(config.items('sites'))
 site_selections = []
 
 settings = dict(config.items('settings'))
-browser = webbrowser.get(settings['browser'])
 
 ### handle submit
 
@@ -31,11 +30,11 @@ def submit(event=None):
 
             urls.append(url.replace('QUERY', encoded_query))
 
-    os.system(settings['browser'])
-    time.sleep(0.3)
+    subprocess.Popen(settings['browser'])
+    time.sleep(0.5)
 
     for url in urls:
-        browser.open(url)
+        webbrowser.get(settings['browser'] + ' %s').open(url)
 
 
 ### ui
