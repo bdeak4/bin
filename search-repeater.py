@@ -42,6 +42,7 @@ def submit(event=None):
 
 root = tk.Tk()
 root.wm_title("search repeater")
+root.tk.call('wm', 'iconphoto', root._w, tk.PhotoImage(file='icon.png'))
 search_input = tk.StringVar(root)
 
 # fonts
