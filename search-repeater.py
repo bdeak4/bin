@@ -32,7 +32,7 @@ def submit(event=None):
             urls.append(url.replace('QUERY', encoded_query))
 
     subprocess.Popen(settings['browser'])
-    time.sleep(0.5)
+    time.sleep(float(settings['sleep']))
 
     for url in urls:
         webbrowser.get(settings['browser'] + ' %s').open(url)
@@ -42,7 +42,7 @@ def submit(event=None):
 
 root = tk.Tk()
 root.wm_title("search repeater")
-root.tk.call('wm', 'iconphoto', root._w, tk.PhotoImage(file='icon.png'))
+root.iconbitmap('icon.ico')
 search_input = tk.StringVar(root)
 
 # fonts
