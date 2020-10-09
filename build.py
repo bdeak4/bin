@@ -5,7 +5,7 @@ from cx_Freeze import setup, Executable
 build_options = {
     'packages': [], 
     'excludes': [], 
-    'build_exe': './/dist',
+    'build_exe': './/out',
     'include_files': ['icon.ico', 'config.ini']
 }
 

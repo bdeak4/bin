@@ -5,4 +5,4 @@ open cmd prompt in project folder, then
 	C:\> pip install cx_Freeze
 	C:\> python build.py build
 
-files to copy are in dist/
+files to copy are in out/
