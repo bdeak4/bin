@@ -28,6 +28,8 @@ def submit(event=None):
 
             if encode_type == 'quote_plus':
                 encoded_query = urllib.parse.quote_plus(query)
+            if encode_type == 'quote':
+                encoded_query = urllib.parse.quote(query)
 
             urls.append(url.replace('QUERY', encoded_query))
 
