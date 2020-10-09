@@ -5,7 +5,7 @@ from cx_Freeze import setup, Executable
 build_options = {
     'packages': [], 
     'excludes': [], 
-    'build_exe': './/search-repeater',
+    'build_exe': './/dist',
     'include_files': ['icon.ico', 'config.ini']
 }
 
