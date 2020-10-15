@@ -21,4 +21,8 @@ ctrl_z() { BUFFER="fg"; zle accept-line }
 zle -N ctrl_z
 bindkey "^Z" ctrl_z
 
-eval "$(thefuck --alias)"
+alias ls='ls --color --group-directories-first'
+
+# rbenv
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
