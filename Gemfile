@@ -56,3 +56,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "devise", "~> 4.7"
 gem 'devise-bootstrap-views', '~> 1.0'
 gem 'pony', '~> 1.13', '>= 1.13.1'
+gem 'whenever', '~> 1.0'
