@@ -11,9 +11,14 @@ class MonitorWebpageJob < ApplicationJob
     users.each do |user|
       modified = []
       user.webpages.each do |webpage|
-        doc = Nokogiri::HTML(URI.open(webpage.url).read)
-        elements = doc.css(webpage.element)
-        elements_hash = Digest::SHA2.hexdigest elements.text
+        next if !webpage.url
+        html = URI.open(webpage.url).read
+        if webpage.element
+          doc = Nokogiri::HTML(html)
+          elements = doc.css(webpage.element)
+          html = elements.text
+        end
+        elements_hash = Digest::SHA2.hexdigest html
 
         if elements_hash != webpage.elements_hash
           modified.push(webpage.url)
