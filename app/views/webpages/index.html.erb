@@ -12,7 +12,7 @@
   <tbody>
     <% @webpages.each do |webpage| %>
       <tr>
-        <td><%= webpage.url %></td>
+        <td><a href="<%= webpage.url %>" target="_blank" rel="nofollow"><%= webpage.url %></a></td>
         <td><%= webpage.element %></td>
         <td><%= link_to 'Edit', edit_webpage_path(webpage), class: 'btn btn-secondary' %></td>
         <td><%= link_to 'Destroy', webpage, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
@@ -20,7 +20,5 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
 
 <%= link_to 'New webpage', new_webpage_path, class: 'btn btn-primary' %>
