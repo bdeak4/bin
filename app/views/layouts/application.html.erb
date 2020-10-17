@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Webmonitor</title>
+    <title>webmonitor</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -11,6 +11,7 @@
 
   <body>
     <%= link_to "Home", root_path %>
+    <%= link_to "Dashboard", webpages_path %>
     <% if user_signed_in? %>
       <%= link_to "Account", edit_user_registration_path %>
       <%= link_to "Logout", destroy_user_session_path, method: :delete %>
@@ -20,6 +21,9 @@
     <% end %>
 
     <div class="container">
+      <% if notice %><p class="alert alert-success"><%= notice %></p><% end %>
+      <% if alert %><p class="alert alert-danger"><%= alert %></p><% end %>
+
       <%= yield %>
     </div>
   </body>
