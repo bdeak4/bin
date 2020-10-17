@@ -3,7 +3,9 @@
 one:
   url: MyString
   element: MyString
+  user: one
 
 two:
   url: MyString
   element: MyString
+  user: two

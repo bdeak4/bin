@@ -16,6 +16,7 @@ class WebpagesTest < ApplicationSystemTestCase
 
     fill_in "Element", with: @webpage.element
     fill_in "Url", with: @webpage.url
+    fill_in "User", with: @webpage.user_id
     click_on "Create Webpage"
 
     assert_text "Webpage was successfully created"
@@ -28,6 +29,7 @@ class WebpagesTest < ApplicationSystemTestCase
 
     fill_in "Element", with: @webpage.element
     fill_in "Url", with: @webpage.url
+    fill_in "User", with: @webpage.user_id
     click_on "Update Webpage"
 
     assert_text "Webpage was successfully updated"

@@ -17,7 +17,7 @@ class WebpagesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create webpage" do
     assert_difference('Webpage.count') do
-      post webpages_url, params: { webpage: { element: @webpage.element, url: @webpage.url } }
+      post webpages_url, params: { webpage: { element: @webpage.element, url: @webpage.url, user_id: @webpage.user_id } }
     end
 
     assert_redirected_to webpage_url(Webpage.last)
@@ -34,7 +34,7 @@ class WebpagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update webpage" do
-    patch webpage_url(@webpage), params: { webpage: { element: @webpage.element, url: @webpage.url } }
+    patch webpage_url(@webpage), params: { webpage: { element: @webpage.element, url: @webpage.url, user_id: @webpage.user_id } }
     assert_redirected_to webpage_url(@webpage)
   end
 

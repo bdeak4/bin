@@ -5,7 +5,7 @@ class WebpagesController < ApplicationController
   # GET /webpages
   # GET /webpages.json
   def index
-    @webpages = Webpage.all
+    @webpages = current_user.webpages
   end
 
   # GET /webpages/1
@@ -15,7 +15,7 @@ class WebpagesController < ApplicationController
 
   # GET /webpages/new
   def new
-    @webpage = Webpage.new
+    @webpage = current_user.webpages.new
   end
 
   # GET /webpages/1/edit
@@ -25,7 +25,7 @@ class WebpagesController < ApplicationController
   # POST /webpages
   # POST /webpages.json
   def create
-    @webpage = Webpage.new(webpage_params)
+    @webpage = current_user.webpages.new(webpage_params)
 
     respond_to do |format|
       if @webpage.save
@@ -65,7 +65,7 @@ class WebpagesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_webpage
-      @webpage = Webpage.find(params[:id])
+      @webpage = current_user.webpages.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

@@ -11,8 +11,8 @@
 
   <body>
     <%= link_to "Home", root_path %>
-    <%= link_to "Dashboard", webpages_path %>
     <% if user_signed_in? %>
+      <%= link_to "Dashboard", webpages_path %>
       <%= link_to "Account", edit_user_registration_path %>
       <%= link_to "Logout", destroy_user_session_path, method: :delete %>
     <% else %>
