@@ -57,3 +57,8 @@ gem "devise", "~> 4.7"
 gem 'devise-bootstrap-views', '~> 1.0'
 gem 'pony', '~> 1.13', '>= 1.13.1'
 gem 'whenever', '~> 1.0'
+
+gem 'capistrano', '~> 3.11'
+gem 'capistrano-rails', '~> 1.4'
+gem 'capistrano-passenger', '~> 0.2.0'
+gem 'capistrano-rbenv', '~> 2.1', '>= 2.1.4'
