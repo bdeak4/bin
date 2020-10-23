@@ -1,18 +1,34 @@
 #!/usr/bin/env python3
 
-import requests, json
+import os, requests, json, csv, pathlib, urllib.parse
 
-subreddit = 'croatia'
-keyword = 'programiranje'
+rootpath = pathlib.Path(__file__).parent.absolute()
+configpath = os.path.join(rootpath, 'config.csv')
+historypath = os.path.join(rootpath, 'history')
 
-r = requests.get(
-        'https://old.reddit.com/r/%s/search.json?q=%s&sort=new&restrict_sr=on' % (subreddit, keyword),
-        headers = {'User-agent': 'redditmonitor'}
-)
-json = json.loads(r.text)
+with open(configpath, 'r') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        subreddit, keyword = row
 
-items = json['data']['children']
+        query = urllib.parse.quote_plus(keyword)
+        res = requests.get(
+            f"https://old.reddit.com/r/{subreddit}/search.json?q={query}&sort=new&restrict_sr=on",
+            headers = {'User-agent': 'redditmonitor'}
+        )
+        data = json.loads(res.text)
 
-for item in items:
-    print(item['data']['title'])
+        items = data['data']['children']
+        for item in items:
+            found = False
+            if pathlib.Path(historypath).is_file():
+                with open(historypath, 'r') as historyfile:
+                    for line in historyfile:
+                        if line == item['data']['permalink'] + '\n':
+                            found = True
 
+            if not found:
+                with open(historypath, 'a') as historyfile:
+                    historyfile.write(item['data']['permalink'] + '\n')
+
+                print('https://old.reddit.com' + item['data']['permalink'])
