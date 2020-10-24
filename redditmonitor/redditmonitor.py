@@ -31,4 +31,4 @@ with open(configpath, 'r') as csvfile:
                 with open(historypath, 'a') as historyfile:
                     historyfile.write(item['data']['permalink'] + '\n')
 
-                print('https://old.reddit.com' + item['data']['permalink'])
+                print(f"r/{subreddit} {keyword} https://old.reddit.com{item['data']['permalink']}")
