@@ -6,8 +6,8 @@ rootpath = pathlib.Path(__file__).parent.absolute()
 configpath = os.path.join(rootpath, 'config.csv')
 historypath = os.path.join(rootpath, 'history')
 
-with open(configpath, 'r') as csvfile:
-    reader = csv.reader(csvfile)
+with open(configpath, 'r') as configfile:
+    reader = csv.reader(configfile)
     for row in reader:
         subreddit, keyword = row
 
