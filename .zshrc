@@ -1,5 +1,6 @@
 autoload -Uz promptinit && promptinit
 PROMPT="%F{cyan}[%n@%m %~]%f%(#.#.$) "
+RPROMPT="%*"
 
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
