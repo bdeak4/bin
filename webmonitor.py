@@ -31,9 +31,7 @@ with open(configpath, 'r') as configfile:
                         changed = False
 
         if changed:
-            # with open(historypath, 'a') as historyfile:
-            #     historyfile.write(f"{url},{htmlhash}\n")
+            with open(historypath, 'a') as historyfile:
+                historyfile.write(f"{url},{htmlhash}\n")
 
             print(url)
-            # to delete
-            print(html)
