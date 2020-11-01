@@ -9,8 +9,8 @@ fi
 
 case $resource in
 	"MEM") resource_value=$(free -m | awk 'NR==2{printf "%d\n",$3*100/$2}') ;;
-	"CPU") resource_value=$(mpstat 1 2 | awk 'END{print 100-$NF}') ;;
-	"DISK") resource_value=$(df | awk '$NF=="/"{print 0+$5}') ;;
+	"CPU") resource_value=$(mpstat 1 2 | awk 'END{printf "%d\n",100-$NF}') ;;
+	"DISK") resource_value=$(df | awk '$NF=="/"{printf "%d\n",$5}') ;;
 	*) echo "$0 <resource> can be MEM, CPU or DISK"; exit 2 ;;
 esac
 
