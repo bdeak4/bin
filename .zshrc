@@ -23,3 +23,7 @@ zle -N ctrl_z
 bindkey "^Z" ctrl_z
 
 alias ls='ls --color --group-directories-first'
+
+# go
+export GOPATH=~/.go
+export PATH=~/.go/bin:$PATH
