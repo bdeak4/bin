@@ -19,6 +19,7 @@ if [ "$threshold" -lt 0 ] || [ "$threshold" -gt 100 ]; then
 fi
 
 if [ "$resource_value" -gt "$threshold" ]; then
+	sleep 5
 	case $resource in
 		"MEM") top -bn1 -o\%MEM | head -30 ;;
 		"CPU") top -bn1 -o\%CPU | head -30 ;;
