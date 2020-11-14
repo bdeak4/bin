@@ -1,6 +1,7 @@
 autoload -Uz promptinit && promptinit
 PROMPT="%F{cyan}[%n@%m %~]%f%(#.#.$) "
-RPROMPT="%*"
+RPROMPT='$(git rev-parse --abbrev-ref HEAD 2>/dev/null) %*'
+setopt prompt_subst
 
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
@@ -21,8 +22,6 @@ bindkey "^x^e" edit-command-line
 ctrl_z() { BUFFER="fg"; zle accept-line }
 zle -N ctrl_z
 bindkey "^Z" ctrl_z
-
-alias ls='ls --color --group-directories-first'
 
 # go
 export GOPATH=~/.go
