@@ -1,6 +1,6 @@
 autoload -Uz promptinit && promptinit
 PROMPT="%F{cyan}[%n@%m %~]%f%(#.#.$) "
-RPROMPT='$(git rev-parse --abbrev-ref HEAD 2>/dev/null) %*'
+RPROMPT='%(?..%?) $(git rev-parse --abbrev-ref HEAD 2>/dev/null) %*'
 setopt prompt_subst
 
 autoload -Uz compinit && compinit
