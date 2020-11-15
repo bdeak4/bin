@@ -70,7 +70,11 @@
 		</thead>
 		<tbody>
 <?php
-$output = shell_exec('ps -Ao pid,user,%cpu,%mem,time,command --sort -%mem --no-headers | head -20');
+$sort = 'mem';
+if (isset($_GET['sort']) && $_GET['sort'] === 'cpu') {
+	$sort = 'cpu';
+}
+$output = shell_exec("ps -Ao pid,user,%cpu,%mem,time,command --sort -%$sort --no-headers | head -20");
 
 foreach(explode(PHP_EOL, $output) as $line):
 	$arr = preg_split('/ +/', $line, null, PREG_SPLIT_NO_EMPTY);
