@@ -3,14 +3,19 @@
 repositories=$(find . -type d -name .git -prune -exec dirname {} \;)
 
 for repository in $repositories; do
-	unpushed_commits=$(git -C "$repository" log --branches --not --remotes --oneline | wc -l)
-	untracked_files=$(git -C "$repository" ls-files --others --exclude-standard | wc -l)
-	modified_files=$(git -C "$repository" diff --name-only | wc -l)
-	staged_files=$(git -C "$repository" diff --name-only --cached | wc -l)
+	echo $repository:
 
-	if [ "$unpushed_commits" -gt 0 ] || [ "$untracked_files" -gt 0 ] ||
-		[ "$modified_files" -gt 0 ] || [ "$staged_files" -gt 0 ]; then
-		echo $repository:,$unpushed_commits unpushed,$untracked_files untracked,\
-			$modified_files modified,$staged_files staged
+	if [ "$1" = "stats" ]; then
+		unpushed=$(git -C "$repository" log --branches --not --remotes --oneline | wc -l)
+		untracked=$(git -C "$repository" ls-files --others --exclude-standard | wc -l)
+		modified=$(git -C "$repository" diff --name-only | wc -l)
+		staged=$(git -C "$repository" diff --name-only --cached | wc -l)
+
+
+		if [ "$unpushed" -gt 0 ] || [ "$untracked" -gt 0 ] || [ "$modified" -gt 0 ] || [ "$staged" -gt 0 ]; then
+			echo $unpushed unpushed, $untracked untracked, $modified modified, $staged staged
+		fi
+	else
+		git -C "$repository" $@
 	fi
-done | column -t -s ,
+done
