@@ -6,8 +6,8 @@ github_user=bartol
 
 [ -z $repo ] && echo "Must supply repository name" && exit
 
-mkdir -p ~/dev
-cd ~/dev
+#mkdir -p ~/dev
+#cd ~/dev
 git clone git@srv1:/srv/git/$repo
 
 cd $repo

@@ -4,12 +4,19 @@
 
 [commit]
 	verbose = true
+	gpgsign = true
 
 [merge]
 	tool = vimdiff
 
 [mergetool]
 	keepBackup = false
+
+[core]
+	excludesFile = ~/.gitignore
+
+[help]
+	autocorrect = 20
 
 [alias]
 	s = status
@@ -21,6 +28,3 @@
 	l = log --oneline --graph
 	p = !git remote | xargs -L1 git push --all
 	pl = pull
-
-[init]
-	defaultBranch = master
