@@ -1,0 +1,8 @@
+open cmd prompt in project folder, then
+
+	C:\> python -m venv venv
+	C:\> venv\Scripts\activate.bat
+	C:\> pip install cx_Freeze
+	C:\> python build.py build
+
+files to copy are in out/
