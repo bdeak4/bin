@@ -1,0 +1,6 @@
+#!/bin/sh
+
+for repo in $(find . -type d -name .git -exec dirname {} \;); do
+	echo $repo
+	git -C $repo $@
+done
