@@ -1,6 +1,6 @@
 #!/bin/sh
 
 for repo in $(find . -type d -name .git -exec dirname {} \;); do
-	echo $repo
+	echo "\033[01;36m$(basename $repo)\033[0m"
 	git -C $repo $@
 done
