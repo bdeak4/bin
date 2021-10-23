@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e
+
+dir=$1/$(hostname)
+test -d $dir || mkdir $dir
+
+# sync
+which dpkg > /dev/null && dpkg --get-selections "*" > ~/.packages
+which mbsync > /dev/null && mbsync -a
+
+# update live version
+sudo rsync -a --progress --delete /home /etc /var $dir/live
+
+# delete old snapshot
+find $dir -name '*snapshot_*' | sort | head -n -3 | xargs -p rm
+# ^^ TODO: check if need sudo
+
+# create new snapshot
+tar cvzf $dir/snapshot_$(date -I).tar.gz $dir/live/*
+# ^^ TODO: check if need sudo
