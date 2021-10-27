@@ -3,19 +3,19 @@
 set -e
 
 dir=$1/$(hostname)
-test -d $dir || mkdir $dir
+test -d $dir || sudo mkdir $dir
 
 # sync
-which dpkg > /dev/null && dpkg --get-selections "*" > ~/.packages
-which mbsync > /dev/null && mbsync -a
+[ -n "$SKIP_SYNC" ] || (
+	which dpkg > /dev/null && dpkg --get-selections "*" > ~/.packages
+	which mbsync > /dev/null && mbsync -a
+)
 
 # update live version
-sudo rsync -a --progress --delete /home /etc /var $dir/live
+sudo rsync -ah --delete --info=progress2 /home /etc /var $dir/live
 
 # delete old snapshot
-find $dir -name '*snapshot_*' | sort | head -n -3 | xargs -p rm
-# ^^ TODO: check if need sudo
+ls $dir/*snapshot_* | sort | head -n -3 | xargs -pr sudo rm
 
 # create new snapshot
-tar cvzf $dir/snapshot_$(date -I).tar.gz $dir/live/*
-# ^^ TODO: check if need sudo
+sudo tar cf $dir/snapshot_$(date -I).tar --totals $dir/live/*
