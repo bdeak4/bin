@@ -18,4 +18,4 @@ sudo rsync -ah --delete --info=progress2 /home /etc /var $dir/live
 ls $dir/*snapshot_* | sort | head -n -3 | xargs -pr sudo rm
 
 # create new snapshot
-sudo tar cf $dir/snapshot_$(date -I).tar --totals $dir/live/*
+(cd $dir/live && sudo tar cf $dir/snapshot_$(date -I).tar --totals .)
