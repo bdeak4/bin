@@ -1,0 +1,62 @@
+#!/bin/sh
+
+dir=~/.cache/upcheck
+out=$dir/output
+out_prev=$dir/prev_output
+
+mkdir -p $dir
+[ -s $out ] && cp $out $out_prev
+echo -n > $out
+
+check_ping() {
+	url=$1
+	code=$(ping -c1 -W1 "$url" >/dev/null 2>&1; echo -n $?)
+	if [ "$code" != 0 ]; then
+		echo "[ping] $url: ping returned code $code" >> $out
+	fi
+}
+
+check_httpstatus() {
+	url=$1
+	code=$(curl -is "$url" | head -n1 | cut -d' ' -f2 | tr -d '\n')
+	if [ "$code" != 200 ]; then
+		echo "[status] $url: page returned http status code ${code:-???}" >> $out
+	fi
+}
+
+check_responsecontains() {
+	url=$(echo -n "$1" | cut -d';' -f1)
+	pattern=$(echo -n "$1" | cut -d';' -f2)
+	code=$(curl -is "$url" | grep -Eq "$pattern"; echo -n $?)
+	if [ "$code" != 0 ]; then
+		echo "[contains] $url, $pattern: grep returned code $code" >> $out
+	fi
+}
+
+show_help() {
+	echo "Usage: upcheck [-p addr] [-s url] [-c \"url;pattern\"]"
+	echo "  -p, --ping               Check if ping returns errors"
+	echo "  -s, --status             Check if page returns http status code 200"
+	echo "  -c, --contains           Check if response contains pattern"
+	echo
+	echo "Example: upcheck -p 1.1.1.1 -s https://example.com -c \"https://example.com;Example\""
+}
+
+[ "$#" -eq 0 ] && show_help
+while [ "$#" -gt 0 ]; do
+	case $1 in
+		-p|--ping) check_ping "$2"; shift ;;
+		-s|--status) check_httpstatus "$2"; shift ;;
+		-c|--contains) check_responsecontains "$2"; shift ;;
+		-h|--help) show_help ;;
+		*) echo "Unknown parameter passed: $1\n"; show_help ;;
+	esac
+	shift
+done
+
+if [ -f $out_prev ]; then
+	diff $out_prev $out
+	rm $out_prev
+else
+	cat $out
+fi
