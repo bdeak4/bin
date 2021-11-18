@@ -2,10 +2,10 @@
 
 dir=~/.cache/svkst-otvoreni-datumi
 out=$dir/output
-out_prev=$dir/prev_output
+hst=$dir/history
 
 mkdir -p $dir
-[ -s $out ] && cp $out $out_prev
+touch $hst
 
 curl 'https://www.svkst.unist.hr/wp-admin/admin-ajax.php' \
 	-H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
@@ -16,9 +16,9 @@ curl 'https://www.svkst.unist.hr/wp-admin/admin-ajax.php' \
 	| xargs -i date -d {} +%Y-%m-%d\ %a \
 	> $out
 
-if [ -f $out_prev ]; then
-	comm -13 $out_prev $out
-	rm $out_prev
-else
-	cat $out
-fi
+while read line; do
+	if ! grep -q "$line" $hst; then
+		echo $line
+		echo $line >> $hst
+	fi
+done < $out
