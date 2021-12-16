@@ -1,0 +1,31 @@
+#!/bin/sh
+
+echo slobodna dalmacija split:
+curl -s https://slobodnadalmacija.hr/split |\
+grep article-link |\
+head -5 |\
+sed -e 's/<a /\n<a /g' |\
+sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' |\
+sed 's/^/https:\/\/slobodnadalmacija.hr/'
+
+echo
+echo financial times technology:
+curl -s https://www.ft.com/technology |\
+grep js-teaser-heading-link |\
+sed -e 's/<a /\n<a /g' |\
+sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' |\
+grep content |\
+uniq |\
+head -11 |\
+sed 's/^/https:\/\/archive.today\/o\/https:\/\/www.ft.com/'
+
+echo
+echo financial times companies:
+curl -s https://www.ft.com/companies |\
+grep js-teaser-heading-link |\
+sed -e 's/<a /\n<a /g' |\
+sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' |\
+grep content |\
+uniq |\
+head -11 |\
+sed 's/^/https:\/\/archive.today\/o\/https:\/\/www.ft.com/'
