@@ -7,6 +7,13 @@ sed -e 's/<a /\n<a /g' |\
 sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' |\
 sed 's/^/https:\/\/slobodnadalmacija.hr/'
 
+curl -s https://slobodnadalmacija.hr/vijesti |\
+grep article-link |\
+head -1 |\
+sed -e 's/<a /\n<a /g' |\
+sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' |\
+sed 's/^/https:\/\/slobodnadalmacija.hr/'
+
 curl -s https://www.ft.com/technology |\
 grep js-teaser-heading-link |\
 sed -e 's/<a /\n<a /g' |\
