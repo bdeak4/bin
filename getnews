@@ -3,8 +3,7 @@
 curl -s https://slobodnadalmacija.hr/split |
 grep article-link |
 head -1 |
-sed -e 's/<a /\n<a /g' |
-sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' |
+sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
 sed 's/^/https:\/\/slobodnadalmacija.hr/'
 
 echo
@@ -12,9 +11,16 @@ echo
 curl -s https://slobodnadalmacija.hr/vijesti |
 grep article-link |
 head -1 |
-sed -e 's/<a /\n<a /g' |
-sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' |
+sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
 sed 's/^/https:\/\/slobodnadalmacija.hr/'
+
+echo
+
+curl -s 'https://www.telegram.hr/' -H 'User-Agent: firefox' |
+grep 'role="article"' |
+head -1 |
+sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
+sed 's/^/https:\/\/www.telegram.hr/'
 
 echo
 
