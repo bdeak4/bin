@@ -31,7 +31,7 @@ sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' |
 grep content |
 uniq |
 head -1 |
-sed 's/^/https:\/\/archive.today\/o\/https:\/\/www.ft.com/'
+sed 's/^/https:\/\/archive.is\/newest\/https:\/\/www.ft.com/'
 
 echo
 
@@ -42,4 +42,4 @@ sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' |
 grep content |
 uniq |
 head -1 |
-sed 's/^/https:\/\/archive.today\/o\/https:\/\/www.ft.com/'
+sed 's/^/https:\/\/archive.is\/newest\/https:\/\/www.ft.com/'
