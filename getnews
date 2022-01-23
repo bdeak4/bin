@@ -20,7 +20,7 @@ curl -s 'https://www.telegram.hr/' -H 'User-Agent: firefox' |
 grep 'role="article"' |
 head -1 |
 sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
-sed 's/^/https:\/\/www.telegram.hr/'
+sed 's/^/https:\/\/archive.is\/newest\/https:\/\/www.telegram.hr/'
 
 echo
 
