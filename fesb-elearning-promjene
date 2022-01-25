@@ -17,18 +17,33 @@ cookie=$(
 	-F "username=$username" -F "password=$password" -s -D - \
 	| grep 'MoodleSession=' \
 	| tail -n 1 \
-	| cut -c 5-
+	| cut -c 5- \
+	| cut -d';' -f1
 )
 
 for path in "$@"; do
-	tmp=$(mktemp)
-	curl "https://elearning.fesb.unist.hr/$path" -H "$cookie" > $tmp
+	tmp_html=$(mktemp)
+	tmp_plain=$(mktemp)
+	curl "https://elearning.fesb.unist.hr/$path" -H "$cookie" -s > $tmp_html
 
-	content_start_line=$(grep -n 'id="page"' $tmp | cut -d: -f1)
-	content_end_line=$(grep -n 'id="nav-drawer"' $tmp | cut -d: -f1)
+	filename=$dir/$(echo $path | md5sum | cut -d' ' -f1)
+	content_start_line=$(grep -n 'id="page"' $tmp_html | cut -d: -f1)
+	content_end_line=$(grep -n 'id="nav-drawer"' $tmp_html | cut -d: -f1)
 
-	cat $tmp \
+	cat $tmp_html \
 	| head -n $content_end_line \
 	| tail -n +$content_start_line \
-	| pandoc -f html -t markdown_strict
+	| pandoc -f html -t plain \
+	| grep -v 'Aktivnost od' \
+	> $tmp_plain
+
+	if [ -f "$filename" ]; then
+		cmp -s $filename $tmp_plain || head -n 1 $tmp_plain
+		diff $filename $tmp_plain
+		cmp -s $filename $tmp_plain || echo
+	fi
+
+	cat $tmp_plain > $filename
+
+	rm $tmp_html $tmp_plain
 done
