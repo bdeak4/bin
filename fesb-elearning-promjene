@@ -28,7 +28,7 @@ for path in "$@"; do
 
 	filename=$dir/$(echo $path | md5sum | cut -d' ' -f1)
 	content_start_line=$(grep -n 'id="page"' $tmp_html | cut -d: -f1)
-	content_end_line=$(grep -n 'data-block="recent_activity"' $tmp_html | cut -d: -f1)
+	content_end_line=$(grep -n 'id="sb-3"' $tmp_html | cut -d: -f1)
 
 	cat $tmp_html \
 	| head -n $content_end_line \
