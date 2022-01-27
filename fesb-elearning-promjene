@@ -34,7 +34,6 @@ for path in "$@"; do
 	| head -n $content_end_line \
 	| tail -n +$content_start_line \
 	| pandoc -f html -t plain \
-	| grep -v 'Aktivnost od' \
 	> $tmp_plain
 
 	if [ -f "$filename" ]; then
