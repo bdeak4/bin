@@ -15,6 +15,7 @@ fetch_stock_price() {
 	curl -s "https://www.bing.com/search?q=$symbol+price&setlang=en" > $bing_html
 	price=$(xmllint --html --xpath '//div[@id="Finance_Quote"]/descendant::text()' $bing_html 2>/dev/null)
 	currency=$(grep -o "Price in \w*" $bing_html | cut -d' ' -f3)
+	rm $bing_html
 
 	if [ -z "$price" ] || [ -z "$currency" ]; then
 		echo 0
@@ -30,7 +31,6 @@ fetch_stock_price() {
 		| (echo -n "scale=2; $price/" && cat) \
 		| bc
 	fi
-	rm $bing_html
 }
 
 if [ -z "$1" ]; then
