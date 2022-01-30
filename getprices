@@ -1,0 +1,46 @@
+#!/bin/sh
+
+fetch_cryptocurrency_price() {
+	symbol=$(echo $1 | tr '[:upper:]' '[:lower:]')
+	curl -s "https://www.kraken.com/api/internal/cryptowatch/markets/assets?asset=EUR&limit=200" \
+	| sed 's/XBT/BTC/g' \
+	| tr '[:upper:]' '[:lower:]' \
+	| jq -re ".result[] | select(.asset == \"$symbol\") | .price" 2>/dev/null \
+	|| echo 0
+}
+
+fetch_stock_price() {
+	symbol=$(echo $1 | tr '[:upper:]' '[:lower:]')
+	bing_html=$(mktemp)
+	curl -s "https://www.bing.com/search?q=$symbol+price&setlang=en" > $bing_html
+	price=$(xmllint --html --xpath '//div[@id="Finance_Quote"]/descendant::text()' $bing_html 2>/dev/null)
+	currency=$(grep -o "Price in \w*" $bing_html | cut -d' ' -f3)
+
+	if [ -z "$price" ] || [ -z "$currency" ]; then
+		echo 0
+		return
+	fi
+
+	if [ "$currency" = "EUR" ]; then
+		echo $price
+	else
+		curl -s "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml" \
+		| grep "$currency" \
+		| cut -d"'" -f 4 \
+		| (echo -n "scale=2; $price/" && cat) \
+		| bc
+	fi
+	rm $bing_html
+}
+
+if [ -z "$1" ]; then
+	echo "Missing symbols type parameter"
+	exit 1
+fi
+
+for symbol in $(cat); do
+	case $1 in
+		c*) fetch_cryptocurrency_price $symbol ;;
+		s*) fetch_stock_price $symbol ;;
+	esac
+done
