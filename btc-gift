@@ -1,0 +1,44 @@
+#!/bin/sh
+
+deps="electrum qrencode open"
+for cmd in $(echo $deps | tr ' ' '\n'); do
+	command -v $cmd > /dev/null || { echo please install $cmd; exit 1; }
+done
+
+seed=$(electrum -o make_seed --nbits 256)
+electrum -o restore "$seed" -w tmpwallet.json > /dev/null
+pubkey=$(jq -r .addresses.receiving[0] tmpwallet.json)
+rm tmpwallet.json
+
+cat << EOF > tmpdoc.html
+<style>
+  body {
+    margin: 0;
+  }
+</style>
+
+<div>
+  <div>
+    $(echo https://www.blockchain.com/btc/address/$pubkey | qrencode -t svg)
+  </div>
+  <div>
+    $pubkey
+  </div>
+</div>
+
+<div>
+  <ul>
+    <li>$(echo -n $seed | sed 's/ /\n<li>/g')
+  </ul>
+  <div>
+    $(echo -n $seed | qrencode -t svg)
+  </div>
+</div>
+
+<script>
+  window.print()
+</script>
+EOF
+open tmpdoc.html
+sleep 3
+rm tmpdoc.html
