@@ -34,13 +34,13 @@ fetch_stock_price() {
 }
 
 if [ -z "$1" ]; then
-	echo "Missing symbols type parameter"
+	echo "Usage: getprices [--crypto/--stocks]"
 	exit 1
 fi
 
 for symbol in $(cat); do
 	case $1 in
-		c*) fetch_cryptocurrency_price $symbol ;;
-		s*) fetch_stock_price $symbol ;;
+		-c|--crypto*) fetch_cryptocurrency_price $symbol ;;
+		-s|--stock*) fetch_stock_price $symbol ;;
 	esac
 done
