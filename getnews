@@ -47,8 +47,7 @@ sed 's/^/https:\/\/news.ycombinator.com\//'
 
 echo
 
-curl -s https://lobste.rs/top |
-grep "hours ago" -A 15 |
+curl -s https://lobste.rs/ |
 grep "<a href=\"/s/" |
 head -1 |
 sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
