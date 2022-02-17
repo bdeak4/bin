@@ -5,7 +5,7 @@ dir=~/.cache/fesb-elearning-promjene
 mkdir -p $dir
 
 if [ "$#" -lt 3 ]; then 
-	echo "Usage: fesb-elearning-promjene [username] [password] [path]..."
+	echo "Usage: fesb-elearning-promjene [username] [password] [course]..."
 	exit 1
 fi
 
@@ -21,12 +21,13 @@ cookie=$(
 	| cut -d';' -f1
 )
 
-for path in "$@"; do
+for course in "$@"; do
 	tmp_html=$(mktemp)
 	tmp_plain=$(mktemp)
-	curl "https://elearning.fesb.unist.hr/$path" -H "$cookie" -s > $tmp_html
+	curl "https://elearning.fesb.unist.hr/course/view.php?id=$course" \
+	-H "$cookie" -s > $tmp_html
 
-	filename=$dir/$(echo $path | md5sum | cut -d' ' -f1)
+	filename=$dir/$(echo $course | md5sum | cut -d' ' -f1)
 	content_start_line=$(grep -n 'id="page"' $tmp_html | cut -d: -f1)
 	content_end_line=$(grep -n 'id="sb-3"' $tmp_html | cut -d: -f1)
 
