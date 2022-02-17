@@ -16,11 +16,43 @@ sed 's/^/https:\/\/slobodnadalmacija.hr/'
 
 echo
 
-curl -s 'https://www.telegram.hr/' -H 'User-Agent: firefox' |
+curl -s https://www.theguardian.com/international |
+grep 'data-link-name="article"' |
+head -1 |
+sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//'
+
+echo
+
+curl -s https://www.telegram.hr/ -H 'User-Agent: firefox' |
 grep 'role="article"' |
 head -1 |
 sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
-sed 's/^/https:\/\/archive.is\/newest\/https:\/\/www.telegram.hr/'
+sed 's/^/https:\/\/www.telegram.hr/'
+
+echo
+
+curl -s https://news.ycombinator.com/ |
+grep "class=\"score\"" |
+head -1 |
+sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
+sed 's/^/https:\/\/news.ycombinator.com\//'
+
+echo
+
+curl -s https://news.ycombinator.com/ask |
+grep "class=\"score\"" |
+head -1 |
+sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
+sed 's/^/https:\/\/news.ycombinator.com\//'
+
+echo
+
+curl -s https://lobste.rs/top |
+grep "hours ago" -A 15 |
+grep "<a href=\"/s/" |
+head -1 |
+sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
+sed 's/^/https:\/\/lobste.rs/'
 
 echo
 
