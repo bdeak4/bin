@@ -11,8 +11,9 @@ NC='\033[0m'
 
 # device
 case $1 in
-	-d|--desktop) device="desktop" ;;
-	-s|--server) device="server" ;;
+	--desktop) device="desktop" ;;
+	--server) device="server" ;;
+	--vm) device="vm" ;;
 	*) echo "$RED|> missing device flag$NC"; exit 1 ;;
 esac
 
@@ -71,7 +72,7 @@ sudo apt update
 sudo apt upgrade -y
 sudo apt install -y \
 	build-essential python3 python3-pip \
-	git vim tmux curl wget tree rsync lxc cron man
+	git vim tmux curl wget jq tree rsync cron man
 
 echo "$GREEN|> patching common configuration files$NC" ########################
 
@@ -91,13 +92,22 @@ EOF
 
 echo "$GREEN|> installing $device programs$NC" ################################
 
-if [ "$device" = "server" ]; then
-	echo server
+if [ "$device" = "desktop" ]; then
+	sudo apt install -y \
+		lxc htop \
+		nmap mitmproxy \
+		pdfgrep pdfsandwich pandoc
 fi
 
-if [ "$device" = "desktop" ]; then
-	echo desktop
+if [ "$device" = "server" ]; then
+	sudo apt install -y \
+		lxc htop
 fi
+
+if [ "$device" = "vm" ]; then
+	echo vm
+fi
+
 
 
 
@@ -114,10 +124,9 @@ fi
 
 #sudo apt install -y \
 #	indent shellcheck universal-ctags \
-#	sshfs nmap mitmproxy \
+#	sshfs \
 #	mutt isync msmtp \
 #	pass gpg remind \
-#	pdfgrep pdfsandwich pandoc jq \
 #	firefox imagemagick gimp vlc obs-studio htop
 
 
