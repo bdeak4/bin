@@ -8,11 +8,11 @@ sed 's/^/https:\/\/slobodnadalmacija.hr/'
 
 echo
 
-curl -s https://slobodnadalmacija.hr/vijesti |
-grep article-link |
+curl -s https://www.telegram.hr/ -H 'User-Agent: firefox' |
+grep 'role="article"' |
 head -1 |
-sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
-sed 's/^/https:\/\/slobodnadalmacija.hr/'
+sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
+sed 's/^/https:\/\/www.telegram.hr/'
 
 echo
 
@@ -23,23 +23,7 @@ sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//'
 
 echo
 
-curl -s https://www.telegram.hr/ -H 'User-Agent: firefox' |
-grep 'role="article"' |
-head -1 |
-sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
-sed 's/^/https:\/\/www.telegram.hr/'
-
-echo
-
 curl -s https://news.ycombinator.com/ |
-grep "class=\"score\"" |
-head -1 |
-sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
-sed 's/^/https:\/\/news.ycombinator.com\//'
-
-echo
-
-curl -s https://news.ycombinator.com/ask |
 grep "class=\"score\"" |
 head -1 |
 sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
