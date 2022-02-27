@@ -1,36 +1,38 @@
 #!/bin/sh
 #
 # description:
-# program updates file content without overwriting content that was in file
+# script patches file content without overwriting content that was in file
 # before running the script. it can also handle multiple script runs with
 # same or updated file contents
 #
 # how to use:
-# manf <filename> <comment-delimiter> << EOF
+# pf <filename> <comment-delimiter> << EOF
 # <file-content>
 # EOF
 
-updated_content=$(mktemp)
-updated_file=$(mktemp)
+patch=$(mktemp)
+patched_file=$(mktemp)
 
 file=$1
 comment_delimiter=$2
-cat > $updated_content
+cat > $patch
 
-comment_start="$comment_delimiter managed by manf; start"
-comment_end="$comment_delimiter managed by manf; end"
+comment_start="$comment_delimiter patched by pf; start"
+comment_end="$comment_delimiter patched by pf; end"
+
+touch $file
 
 if grep -q "$comment_start" $file && grep -q "$comment_end" $file; then
 	head -n $(grep -n "$comment_start" $file | cut -d: -f1) $file
-	cat $updated_content
+	cat $patch
 	tail -n +$(grep -n "$comment_end" $file | cut -d: -f1) $file
 else
 	cat $file
 	echo
 	echo $comment_start
-	cat $updated_content
+	cat $patch
 	echo $comment_end
-fi > $updated_file
+fi > $patched_file
 
-mv $updated_file $1
-rm $updated_content
+mv $patched_file $1
+rm $patch
