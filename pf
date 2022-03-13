@@ -1,9 +1,12 @@
 #!/bin/sh
 #
+# license:
+# pf is in the public domain. if it breaks, you get to keep both pieces.
+#
 # description:
 # script patches file content without overwriting content that was in file
 # before running the script. it can also handle multiple script runs with
-# same or updated file contents
+# same or updated file contents.
 #
 # how to use:
 # pf <filename> <comment-delimiter> << EOF
