@@ -1,0 +1,5 @@
+#!/bin/sh
+
+while true; do
+	git ls-files -cdmo --exclude-standard | entr -cd $@
+done
