@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if [ -z "$(git status --porcelain)" ] && [ -z "$(git log @{push}..)" ]; then
+	echo clean
+else
+	echo "\033[00;31mmodified\033[0m"
+fi
