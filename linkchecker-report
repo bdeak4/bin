@@ -1,9 +1,0 @@
-#!/bin/sh
-
-(
-	echo "Subject: linkchecker report"
-	echo "Content-Type: text/html"
-	
-	linkchecker $@ -o html 2>/dev/null
-) \
-| /usr/sbin/sendmail $MAILTO
