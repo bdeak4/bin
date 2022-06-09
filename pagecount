@@ -1,0 +1,6 @@
+#!/bin/sh
+
+find . -name '*.pdf' -exec pdfinfo {} \; \
+| grep -Po 'Pages:[[:space:]]+\K[[:digit:]]+' \
+| paste -s -d+ - \
+| bc
