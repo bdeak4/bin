@@ -1,60 +1,54 @@
 #!/bin/sh
 
-curl -s https://slobodnadalmacija.hr/split |
-grep article-link |
-head -1 |
-sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
-sed 's/^/https:\/\/slobodnadalmacija.hr/'
+echo hn
+curl -s "https://hn.algolia.com/api/v1/search?numericFilters=created_at_i>$(date -d "-1 day" +%s)&hitsPerPage=3" |
+jq -r .hits[].objectID |
+sed 's/^/https:\/\/news.ycombinator.com\/item?id=/'
 
 echo
 
-curl -s https://www.telegram.hr/ -H 'User-Agent: firefox' |
-grep 'role="article"' |
-head -1 |
-sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
-sed 's/^/https:\/\/www.telegram.hr/'
-
-echo
-
-curl -s https://www.theguardian.com/international |
-grep 'data-link-name="article"' |
-head -1 |
-sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//'
-
-echo
-
-curl -s https://news.ycombinator.com/ |
-grep "class=\"score\"" |
-head -1 |
-sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
-sed 's/^/https:\/\/news.ycombinator.com\//'
-
-echo
-
-curl -s https://lobste.rs/ |
+echo lobsters
+curl -s https://lobste.rs/top/1d |
 grep "<a href=\"/s/" |
-head -1 |
+head -6 |
 sed -e 's/.*href=['"'"'"]//' -e 's/["'"'"'].*$//' |
+uniq |
 sed 's/^/https:\/\/lobste.rs/'
 
 echo
 
+echo r/programming
+curl -sA 'getnews' https://old.reddit.com/r/programming/top.json?limit=3 |
+jq -r .data.children[].data.permalink |
+sed 's/^/https:\/\/old.reddit.com/'
+
+echo
+
+echo r/devops
+curl -sA 'getnews' https://old.reddit.com/r/devops/top.json?limit=3 |
+jq -r .data.children[].data.permalink |
+sed 's/^/https:\/\/old.reddit.com/'
+
+echo
+
+echo ft technology
 curl -s https://www.ft.com/technology |
 grep js-teaser-heading-link |
 sed -e 's/<a /\n<a /g' |
 sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' |
 grep content |
 uniq |
-head -1 |
+head -3 |
 sed 's/^/https:\/\/archive.is\/newest\/https:\/\/www.ft.com/'
 
 echo
 
+echo ft companies
 curl -s https://www.ft.com/companies |
 grep js-teaser-heading-link |
 sed -e 's/<a /\n<a /g' |
 sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' |
 grep content |
 uniq |
-head -1 |
+head -3 |
 sed 's/^/https:\/\/archive.is\/newest\/https:\/\/www.ft.com/'
