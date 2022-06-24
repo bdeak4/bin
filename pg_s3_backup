@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# pg_s3_backup <database> <port>
+
+pg_dump -Fc postgres://$1:$1@localhost:$2/$1 | aws cp - s3://bdeak-pgdump/$1/$(date +"%Y-%m-%d_%H:%M:%S").pgdump
