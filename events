@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -e
+
+API_RESPONSE=$(mktemp)
+trap "rm $API_RESPONSE" EXIT
+
+curl -s https://kalendar.infozona.hr/api/v1/events/$(date --iso -d "+${1:-0} day") > $API_RESPONSE
+
+echo $(jq -r .dayInfo.weekday.hr < $API_RESPONSE), $(jq -r .dayInfo.humanDate.hr < $API_RESPONSE)
+
+cat $API_RESPONSE |
+jq -r '.dayEvents[] | "\(.category[0].title.hr)\t\(.date.hour):\(.date.minutes)\t\(.title.hr) (\(.location), \(.findOutMore.hr.url))"' |
+grep -v "^Izložba"
