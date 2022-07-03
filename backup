@@ -1,10 +1,9 @@
 #!/bin/sh
 
-export RESTIC_PASSWORD=$(pass restic/$1)
-shift
+export RESTIC_PASSWORD=$(pass restic/$(hostname))
 
-for REPO in "$@"; do
-	restic -r "$REPO" backup "$HOME" \
+for REPO_PREFIX in "$@"; do
+	restic -r "$REPO_PREFIX$(hostname)" backup "$HOME" \
 		--exclude="$HOME/.cache" \
 		--exclude="$HOME/.npm" \
 		--exclude="$HOME/.go" \
@@ -14,7 +13,7 @@ for REPO in "$@"; do
 		--exclude="$HOME/.cargo" \
 		--exclude="$HOME/.rustup"
 
-	restic -r "$REPO" forget \
+	restic -r "$REPO_PREFIX$(hostname)" forget \
 		--keep-daily 7 \
 		--keep-weekly 5 \
 		--keep-monthly 12 \
