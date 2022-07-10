@@ -1,0 +1,9 @@
+#!/bin/sh
+
+BOOKMARKS=~/src/notes/bookmarks.txt
+
+if [ $# -gt 0 ]; then
+	grep --color -i $@ $BOOKMARKS
+else
+	vim + $BOOKMARKS
+fi
