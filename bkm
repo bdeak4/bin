@@ -1,9 +1,19 @@
 #!/bin/sh
 
 BOOKMARKS=~/src/notes/bookmarks.txt
+REPO=$(dirname $BOOKMARKS)
 
 if [ $# -gt 0 ]; then
-	grep --color -i $@ $BOOKMARKS
+	if [ $1 = "git" ]; then
+		shift
+		git -C $REPO $@
+	else
+		grep --color -i $@ $BOOKMARKS
+	fi
 else
 	vim + $BOOKMARKS
+	if ! git -C $REPO diff --quiet $BOOKMARKS; then
+		git -C $REPO add $BOOKMARKS
+		git -C $REPO commit -m "modified bookmarks"
+	fi
 fi
