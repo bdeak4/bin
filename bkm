@@ -11,9 +11,13 @@ if [ $# -gt 0 ]; then
 		grep --color -i $@ $BOOKMARKS
 	fi
 else
-	vim + $BOOKMARKS
-	if ! git -C $REPO diff --quiet $BOOKMARKS; then
-		git -C $REPO add $BOOKMARKS
-		git -C $REPO commit -m "modified bookmarks"
+	if [ -t 1 ]; then
+		vim + $BOOKMARKS
+		if ! git -C $REPO diff --quiet $BOOKMARKS; then
+			git -C $REPO add $BOOKMARKS
+			git -C $REPO commit -m "modified bookmarks"
+		fi
+	else
+		cat $BOOKMARKS
 	fi
 fi
