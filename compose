@@ -19,7 +19,6 @@ for arg in "$@"; do
   fi
 done
 
-# run commands
 for cmd in "$@"; do
   if [[ "$cmd" == --* ]]; then
     PREFIX=${cmd:2}
