@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# output colors
+RED=$(tput setaf 1)
+NC=$(tput sgr0)
+
+PREFIX="default"
+MAXPREFIXLEN=0
+
+# get max prefix length
+for arg in "$@"; do
+  if ! [[ "$arg" == --* ]]; then
+    continue
+  fi
+
+  PREFIXLEN=$(echo ${arg:2} | wc -c)
+  if [[ $PREFIXLEN -gt $MAXPREFIXLEN ]]; then
+    MAXPREFIXLEN=$PREFIXLEN
+  fi
+done
+
+# run commands
+for cmd in "$@"; do
+  if [[ "$cmd" == --* ]]; then
+    PREFIX=${cmd:2}
+    continue
+  fi
+
+  PREFIXLEN=$(echo $PREFIX | wc -c)
+  PADDING="$(printf '%*s' $(($MAXPREFIXLEN - $PREFIXLEN + 1)))"
+
+  echo "Process \"$cmd\" started";
+  $cmd 1> >(sed "s/^/$PREFIX$PADDING| /") 2> >(sed "s/^/$PREFIX$PADDING$RED|$NC /" >&2) & pid=$!
+  PID_LIST+=" $pid";
+done
+
+# kill processes on exit
+trap "kill $PID_LIST >/dev/null 2>&1" SIGINT
+
+echo "Parallel processes have started";
+
+wait $PID_LIST
+
+echo
+echo "All processes have completed";
