@@ -1,7 +1,13 @@
 #!/bin/sh
 
-if [ -z "$(git status --porcelain)" ] && [ -z "$(git log @{push}..)" ]; then
-	echo clean
-else
-	echo "\033[00;31mmodified\033[0m"
+if [ -n "$(git status --porcelain)" ]; then
+	printf "\e[00;31mmodified\e[0m\n"
+	exit 1
 fi
+
+if [ -n "$(git log "@{push}..")" ]; then
+	printf "\e[00;33munpushed\e[0m\n"
+	exit 2
+fi
+
+echo clean
