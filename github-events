@@ -1,6 +1,4 @@
 #!/bin/sh
-#
-#
 
 created_at=${1:-$(date --rfc-3339=seconds -d '-1 day' --utc | cut -d'+' -f1)}
 users=$(cat - | paste -s | sed "s/\t/','/g")

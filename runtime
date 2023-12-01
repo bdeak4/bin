@@ -1,8 +1,8 @@
 #!/bin/sh
 
 secs=$(
-	find ${1:-.} -name '*.flac' -or -name '*.mp3' -print0 |
-	parallel -0 -j${2:-100} ffprobe -v quiet -of csv=p=0 -show_entries format=duration {} |
+	find "${1:-.}" \( -name '*.flac' -or -name '*.mp3' \) -print0 |
+	parallel -0 -j"${2:-100}" ffprobe -v quiet -of csv=p=0 -show_entries format=duration {} |
 	paste -sd+ - |
 	bc |
 	cut -d'.' -f1
