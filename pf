@@ -18,24 +18,24 @@ patched_file=$(mktemp)
 
 file=$1
 comment_delimiter=$2
-cat > $patch
+cat > "$patch"
 
 comment_start="$comment_delimiter patched by pf; start"
 comment_end="$comment_delimiter patched by pf; end"
 
-touch $file
+touch "$file"
 
-if grep -q "$comment_start" $file && grep -q "$comment_end" $file; then
-	head -n $(grep -n "$comment_start" $file | cut -d: -f1) $file
-	cat $patch
-	tail -n +$(grep -n "$comment_end" $file | cut -d: -f1) $file
+if grep -q "$comment_start" "$file" && grep -q "$comment_end" "$file"; then
+	head -n "$(grep -n "$comment_start" "$file" | cut -d: -f1)" "$file"
+	cat "$patch"
+	tail -n +"$(grep -n "$comment_end" "$file" | cut -d: -f1)" "$file"
 else
-	cat $file
+	cat "$file"
 	echo
-	echo $comment_start
-	cat $patch
-	echo $comment_end
-fi > $patched_file
+	echo "$comment_start"
+	cat "$patch"
+	echo "$comment_end"
+fi > "$patched_file"
 
-mv $patched_file $1
-rm $patch
+mv "$patched_file" "$1"
+rm "$patch"
