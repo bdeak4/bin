@@ -1,6 +1,6 @@
 #!/bin/sh
 
-find . -type d -name .git -exec dirname {} \; \
+find . -type d -name .git -not -wholename '*/.terraform/*' -exec dirname {} \; \
 | while IFS= read -r repo; do
 	printf "\e[01;36m%s\e[0m\n" "$repo"
 	git -C "$repo" "$@"
