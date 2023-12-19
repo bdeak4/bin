@@ -1,0 +1,24 @@
+#!/bin/sh
+
+branches=$(mktemp)
+trap "rm -f $branches" EXIT
+
+git fetch >/dev/null
+
+{
+	echo "branch behind ahead"
+	for br in $(git ls-remote -q --heads --refs | sed "s@^.*heads/@@" | grep -vE '^(main|staging|dev)$'); do
+		commits_ahead=$(git rev-list --count --left-right origin/$br...origin/dev | awk '{print $1}')
+		commits_behind=$(git rev-list --count --left-right origin/$br...origin/dev | awk '{print $2}')
+	
+		echo "$br $commits_behind $commits_ahead"
+	
+		if [ "$commits_ahead" = "0" ]; then
+			echo $br >> $branches
+		fi
+	done | sort -rn -k3
+} | column -t
+
+if [ -s "$branches" ]; then
+	xargs git push --delete origin < $branches
+fi
