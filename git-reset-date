@@ -1,0 +1,25 @@
+#!/bin/sh
+
+set -ex
+
+COMMIT="$1"
+
+if [ -z "$COMMIT" ]; then
+	BRANCH=$(git symbolic-ref --short HEAD)
+	UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null || true)
+	MERGE_BASE=$(git merge-base "$BRANCH" "$UPSTREAM")
+	COMMIT=$(git rev-list --reverse "$MERGE_BASE"..HEAD | head -n 1)
+fi
+
+if ! git diff-index --quiet HEAD --; then
+  git stash push -u -m "temporary stash before git-reset-date"
+  STASHED=1
+else
+  STASHED=0
+fi
+
+git rebase "$COMMIT"^ --exec 'git commit --amend --no-edit --date=now'
+
+if [ "$STASHED" -eq 1 ] && [ $? -eq 0 ]; then
+  git stash pop
+fi

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -ex
+
+COMMIT="$1"
+
+if [ -z "$COMMIT" ]; then
+  echo "Usage: $0 <commit>"
+  exit 1
+fi
+
+BRANCH=$(git symbolic-ref --short HEAD)
+
+git push origin "$COMMIT":refs/heads/"$BRANCH"
